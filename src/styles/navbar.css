@@ -1,21 +1,29 @@
 .navbar {
   display: flex;
+  position: fixed;
   justify-content: space-between;
   align-items: center;
-  filter: drop-shadow(0 .5rem .75rem lightgray);
+  opacity: 0;
+  z-index: 6;
+  filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: all .5s ease-in-out;
+  margin: 2rem;
   border-radius: 1rem;
-  background-color: white;
-  width: 100%;
+  background-color: var(--white-1);
+  width: calc(50% - 4rem);
   height: 2.75rem;
 
   div {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: .25rem;
-    margin: calc(.5rem / 2);
+    gap: .35rem;
+    margin: calc(.75rem / 2);
   }
+}
+
+.navbar.logged-in {
+  opacity: 1;
 }
 
 .nav-button {
@@ -26,11 +34,11 @@
   transition: all .5s ease-in-out;
   cursor: pointer;
   border-radius: .75rem;
-  background-color: #EBEBEB;
+  background-color: var(--white-2);
   padding: 0 1rem;
   min-width: 0rem;
   height: 2rem;
-  color: black;
+  color: var(--black);
   text-decoration: none;
 
   svg {
@@ -40,5 +48,11 @@
 }
 
 .nav-button:hover {
-  background-color: lightgray;
+  background-color: var(--gray-1);
+}
+
+.nav-button.active {
+  filter: drop-shadow(0 .1rem .2rem var(--gray-2));
+  background-color: var(--black);
+  color: var(--white-2);
 }

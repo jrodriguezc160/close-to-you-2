@@ -1,4 +1,22 @@
 const ProfileCard = () => {
+  const Linkify = ({ children }) => {
+    const isUrl = word => {
+      const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+      return word.match(urlPattern)
+    }
+
+    const addMarkup = word => {
+      return isUrl(word) ?
+        `<a href="${word}">${word}</a>` :
+        word
+    }
+
+    const words = children.split(' ')
+    const formatedWords = words.map((w, i) => addMarkup(w))
+    const html = formatedWords.join(' ')
+    return (<span dangerouslySetInnerHTML={{ __html: html }} />)
+  }
+
   return (
     <div className="profile-card">
       <div className="profile-pic"></div>
@@ -6,7 +24,9 @@ const ProfileCard = () => {
         <div className="profile-name">rodleyy</div>
         <div className="profile-username">rodleyy</div>
         <div className="profile-desc">
-          her's, muad'dib, spiderman, croquetas, cat owner, heartstopper, breakfast club https://boxd.it/71Omx
+          <Linkify>
+            her's, muad'dib, spiderman, croquetas, cat owner, heartstopper, breakfast club https://boxd.it/71Omx
+          </Linkify>
         </div>
 
         <div className="profile-buttons">

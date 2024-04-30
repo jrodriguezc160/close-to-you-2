@@ -1,9 +1,9 @@
 import '../styles/navbar.css';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn }) => {
   return (
-    <div className="navbar">
+    <div className={isLoggedIn ? 'navbar logged-in' : 'navbar'}>
       <div className="nav-left">
         <NavLink to="/" activeClassName="active" className='nav-button'><i data-feather="home"></i>Inicio</NavLink>
         <NavLink to="/buscar" activeClassName="active" className='nav-button'><i data-feather="search"></i>Buscar</NavLink>
