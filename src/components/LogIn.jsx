@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { logIn } from '../services/LogInServices'; // Importa la función logIn del archivo de servicios
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 
 const Login = ({ onLoginSuccess, setCurrentUser }) => {
   const [usuario, setUsuario] = useState('');
   const [passwd, setPasswd] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,6 +20,7 @@ const Login = ({ onLoginSuccess, setCurrentUser }) => {
         onLoginSuccess();
         sessionStorage.setItem('loggedIn', true);
         sessionStorage.setItem('currentUser', userId);
+        navigate('/'); // Redirect to Home page upon successful login
       }
     } catch (error) {
       console.error(error); // Maneja los errores aquí

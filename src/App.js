@@ -28,12 +28,12 @@ function App () {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LogIn onLoginSuccess={() => { setIsLoggedIn(true); console.log(isLoggedIn) }} setCurrentUser={setCurrentUser} />} />
+        <Route exact path="/login" element={<LogIn onLoginSuccess={() => { setIsLoggedIn(true); console.log(isLoggedIn) }} setCurrentUser={setCurrentUser} />} />
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/buscar" element={<Search />} />
-          <Route path="/perfil" element={<ProfilePage />} />
-          <Route path="/ajustes" element={<Settings />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/buscar" element={<Search />} />
+          <Route exact path="/perfil" element={<ProfilePage />} />
+          <Route exact path="/ajustes" element={<Settings />} />
         </Route>
       </Routes>
     </Router>
@@ -48,10 +48,7 @@ function ProtectedRoutes ({ isLoggedIn }) {
 
   return (
     <>
-      <ProtectedRoute path="/" element={<Home />} isLoggedIn={isLoggedIn} />
-      <ProtectedRoute path="/buscar" element={<Search />} isLoggedIn={isLoggedIn} />
-      <ProtectedRoute path="/perfil" element={<ProfilePage />} isLoggedIn={isLoggedIn} />
-      <ProtectedRoute path="/ajustes" element={<Settings />} isLoggedIn={isLoggedIn} />
+      <ProtectedRoute exact path="/" element={<Home />} isLoggedIn={isLoggedIn} />
     </>
   );
 }

@@ -5,7 +5,11 @@ import ProfileCard from './ProfileCard';
 const Home = () => {
   return (
     <div className="two-columns">
-      hola
+      <div className="left-column">
+        <Navbar />
+      </div>
+      <div className="right-column">
+      </div>
     </div>
   )
 }
