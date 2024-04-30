@@ -1,34 +1,13 @@
+import Navbar from './Navbar';
+import ProfileCard from './ProfileCard';
+
 const ProfilePage = () => {
   return (
     <div className="two-columns">
       <div className="left-column">
-        <div className="navbar">
-          <div className="nav-left">
-            <div className="nav-button"><i data-feather="home"></i>Inicio</div>
-            <div className="nav-button"><i data-feather="search"></i>Buscar</div>
-          </div>
-
-          <div className="nav-right">
-            <div className="nav-button"><i data-feather="user"></i>Perfil</div>
-            <div className="nav-button" style={{ padding: '0', width: '2rem' }}><i data-feather="settings" ></i></div>
-          </div>
-        </div>
+        <Navbar />
         <div className="collections"></div>
-        <div className="profile-card">
-          <div className="profile-pic"></div>
-          <div className="profile-text">
-            <div className="profile-name">rodleyy</div>
-            <div className="profile-username">rodleyy</div>
-            <div className="profile-desc">
-              her's, muad'dib, spiderman, croquetas, cat owner, heartstopper, breakfast club https://boxd.it/71Omx
-            </div>
-
-            <div className="profile-buttons">
-              <div className="nav-button"><i data-feather="user-plus"></i>Seguir</div>
-              <div className="nav-button"><i data-feather="package"></i>Ver colecciones</div>
-            </div>
-          </div>
-        </div>
+        <ProfileCard />
       </div>
       <div className="right-column">
         <div className="posts-showcase">
