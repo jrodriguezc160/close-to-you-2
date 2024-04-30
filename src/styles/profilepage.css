@@ -16,8 +16,11 @@
 }
 
 .collections {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
   border-radius: 1rem;
-  background-color: #EBEBEB;
   width: 100%;
   height: 14rem;
 }
