@@ -1,4 +1,5 @@
-import './index.css'
+import './index.css';
+import './styles/responsive.css';
 import ProfilePage from './components/ProfilePage';
 import { useEffect } from 'react';
 
