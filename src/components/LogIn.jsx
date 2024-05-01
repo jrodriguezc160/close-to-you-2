@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
-import { logIn } from '../services/LogInServices'; // Importa la función logIn del archivo de servicios
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { logIn } from '../services/LogInServices';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ onLoginSuccess, setCurrentUser }) => {
+const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [usuario, setUsuario] = useState('');
   const [passwd, setPasswd] = useState('');
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       // Llama a la función logIn con el usuario y la contraseña
       const { message, userId } = await logIn(usuario, passwd);
-      console.log(message); // Maneja la respuesta del servicio aquí
-      console.log('ID seleccionado: ', userId);
 
       if (message === 'Logged in successfully') {
+        setIsLoggedIn(true);
         setCurrentUser(userId);
-        onLoginSuccess();
         sessionStorage.setItem('loggedIn', true);
         sessionStorage.setItem('currentUser', userId);
-        navigate('/'); // Redirect to Home page upon successful login
+        navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
       }
     } catch (error) {
-      console.error(error); // Maneja los errores aquí
+      console.error(error);
     }
   }
 
   return (
     <div className='modal-screen visible'>
-      <form className='modal' style={{ backgroundColor: 'lightgray', height: '50vh', display: 'flex', gap: '2vw', alignItems: 'center', borderRadius: '12px' }} onSubmit={handleSubmit}>
+      <form className='modal' onSubmit={handleSubmit}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1vw' }}>
           <label htmlFor="usuario">Usuario</label>
           <input type="text" placeholder='Enter usuario' value={usuario} onChange={e => setUsuario(e.target.value)} style={{ width: 'fit-content', padding: '0 8px', height: '24px', border: 'none ', outline: 'none' }} />

@@ -1,8 +1,7 @@
-import Navbar from './Navbar';
 import PostShowcase from './PostShowcase';
 import ProfileCard from './ProfileCard';
 
-const ProfilePage = () => {
+const ProfilePage = ({ datosUsuario }) => {
   return (
     <div className="two-columns">
       <div className="left-column">
@@ -13,10 +12,10 @@ const ProfilePage = () => {
           <div style={{ backgroundColor: '#EBEBEB', height: '100%', width: '50%', borderRadius: '1rem' }}>
           </div>
         </div>
-        <ProfileCard />
+        <ProfileCard datosUsuario={datosUsuario} />
       </div>
       <div className="right-column">
-        <PostShowcase />
+        <PostShowcase datosUsuario={datosUsuario} />
         <div className="albums">
         </div>
       </div>

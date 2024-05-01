@@ -1,5 +1,13 @@
-const ProfileCard = () => {
+// Profile Card
+
+const ProfileCard = ({ datosUsuario }) => {
+
+  // Función para detectar enlaces
   const Linkify = ({ children }) => {
+    if (typeof children !== 'string') {
+      return children;
+    }
+
     const isUrl = word => {
       const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
       return word.match(urlPattern)
@@ -17,16 +25,17 @@ const ProfileCard = () => {
     return (<span dangerouslySetInnerHTML={{ __html: html }} />)
   }
 
+
   return (
     <div className="profile-card">
-      <div className="profile-pic"></div>
+      <div className="profile-pic">
+        <img src={datosUsuario.foto_perfil} alt="profile-pic" />
+      </div>
       <div className="profile-text">
-        <div className="profile-name">rodleyy</div>
-        <div className="profile-username">rodleyy</div>
+        <div className="profile-name">{datosUsuario.nombre_mostrado}</div>
+        <div className="profile-username">@{datosUsuario.usuario}</div>
         <div className="profile-desc">
-          <Linkify>
-            her's, muad'dib, spiderman, croquetas, cat owner, heartstopper, breakfast club https://boxd.it/71Omx
-          </Linkify>
+          <Linkify>{datosUsuario.descripcion}</Linkify>
         </div>
 
         <div className="profile-buttons">

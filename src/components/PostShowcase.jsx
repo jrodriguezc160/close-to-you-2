@@ -1,17 +1,17 @@
 import '../styles/profilepage.css'
 
-const PostShowcase = () => {
+const PostShowcase = ({ datosUsuario }) => {
   return (
     <div className="posts-showcase">
       <div className="post">
         <div className="post-profile-pic">
           <div>
-            <img src="https://pbs.twimg.com/media/GFCJr3OWIAAOsF7?format=jpg&name=900x900" alt="profile-pic" />
+            <img src={datosUsuario.foto_perfil} alt="profile-pic" />
           </div>
         </div>
         <div className="post-elements">
-          <div className="post-name">rodleyy</div>
-          <div className="post-username">rodleyy</div>
+          <div className="post-name">{datosUsuario.nombre_mostrado}</div>
+          <div className="post-username">@{datosUsuario.usuario}</div>
           <div className="post-text">yo april been a good month for reading</div>
           <div className="post-content">
             <div className="post-images">
