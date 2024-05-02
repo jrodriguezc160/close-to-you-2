@@ -11,7 +11,7 @@ const Navbar = ({ isLoggedIn }) => {
 
       <div className="nav-right">
         <NavLink to="/perfil" activeClassName="active" className='nav-button'><i data-feather="user"></i>Perfil</NavLink>
-        <NavLink to="/ajustes" activeClassName="active" className='nav-button' style={{ padding: '0', width: '2rem' }}><i data-feather="settings"></i></NavLink>
+        <NavLink to="/ajustes" activeClassName="active" className='nav-button no-text'><i data-feather="settings"></i></NavLink>
       </div>
     </div>
   )

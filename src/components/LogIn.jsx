@@ -6,6 +6,8 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [usuario, setUsuario] = useState('');
   const [passwd, setPasswd] = useState('');
   const navigate = useNavigate();
+  const [usuarioIsFocused, setUsuarioIsFocused] = useState(false);
+  const [passwordIsFocused, setPasswordIsFocused] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,17 +30,18 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   return (
     <div className='modal-screen visible'>
       <form className='modal' onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1vw' }}>
-          <label htmlFor="usuario">Usuario</label>
-          <input type="text" placeholder='Enter usuario' value={usuario} onChange={e => setUsuario(e.target.value)} style={{ width: 'fit-content', padding: '0 8px', height: '24px', border: 'none ', outline: 'none' }} />
+        <h2>Iniciar sesión</h2>
+        <div className='form-fields'>
+          <label htmlFor="usuario" className={usuarioIsFocused ? 'focused' : ''}>Usuario</label>
+          <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false) }} />
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1vw' }}>
-          <label htmlFor="passwd">Contraseña</label>
-          <input type="password" placeholder='Enter passwd' value={passwd} onChange={e => setPasswd(e.target.value)} style={{ width: 'fit-content', padding: '0 8px', height: '24px', border: 'none ', outline: 'none' }} />
+        <div className='form-fields'>
+          <label htmlFor="passwd" className={passwordIsFocused ? 'focused' : ''}>Contraseña</label>
+          <input type="password" placeholder='' value={passwd} onChange={e => setPasswd(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { passwd === '' && setPasswordIsFocused(false) }} />
         </div>
 
-        <button type="submit" style={{ width: '5rem' }}>Log in</button>
+        <button type="submit" style={{ width: '5rem', border: 'none' }} className='nav-button'>Log in</button>
       </form>
     </div>
   )

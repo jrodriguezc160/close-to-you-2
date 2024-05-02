@@ -28,7 +28,7 @@ const PostShowcase = ({ datosUsuario }) => {
 
             <div className='see-more'>
               <div className="nav-button"><i data-feather="package"></i>Ver colección</div>
-              <div className="nav-button maximize"><i data-feather="maximize-2"></i></div>
+              <div className="nav-button no-text"><i data-feather="maximize-2"></i></div>
             </div>
           </div>
         </div>
