@@ -11,15 +11,6 @@ const Search = () => {
     setShowFilters(!showFilters);
   };
 
-  const handleFilterClick = (filter) => {
-    // Asignar el filtro seleccionado
-    setFiltros(filter);
-  };
-
-  const isFilterSelected = (filter) => {
-    return filtros.includes(filter);
-  };
-
   return (
     <div className="two-columns">
       <div className="search-left-column">
@@ -32,20 +23,30 @@ const Search = () => {
               <input type="text" placeholder='' value={search} onChange={e => setSearch(e.target.value)} onFocus={() => setSearchIsFocused(true)} onBlur={() => { search === '' && setSearchIsFocused(false) }} />
             </div>
 
-            <div className="nav-button no-text" onClick={toggleFilters}><i data-feather="sliders"></i></div>
+            <div className={`nav-button no-text ${showFilters && 'selected'}`} onClick={toggleFilters}><i data-feather="sliders"></i></div>
             <div className="nav-button no-text"><i data-feather="send"></i></div>
           </div>
 
           <div className={showFilters ? ('search-filters visible') : ('search-filters')}>
-            <div className={`nav-button ${isFilterSelected('Usuarios') ? 'selected' : ''}`} onClick={() => handleFilterClick('Usuarios')}><i data-feather="user"></i>Usuarios</div>
-            <div className={`nav-button ${isFilterSelected('Libros') ? 'selected' : ''}`} onClick={() => handleFilterClick('Libros')}><i data-feather="book"></i>Libros</div>
-            <div className={`nav-button ${isFilterSelected('Películas') ? 'selected' : ''}`} onClick={() => handleFilterClick('Películas')}><i data-feather="film"></i>Películas</div>
-            <div className={`nav-button ${isFilterSelected('Álbumes') ? 'selected' : ''}`} onClick={() => handleFilterClick('Álbumes')}><i data-feather="disc"></i>Álbumes</div>
+            <div className={`nav-button ${filtros === 'Usuarios' ? 'selected' : ''}`} onClick={() => setFiltros('Usuarios')}><i data-feather="user"></i>Usuarios</div>
+            <div className={`nav-button ${filtros === 'Libros' ? 'selected' : ''}`} onClick={() => setFiltros('Libros')}><i data-feather="book"></i>Libros</div>
+            <div className={`nav-button ${filtros === 'Películas' ? 'selected' : ''}`} onClick={() => setFiltros('Películas')}><i data-feather="film"></i>Películas</div>
+            <div className={`nav-button ${filtros === 'Álbumes' ? 'selected' : ''}`} onClick={() => setFiltros('Álbumes')}><i data-feather="disc"></i>Álbumes</div>
           </div>
         </div>
 
         <div className="results">
           <h2>Resultados para '{search ? search : '...'}'</h2>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
+          <div className='search-result'></div>
           <div className='search-result'></div>
           <div className='search-result'></div>
           <div className='search-result'></div>
