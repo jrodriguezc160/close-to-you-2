@@ -6,7 +6,7 @@ const Navbar = ({ isLoggedIn }) => {
     <div className={isLoggedIn ? 'navbar logged-in' : 'navbar'}>
       <div className="nav-left">
         <NavLink to="/" activeClassName="active" className='nav-button'><i data-feather="home"></i>Inicio</NavLink>
-        <NavLink to="/buscar" activeClassName="active" className='nav-button'><i data-feather="search"></i>Buscar</NavLink>
+        <NavLink to="/buscar" activeClassName="active" className='nav-button'><i data-feather="compass"></i>Buscar</NavLink>
       </div>
 
       <div className="nav-right">
