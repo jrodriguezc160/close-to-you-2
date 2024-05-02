@@ -1,11 +1,19 @@
 import '../styles/searchpage.css';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filtros, setFiltros] = useState('');
+  const [bookData, setBookData] = useState();
+
+  const searchBook = () => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyA6SaT23KNiiA6DnUfUQTvFeyAcQEkwnSU&maxResults=15`)
+      .then(res => setBookData(res.data.items))
+      .catch(err => console.log(err));
+  }
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
