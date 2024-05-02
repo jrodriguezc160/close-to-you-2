@@ -40,7 +40,6 @@
     border-radius: 100%;
     background-color: var(--gray-1);
     aspect-ratio: 1/1;
-    width: auto;
     height: calc(100% - 2rem);
 
     img {
@@ -111,10 +110,17 @@
   }
 
   .post-profile-pic {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     margin: 1.5rem;
+    width: 3rem;
     height: calc(100% - 3rem);
 
     div {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
       border-radius: 100px;
       width: 2.5rem;
       height: 2.5rem;
