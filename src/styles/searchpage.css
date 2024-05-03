@@ -13,7 +13,6 @@
 .wrapper {
   filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: height .5s ease-in-out;
-  transition: height .5s ease-in-out;
   margin-bottom: 2rem;
   border-radius: 1rem;
   background-color: var(--white-1);
@@ -81,13 +80,15 @@
   overflow: hidden;
 }
 
-.search-filters>.nav-button {
+.search-filters>.nav-button,
+.search-result>.nav-button {
   border: 1.5px solid var(--white-2);
   background-color: var(--transparent);
   color: var(--gray-2);
 }
 
-.search-filters>.nav-button:hover {
+.search-filters>.nav-button:hover,
+.search-result>.nav-button:hover {
   border: 1.5px solid var(--white-2);
   background-color: var(--white-2);
   color: var(--black);
@@ -131,8 +132,8 @@
 
   h2 {
     margin: 0;
-    padding: 1rem 1rem .5rem 1rem;
-    width: calc(100% - 2rem);
+    padding: 1rem 1rem .5rem 0;
+    width: calc(100% - 1.5rem);
   }
 
   .search-result {
@@ -140,36 +141,62 @@
     justify-content: flex-start;
     align-items: center;
     gap: .5rem;
-    transition: all .25s ease-in-out;
     margin: 0 .15rem;
-    border: 1.5px solid var(--white-2);
-    border-radius: .5rem;
-    background-color: var(--white-1);
+    background-color: var(--transparent);
     width: 100%;
-    min-height: 3rem;
 
-    .cover-image {
-      transition: all .5s ease-in-out;
-      margin: .25rem;
-      border-radius: .25rem;
-      width: fit-content;
-      height: calc(100% - .5rem);
-      overflow: hidden;
+    .info {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: .5rem;
+      transition: all .25s ease-in-out;
+      transition: width 0.5s ease-in-out;
+      border: 1.5px solid var(--white-2);
+      border-radius: .5rem;
+      background-color: var(--white-1);
+      width: 100%;
+      height: 3rem;
 
-      img {
-        width: auto;
-        height: 100%;
+      .cover-image {
+        transition: all .5s ease-in-out;
+        margin: .25rem;
+        border-radius: .25rem;
+        width: fit-content;
+        height: calc(100% - .5rem);
+        overflow: hidden;
+
+        img {
+          width: auto;
+          height: 100%;
+        }
       }
     }
-  }
 
-  .cover-image:hover {
-    scale: 1.1;
-    filter: drop-shadow(0 .15rem .15rem var(--gray-1));
+    .nav-button {
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+      border: 0;
+      max-width: 0;
+    }
+
+    .cover-image:hover {
+      scale: 1.1;
+      filter: drop-shadow(0 .15rem .15rem var(--gray-1));
+    }
+
   }
 
   .search-result:hover {
-    background-color: var(--white-2);
+    .info {
+      background-color: var(--white-2);
+    }
+
+    .nav-button {
+      opacity: 1;
+      margin-right: .5rem;
+      max-width: 5rem;
+    }
   }
 }
 

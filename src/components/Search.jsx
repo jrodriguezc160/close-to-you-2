@@ -1,5 +1,5 @@
 import '../styles/searchpage.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Search = () => {
@@ -23,6 +23,12 @@ const Search = () => {
     setSearch(e.target.value);
     searchBook(); // Llamar a la función de búsqueda al cambiar el valor del input
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [search]);
+
 
   return (
     <div className="two-columns">
@@ -52,10 +58,14 @@ const Search = () => {
           <h2>Resultados para '{search ? search : '...'}'</h2>
           {bookData.map((book, index) => (
             <div key={index} className='search-result'>
-              <div className="cover-image">
-                <img src={book.volumeInfo.imageLinks?.thumbnail} alt="" />
+              <div className="info">
+                <div className="cover-image">
+                  <img src={book.volumeInfo.imageLinks?.thumbnail} alt="cover" />
+                </div>
+                <p>{book.volumeInfo.title}</p>
               </div>
-              <p>{book.volumeInfo.title}</p>
+
+              <div className="nav-button no-text"><i data-feather="arrow-right-circle"></i></div>
             </div>
           ))}
         </div>
