@@ -151,6 +151,7 @@
       align-items: center;
       gap: .5rem;
       transition: all .25s ease-in-out;
+      transition: background-color .25s ease-in-out;
       transition: width 0.5s ease-in-out;
       border: 1.5px solid var(--white-2);
       border-radius: .5rem;
@@ -173,6 +174,12 @@
       }
     }
 
+    .info.selected {
+      border-color: var(--black);
+      background-color: var(--black);
+      color: var(--white-1);
+    }
+
     .nav-button {
       opacity: 0;
       transition: all 0.5s ease-in-out;
@@ -190,6 +197,11 @@
   .search-result:hover {
     .info {
       background-color: var(--white-2);
+    }
+
+    .info.selected {
+      filter: drop-shadow(0 .5rem .5rem var(--gray-1));
+      background-color: var(--black);
     }
 
     .nav-button {

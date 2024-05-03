@@ -8,6 +8,7 @@ const Search = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [filtros, setFiltros] = useState('');
   const [bookData, setBookData] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   const searchBook = () => {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyA6SaT23KNiiA6DnUfUQTvFeyAcQEkwnSU&maxResults=15`)
@@ -29,6 +30,10 @@ const Search = () => {
     feather.replace();
   }, [search]);
 
+  const handleItemClick = (index) => {
+    setSelectedItemIndex(index);
+    console.log(index, selectedItemIndex)
+  }
 
   return (
     <div className="two-columns">
@@ -58,19 +63,31 @@ const Search = () => {
           <h2>Resultados para '{search ? search : '...'}'</h2>
           {bookData.map((book, index) => (
             <div key={index} className='search-result'>
-              <div className="info">
+              <div className={`info ${selectedItemIndex === index ? 'selected' : ''}`}>
                 <div className="cover-image">
                   <img src={book.volumeInfo.imageLinks?.thumbnail} alt="cover" />
                 </div>
                 <p>{book.volumeInfo.title}</p>
               </div>
 
-              <div className="nav-button no-text"><i data-feather="arrow-right-circle"></i></div>
+              <div className="nav-button no-text" onClick={() => handleItemClick(index)}><i data-feather="arrow-right-circle"></i></div>
             </div>
           ))}
         </div>
       </div>
       <div className="right-column">
+        <div className="big-display">
+          {selectedItemIndex !== null && (
+            <>
+              <div className="cover">
+                <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
+              </div>
+              <div className="ambilight">
+                <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
