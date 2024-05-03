@@ -196,11 +196,13 @@
 
   .search-result:hover {
     .info {
+      transition: all .5s ease-in-out;
       background-color: var(--white-2);
     }
 
     .info.selected {
       filter: drop-shadow(0 .5rem .5rem var(--gray-1));
+      transition: all .5s ease-in-out;
       background-color: var(--black);
     }
 
@@ -241,4 +243,47 @@
 ::-webkit-scrollbar-thumb:hover {
   transition: all .25s ease-in-out;
   background: var(--gray-2);
+}
+
+.big-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 0;
+    max-width: 50%;
+    height: auto;
+    text-align: center;
+  }
+}
+
+.big-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .cover {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    border-radius: .25rem 1rem 1rem .25rem;
+    height: auto;
+    overflow: hidden;
+
+    img {
+      width: auto;
+      height: 100%;
+    }
+  }
+
+  .ambilight {
+    scale: 2;
+    z-index: -2;
+    filter: contrast(2);
+    filter: blur(4rem);
+  }
 }

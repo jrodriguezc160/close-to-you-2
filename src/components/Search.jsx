@@ -78,15 +78,18 @@ const Search = () => {
       <div className="right-column">
         <div className="big-display">
           {selectedItemIndex !== null && (
-            <>
+            <div className='big-image'>
               <div className="cover">
                 <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
               </div>
               <div className="ambilight">
                 <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
               </div>
-            </>
+            </div>
           )}
+          <h2>{bookData[selectedItemIndex].volumeInfo.title}</h2>
+          <h4>{bookData[selectedItemIndex].volumeInfo.authors}</h4>
+          <p>{bookData[selectedItemIndex].volumeInfo.description}</p>
         </div>
       </div>
     </div>
