@@ -1,23 +1,28 @@
 import '../styles/searchpage.css';
 import React, { useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filtros, setFiltros] = useState('');
-  // const [bookData, setBookData] = useState();
+  const [bookData, setBookData] = useState([]);
 
-  /* const searchBook = () => {
+  const searchBook = () => {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyA6SaT23KNiiA6DnUfUQTvFeyAcQEkwnSU&maxResults=15`)
       .then(res => setBookData(res.data.items))
       .catch(err => console.log(err));
-  } */
+  }
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
+  const handleInputChange = (e) => {
+    setSearch(e.target.value);
+    searchBook(); // Llamar a la función de búsqueda al cambiar el valor del input
+  }
 
   return (
     <div className="two-columns">
@@ -28,7 +33,7 @@ const Search = () => {
             <div className='form-fields search-field'>
               <i data-feather="search"></i>
               <label htmlFor="search" className={searchIsFocused ? 'focused' : ''}>Busca aquí</label>
-              <input type="text" placeholder='' value={search} onChange={e => setSearch(e.target.value)} onFocus={() => setSearchIsFocused(true)} onBlur={() => { search === '' && setSearchIsFocused(false) }} />
+              <input type="text" placeholder='' value={search} onChange={handleInputChange} onFocus={() => setSearchIsFocused(true)} onBlur={() => { search === '' && setSearchIsFocused(false) }} />
             </div>
 
             <div className={`nav-button no-text ${showFilters && 'selected'}`} onClick={toggleFilters}><i data-feather="sliders"></i></div>
@@ -45,21 +50,14 @@ const Search = () => {
 
         <div className="results">
           <h2>Resultados para '{search ? search : '...'}'</h2>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
-          <div className='search-result'></div>
+          {bookData.map((book, index) => (
+            <div key={index} className='search-result'>
+              <div className="cover-image">
+                <img src={book.volumeInfo.imageLinks?.thumbnail} alt="" />
+              </div>
+              <p>{book.volumeInfo.title}</p>
+            </div>
+          ))}
         </div>
       </div>
       <div className="right-column">
