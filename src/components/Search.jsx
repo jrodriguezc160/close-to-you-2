@@ -2,11 +2,12 @@ import '../styles/searchpage.css';
 import React, { useState, useEffect } from 'react';
 import SearchBooks from './search/SearchBooks';
 import SearchMovies from './search/SearchMovies';
+import SearchAlbums from './search/SearchAlbums';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [filtros, setFiltros] = useState('');
   const [responseData, setResponseData] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
@@ -33,7 +34,7 @@ const Search = () => {
       case 'Películas':
         return <SearchMovies search={search} setResponseData={setResponseData} />;
       case 'Álbumes':
-        return <SearchBooks search={search} setResponseData={setResponseData} />;
+        return <SearchAlbums search={search} setResponseData={setResponseData} />;
       default:
         return null;
     }

@@ -7,6 +7,7 @@ const SearchMovies = ({ search, setResponseData }) => {
       try {
         const response = await getMovieRequest(search);
         const formattedData = formatMovieData(response.data.results);
+        console.log(response)
         setResponseData(formattedData);
       } catch (error) {
         console.error(error);

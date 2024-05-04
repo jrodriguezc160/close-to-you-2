@@ -261,7 +261,6 @@
     filter: drop-shadow(0 .5rem .75rem var(--gray-1));
     border-radius: 1rem;
     background-color: var(--white-1);
-    padding: 1rem;
     overflow: hidden;
   }
 
@@ -291,14 +290,14 @@
     justify-content: center;
     align-items: center;
     z-index: 99;
-    border-radius: .25rem 1rem 1rem .25rem;
+    border-radius: .5rem;
     width: auto;
     height: auto;
     overflow: hidden;
 
     img {
       width: auto;
-      max-height: 35vh;
+      max-height: 50vh;
     }
   }
 
@@ -306,11 +305,11 @@
     scale: 1.1;
     z-index: -2;
     filter: contrast(2);
-    filter: blur(1.5rem);
+    filter: blur(3rem);
 
     img {
       width: auto;
-      max-height: 35vh;
+      max-height: 50vh;
     }
   }
 }
