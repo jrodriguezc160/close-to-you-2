@@ -1,20 +1,14 @@
 import '../styles/searchpage.css';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import SearchBooks from './search/SearchBooks';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filtros, setFiltros] = useState('');
-  const [bookData, setBookData] = useState([]);
+  const [responseData, setResponseData] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
-
-  const searchBook = () => {
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyA6SaT23KNiiA6DnUfUQTvFeyAcQEkwnSU&maxResults=15`)
-      .then(res => setBookData(res.data.items))
-      .catch(err => console.log(err));
-  }
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -22,13 +16,27 @@ const Search = () => {
 
   const handleInputChange = (e) => {
     setSearch(e.target.value);
-    searchBook(); // Llamar a la función de búsqueda al cambiar el valor del input
   }
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
     feather.replace();
   }, [search]);
+
+  const renderSearchComponent = () => {
+    switch (filtros) {
+      case 'Usuarios':
+        return null; // Agrega componente de búsqueda de usuarios si es necesario
+      case 'Libros':
+        return <SearchBooks search={search} setResponseData={setResponseData} />;
+      case 'Películas':
+        return <SearchBooks search={search} setResponseData={setResponseData} />;
+      case 'Álbumes':
+        return <SearchBooks search={search} setResponseData={setResponseData} />;
+      default:
+        return null;
+    }
+  };
 
   const handleItemClick = (index) => {
     setSelectedItemIndex(index);
@@ -61,13 +69,13 @@ const Search = () => {
 
         <div className="results">
           <h2>Resultados para '{search ? search : '...'}'</h2>
-          {bookData.map((book, index) => (
+          {responseData.map((result, index) => (
             <div key={index} className='search-result'>
               <div className={`info ${selectedItemIndex === index ? 'selected' : ''}`}>
                 <div className="cover-image">
-                  <img src={book.volumeInfo.imageLinks?.thumbnail} alt="cover" />
+                  <img src={result?.image} alt="cover" />
                 </div>
-                <p>{book.volumeInfo.title}</p>
+                <p>{result?.title}</p>
               </div>
 
               <div className="nav-button no-text" onClick={() => handleItemClick(index)}><i data-feather="arrow-right-circle"></i></div>
@@ -80,18 +88,19 @@ const Search = () => {
           {selectedItemIndex !== null && (
             <div className='big-image'>
               <div className="cover">
-                <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
+                <img src={responseData[selectedItemIndex]?.image} alt="cover" />
               </div>
               <div className="ambilight">
-                <img src={bookData[selectedItemIndex].volumeInfo.imageLinks?.thumbnail} alt="cover" />
+                <img src={responseData[selectedItemIndex]?.image} alt="cover" />
               </div>
             </div>
           )}
-          <h2>{bookData[selectedItemIndex].volumeInfo.title}</h2>
-          <h4>{bookData[selectedItemIndex].volumeInfo.authors}</h4>
-          <p>{bookData[selectedItemIndex].volumeInfo.description}</p>
+          <h2><b>{responseData[selectedItemIndex]?.title}</b> · {responseData[selectedItemIndex]?.authors}</h2>
+          {/* <h4>{responseData[selectedItemIndex]?.authors}</h4> */}
+          <p>{responseData[selectedItemIndex]?.description}</p>
         </div>
       </div>
+      {renderSearchComponent()}
     </div>
   )
 }
