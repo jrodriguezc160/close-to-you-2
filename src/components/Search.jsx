@@ -1,6 +1,7 @@
 import '../styles/searchpage.css';
 import React, { useState, useEffect } from 'react';
 import SearchBooks from './search/SearchBooks';
+import SearchMovies from './search/SearchMovies';
 
 const Search = () => {
   const [search, setSearch] = useState('');
@@ -30,7 +31,7 @@ const Search = () => {
       case 'Libros':
         return <SearchBooks search={search} setResponseData={setResponseData} />;
       case 'Películas':
-        return <SearchBooks search={search} setResponseData={setResponseData} />;
+        return <SearchMovies search={search} setResponseData={setResponseData} />;
       case 'Álbumes':
         return <SearchBooks search={search} setResponseData={setResponseData} />;
       default:
@@ -95,9 +96,11 @@ const Search = () => {
               </div>
             </div>
           )}
-          <h2><b>{responseData[selectedItemIndex]?.title}</b> · {responseData[selectedItemIndex]?.authors}</h2>
-          {/* <h4>{responseData[selectedItemIndex]?.authors}</h4> */}
-          <p>{responseData[selectedItemIndex]?.description}</p>
+          <div className="text">
+            <h2>{responseData[selectedItemIndex]?.title}</h2>
+            <h3>{responseData[selectedItemIndex]?.authors}</h3>
+            <p>{responseData[selectedItemIndex]?.description}</p>
+          </div>
         </div>
       </div>
       {renderSearchComponent()}
