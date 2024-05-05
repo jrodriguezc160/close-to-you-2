@@ -26,6 +26,7 @@ const SearchAlbums = ({ search, setResponseData }) => {
       authors: album.artist,
       description: album.wiki ? truncateDescription(album.wiki.summary) : '',
       image: getLargestImage(album.image),
+      id: album.url.substring(album.url.indexOf('music/') + 6),
     }));
   };
 

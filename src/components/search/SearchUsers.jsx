@@ -20,7 +20,8 @@ const SearchUsuarios = ({ search, setResponseData }) => {
       title: usuario.nombre_mostrado,
       authors: usuario.usuario,
       description: usuario.descripcion || '',
-      image: usuario.foto_perfil || '', // Aquí puedes modificar para obtener la URL correcta de la imagen del usuario
+      image: usuario.foto_perfil || '',
+      id: usuario.id || '',
     }));
   };
 

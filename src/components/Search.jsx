@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import SearchBooks from './search/SearchBooks';
 import SearchMovies from './search/SearchMovies';
 import SearchAlbums from './search/SearchAlbums';
-import SearchUsuarios from './search/SearchUsers';
+import SearchUsers from './search/SearchUsers';
+import Result from './search/Result';
 
 const Search = () => {
   const [search, setSearch] = useState('');
@@ -33,23 +34,23 @@ const Search = () => {
 
   const renderSearchComponent = () => {
     switch (filtros) {
-      case 'Usuarios':
-        return <SearchUsuarios search={search} setResponseData={setResponseData} />;
-      case 'Libros':
+      case 'users':
+        return <SearchUsers search={search} setResponseData={setResponseData} />;
+      case 'books':
         return <SearchBooks search={search} setResponseData={setResponseData} />;
-      case 'Películas':
+      case 'movies':
         return <SearchMovies search={search} setResponseData={setResponseData} />;
-      case 'Álbumes':
+      case 'albums':
         return <SearchAlbums search={search} setResponseData={setResponseData} />;
       default:
         return null;
     }
   };
 
-  const handleItemClick = (index) => {
-    setSelectedItemIndex(index);
-    console.log(index, selectedItemIndex)
-  }
+  /*   const handleItemClick = async (index) => {
+      setSelectedItemIndex(index);
+      console.log(index, selectedItemIndex);
+    } */
 
   return (
     <div className="two-columns">
@@ -68,45 +69,18 @@ const Search = () => {
           </div>
 
           <div className={showFilters ? ('search-filters visible') : ('search-filters')}>
-            <div className={`nav-button ${filtros === 'Usuarios' ? 'selected' : ''}`} onClick={() => setFiltros('Usuarios')}><i data-feather="user"></i>Usuarios</div>
-            <div className={`nav-button ${filtros === 'Libros' ? 'selected' : ''}`} onClick={() => setFiltros('Libros')}><i data-feather="book"></i>Libros</div>
-            <div className={`nav-button ${filtros === 'Películas' ? 'selected' : ''}`} onClick={() => setFiltros('Películas')}><i data-feather="film"></i>Películas</div>
-            <div className={`nav-button ${filtros === 'Álbumes' ? 'selected' : ''}`} onClick={() => setFiltros('Álbumes')}><i data-feather="disc"></i>Álbumes</div>
+            <div className={`nav-button ${filtros === 'users' ? 'selected' : ''}`} onClick={() => setFiltros('users')}><i data-feather="user"></i>Usuarios</div>
+            <div className={`nav-button ${filtros === 'books' ? 'selected' : ''}`} onClick={() => setFiltros('books')}><i data-feather="book"></i>Libros</div>
+            <div className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`} onClick={() => setFiltros('movies')}><i data-feather="film"></i>Películas</div>
+            <div className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`} onClick={() => setFiltros('albums')}><i data-feather="disc"></i>Álbumes</div>
           </div>
-        </div>
-
-        <div className="results">
-          <h2>Resultados para '{search ? search : '...'}'</h2>
-          {responseData.map((result, index) => (
-            <div key={index} className='search-result'>
-              <div className={`info ${selectedItemIndex === index ? 'selected' : ''}`}>
-                <img className={`result-image ${filtros === 'Usuarios' ? 'users-filter-selected' : ''}`} src={result?.image} alt="cover" />
-                <p>{result?.title}</p>
-              </div>
-
-              <div className="nav-button no-text" onClick={() => handleItemClick(index)}><i data-feather="arrow-right-circle"></i></div>
-            </div>
-          ))}
         </div>
       </div>
-      <div className="right-column">
-        {selectedItemIndex !== null && (
-          <div className="big-display">
-            <div className={`big-image ${filtros === 'Usuarios' ? 'users-filter-selected' : ''}`}>
-              <div className="cover">
-                <img src={responseData[selectedItemIndex]?.image} alt="cover" />
-              </div>
-              <div className="ambilight">
-                <img src={responseData[selectedItemIndex]?.image} alt="cover" />
-              </div>
-            </div>
-            <div className="text">
-              <h2>{responseData[selectedItemIndex]?.title}</h2>
-              <h3>{responseData[selectedItemIndex]?.authors}</h3>
-              <p>{responseData[selectedItemIndex]?.description}</p>
-            </div>
-          </div>
-        )}
+
+      <div className="results-column">
+        {responseData.map((result, index) => (
+          <Result result={result} key={index} filtros={filtros} />
+        ))}
       </div>
       {renderSearchComponent()}
     </div>

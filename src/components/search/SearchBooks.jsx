@@ -22,16 +22,17 @@ const SearchBooks = ({ search, setResponseData }) => {
       authors: item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown',
       image: item.volumeInfo.imageLinks?.thumbnail || '',
       description: truncateDescription(item.volumeInfo.description || ''),
+      id: item.id,
     }));
   };
 
   const truncateDescription = (description) => {
-    // Truncar la descripción a 600 caracteres sin cortar palabras
-    if (description.length <= 600) {
+    // Truncar la descripción a 200 caracteres sin cortar palabras
+    if (description.length <= 200) {
       return description;
     }
 
-    const truncatedDescription = description.substring(0, 600);
+    const truncatedDescription = description.substring(0, 200);
     // Encuentra el último espacio en blanco en el texto truncado
     const lastSpaceIndex = truncatedDescription.lastIndexOf(' ');
     if (lastSpaceIndex !== -1) {

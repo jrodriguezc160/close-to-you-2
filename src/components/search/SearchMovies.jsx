@@ -36,16 +36,17 @@ const SearchMovies = ({ search, setResponseData }) => {
       authors: movie.release_date,
       description: truncateDescription(movie.overview || ''),
       image: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '',
+      id: movie.id,
     }));
   };
 
   const truncateDescription = (description) => {
-    // Truncate description to 600 characters without cutting words
-    if (description.length <= 600) {
+    // Truncate description to 300 characters without cutting words
+    if (description.length <= 300) {
       return description;
     }
 
-    const truncatedDescription = description.substring(0, 600);
+    const truncatedDescription = description.substring(0, 300);
     const lastSpaceIndex = truncatedDescription.lastIndexOf(' ');
     if (lastSpaceIndex !== -1) {
       return truncatedDescription.substring(0, lastSpaceIndex) + '...';
