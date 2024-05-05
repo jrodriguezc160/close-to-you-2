@@ -18,7 +18,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
       if (message === 'Logged in successfully') {
         setIsLoggedIn(true);
         setCurrentUser(userId);
-        sessionStorage.setItem('loggedIn', true);
+        sessionStorage.setItem('isLoggedIn', true); // Guarda isLoggedIn como un booleano
         sessionStorage.setItem('currentUser', userId);
         navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
       }

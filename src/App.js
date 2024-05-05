@@ -12,9 +12,11 @@ import Navbar from './components/Navbar';
 import { getUsuarioData } from './services/UserServices';
 
 function App () {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(() => {
+    const storedCurrentUser = sessionStorage.getItem('currentUser');
+    return storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
+  });
   const [datosUsuario, setDatosUsuario] = useState([]);
-
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
     return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
@@ -25,21 +27,24 @@ function App () {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (currentUser) {
+      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (isLoggedIn && currentUser) {
       const getUserData = async () => {
         try {
-          // Asegúrate de que currentUser esté definido y no sea null o undefined
-          if (currentUser) {
-            const userData = await getUsuarioData(currentUser);
-            setDatosUsuario(userData)
-          }
+          const userData = await getUsuarioData(currentUser);
+          setDatosUsuario(userData);
         } catch (error) {
           console.error(error);
         }
       };
       getUserData();
     }
-  }, [isLoggedIn, currentUser]); // Agrega currentUser como dependencia del efecto
+  }, [isLoggedIn, currentUser]);
 
   return (
     <Router>
@@ -66,7 +71,6 @@ function ProtectedRoutes ({ isLoggedIn }) {
   }, [currentLocation]);
 
   if (!isLoggedIn) {
-    // Redirige a la página de inicio de sesión si el usuario no está autenticado
     return <Navigate to="/login" />;
   }
 
