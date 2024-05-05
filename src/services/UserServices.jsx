@@ -87,3 +87,21 @@ export const editBanner = async (id, banner) => {
     throw new Error('Error al iniciar sesión: ' + error.message);
   }
 };
+
+export const searchUsuarios = async (searchString) => {
+  try {
+    const response = await fetch(`${baseUrl}searchUsuarios.php?string=${searchString}`);
+    if (!response.ok) {
+      throw new Error('Error al buscar usuarios');
+    }
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data.data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al buscar usuarios: ' + error.message);
+  }
+};
