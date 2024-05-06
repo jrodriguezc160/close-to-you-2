@@ -5,6 +5,9 @@
   --gray-1: lightgray;
   --gray-2: gray;
   --transparent: #00000000;
+  --semi-transparent: rgba(255, 255, 255, 0.5);
+  --semi-transparent-alternative: rgba(255, 255, 255, 0.15);
+  --semi-transparent-white: rgba(255, 255, 255, 0.75);
 }
 
 body {

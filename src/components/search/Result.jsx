@@ -1,6 +1,6 @@
-// Profile Card
+// Result Card
 
-const Result = ({ result, filtros }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -25,9 +25,16 @@ const Result = ({ result, filtros }) => {
     return (<span dangerouslySetInnerHTML={{ __html: html }} />)
   }
 
+  // Clase .open para el primer renderizado
+  let classNames = "result";
+  if (isFirstResult && isOpen) {
+    classNames += " open";
+  } else if (isOpen) {
+    classNames += " open";
+  }
 
   return (
-    <div className="result">
+    <div className={classNames} onClick={onClick}>
       <div className={`result-pic ${filtros}-result`}>
         <img src={result.image} alt="result-pic" />
       </div>
