@@ -1,0 +1,303 @@
+.favAlbum {
+  -moz-box-shadow: -5px 0 5px -5px rgba(30, 30, 30, 0.25);
+  -webkit-box-shadow: -5px 0 5px -5px rgba(30, 30, 30, 0.25);
+  -moz-transition: -moz-transform 0.3s ease-in-out;
+  -o-transition: -o-transform 0.3s ease-in-out;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  position: absolute;
+  z-index: 2;
+  transition: all 0.3s ease-in-out;
+  box-shadow: -10px 0px 10px -5px rgba(30, 30, 30, 0.25);
+  border: 0 solid lightgray;
+  border-radius: 4px;
+  background-color: #F7F7F7;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
+    width: inherit;
+    height: inherit;
+  }
+}
+
+.favAlbum:first-child {
+  transition: all 0.3s ease-in-out;
+  margin-right: 24vw;
+}
+
+.favAlbum:nth-child(2) {
+  transition: all 0.3s ease-in-out;
+  margin-right: 18vw;
+}
+
+.favAlbum:nth-child(3) {
+  transition: all 0.3s ease-in-out;
+  margin-right: 12vw;
+}
+
+.favAlbum:nth-child(4) {
+  transition: all 0.3s ease-in-out;
+  margin-right: 6vw;
+}
+
+.favAlbum:last-child {
+  transition: all 0.3s ease-in-out;
+}
+
+.favAlbum:last-child:hover {
+  transform: rotate(8deg);
+  transition: all 0.3s ease-in-out;
+}
+
+.favAlbum:nth-child(2):hover {
+  transition: all 0.3s ease-in-out;
+  margin-right: 20vw;
+}
+
+.favAlbum:nth-child(3):hover {
+  transition: all 0.3s ease-in-out;
+  margin-right: 14vw;
+}
+
+.favAlbum:nth-child(4):hover {
+  transition: all 0.3s ease-in-out;
+  margin-right: 8vw;
+}
+
+.favAlbum:first-child:hover {
+  transition: all 0.3s ease-in-out;
+  margin-right: 26vw;
+}
+
+.favAlbum.slide-right {
+  -moz-transform: translateX(100px);
+  -ms-transform: translateX(100px);
+  -webkit-transform: translateX(100px);
+  transform: translateX(100px);
+  transition: all 0.3s ease-in-out;
+}
+
+.favAlbum.back {
+  scale: 0.7;
+  opacity: 0;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.favAlbums {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+}
+
+.album-stack {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: end;
+  transition: all 0.5s ease-in-out;
+  margin-right: 2.5rem;
+  width: calc(100% - 2.5rem);
+  height: 100%;
+}
+
+.album-cover {
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 13vw;
+  height: 13vw;
+}
+
+.album-card {
+  display: grid;
+  position: absolute;
+  top: 50%;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-in-out;
+  margin: auto;
+  box-shadow: 0 2px 5px rgba(30, 30, 30, 0.25);
+  background-color: #e2e2e200;
+  width: 13vw;
+  height: 13vw;
+  overflow: visible;
+  content: '';
+  color: #00000080;
+  font-size: 10rem;
+  font-family: sans-serif;
+}
+
+.album-card:hover {
+  scale: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.album-card:nth-last-child(5) {
+  --x: calc(-82%);
+  transform: translate(var(--x), -65%);
+}
+
+.album-card:nth-last-child(4) {
+  --x: calc(-82%);
+  transform: translate(var(--x), -60%);
+}
+
+.album-card:nth-last-child(3) {
+  --x: calc(-82%);
+  transform: translate(var(--x), -55%);
+}
+
+.album-card:nth-last-child(2) {
+  --x: calc(-82%);
+  transform: translate(var(--x), -50%);
+}
+
+.album-card:nth-last-child(1) {
+  --x: calc(75%);
+  transform: translate(var(--x), -55%);
+}
+
+.album-stack:hover {
+  transition: all 0.5s ease-in-out;
+
+  .album-card:nth-last-child(5) {
+    --x: calc(-82%);
+    transform: translate(var(--x), -80%);
+  }
+
+  .album-card:nth-last-child(5):hover {
+    --x: calc(-82%);
+    transform: translate(var(--x), -95%);
+  }
+
+  .album-card:nth-last-child(4) {
+    --x: calc(-82%);
+    transform: translate(var(--x), -60%);
+  }
+
+  .album-card:nth-last-child(4):hover {
+    --x: calc(-82%);
+    transform: translate(var(--x), -75%);
+  }
+
+  .album-card:nth-last-child(3) {
+    --x: calc(-82%);
+    transform: translate(var(--x), -40%);
+  }
+
+  .album-card:nth-last-child(3):hover {
+    --x: calc(-82%);
+    transform: translate(var(--x), -55%);
+  }
+
+  .album-card:nth-last-child(2) {
+    --x: calc(-82%);
+    transform: translate(var(--x), -20%);
+  }
+
+  .album-card:nth-last-child(2):hover {
+    --x: calc(-82%);
+    transform: translate(var(--x), -35%);
+  }
+
+  .album-card:nth-last-child(1):hover {
+    .album-cover {
+      transform: scale(1.05);
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
+
+.album-card:nth-last-child(1)>.vinyl {
+  --x: calc(75%);
+  display: block;
+  position: absolute;
+  top: 2.5%;
+  left: 2.5%;
+  transform: translate(var(--x), -50%);
+  z-index: 0;
+  filter: drop-shadow(0 0 8px gray);
+  animation: 5s linear spinThat infinite, 1s ease-out getOut 1s forwards;
+  border-radius: 50%;
+  /* box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.6); */
+  background-image: url('https://gallery.yopriceville.com/var/resizes/Free-Clipart-Pictures/Music-PNG/Gramophone_Vinyl_LP_Record_PNG_Transparent_Clip_Art_Image.png?m=1462983196');
+  background-position: center;
+  background-size: cover;
+  width: 95%;
+  height: 95%;
+  content: '';
+
+  &::before {
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    opacity: 0.15;
+    z-index: -10;
+    mix-blend-mode: screen;
+    border-radius: 50%;
+    background-image: url('http://www.designresourcebox.com/ths/diverse/blacktextures/82267467.jpg');
+    background-size: 100% 100%;
+    width: 95%;
+    height: 95%;
+    content: '';
+  }
+}
+
+.album-card:nth-last-child(1)>.vinyl.hide {
+  animation: getIn 1s forwards;
+}
+
+@keyframes getIn {
+  0% {
+    --x: calc(75%);
+    top: 2.5%;
+    left: 2.5%;
+    transform: translate(var(--x), 0%);
+  }
+
+  100% {
+    --x: calc(75%);
+    top: 2.5%;
+    left: 2.5%;
+    transform: translate(- var(--x), 0%);
+  }
+}
+
+@keyframes getOut {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 50%;
+  }
+}
+
+@keyframes spinThat {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes album-swap {
+  50% {
+    transform: translate(calc(var(--x) + 7vw), -50%) scale(0.85) rotate(-5deg);
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translate(calc(var(--x) + -15vw), -50%) scale(0.85);
+    z-index: -1;
+  }
+}

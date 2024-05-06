@@ -1,5 +1,6 @@
 import PostShowcase from './PostShowcase';
 import ProfileCard from './ProfileCard';
+import AlbumShelf from './profilepage/AlbumShelf';
 import BookShelf from './profilepage/BookShelf';
 import MovieShelf from './profilepage/MovieShelf';
 
@@ -22,6 +23,7 @@ const ProfilePage = ({ datosUsuario }) => {
       <div className="right-column">
         <PostShowcase datosUsuario={datosUsuario} />
         <div className="albums">
+          <AlbumShelf currentUser={datosUsuario.id} />
         </div>
       </div>
     </div>

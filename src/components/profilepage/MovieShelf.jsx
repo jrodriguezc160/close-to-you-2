@@ -51,12 +51,12 @@ const MovieShelf = ({ currentUser }) => {
     } */
 
   return (
-    <div style={{ width: "12vw", height: "12vw", display: "flex", gap: ".5rem", justifyContent: 'center', marginRight: '0' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div style={{ width: "100%", height: "100%", display: "flex", gap: ".5rem", justifyContent: 'center', marginRight: '0' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {/*       <div style={{ marginTop: '.5rem', marginRight: '0' }}>
         {myFavMovies.length > 0 && <VerticalIconbar chipVisible={chipVisible} handleEdit={handleEdit} handleRemoveFavourite={handleRemoveFavourite} movie={myFavMovies && myFavMovies.length > 0 ? myFavMovies[0] : null} />}
       </div> */}
 
-      <div style={{ width: '100%', height: '12vw', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ width: '100%', height: '100%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
         {/*       <div style={{ bottom: '-0.5vw', right: '3vw', zIndex: '20', width: '3vw', height: '3vw', position: 'absolute' }} >
           <img src='https://em-content.zobj.net/source/apple/391/film-frames_1f39e-fe0f.png' style={{ width: 'inherit', height: 'inherit' }} alt='Películas' />
         </div> */}

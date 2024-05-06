@@ -36,7 +36,7 @@ const MovieStack = ({ myFavMovies, setChipVisible }) => {
             ))
           )
           : (
-            <div style={{ width: '7vw', height: '11vw', border: '2px dashed lightgray', borderRadius: '8px' }}>
+            <div style={{ width: '100%', height: '100%', border: '2px dashed lightgray', borderRadius: '8px' }}>
               <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }} /* onClick={handleEdit} */>
                 <i data-feather="plus-circle"></i>
               </div>
