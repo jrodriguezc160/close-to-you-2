@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import '../../styles/bookstack.css';
 // import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
 
-const BookStack = ({ myFavBooks, handleEdit, setChipVisible }) => {
+const BookStack = ({ myFavBooks, setChipVisible }) => {
 
   useEffect(() => {
     const stack = document.querySelector(".book-stack");
@@ -26,11 +25,12 @@ const BookStack = ({ myFavBooks, handleEdit, setChipVisible }) => {
     }
 
     stack.addEventListener("click", swap);
+    console.log('myFavBooks', myFavBooks)
 
     return () => {
       stack.removeEventListener("click", swap);
     };
-  }, []);
+  }, [myFavBooks]); // Asegúrate de incluir myFavBooks aquí para que el useEffect se ejecute cuando myFavBooks cambie
 
   return (
     <>
@@ -49,10 +49,9 @@ const BookStack = ({ myFavBooks, handleEdit, setChipVisible }) => {
                 </div>
               )
             ))
-          )
-          : (
+          ) : (
             <div style={{ width: '7vw', height: '11vw', border: '2px dashed lightgray', borderRadius: '4px 16px 16px 4px' }}>
-              <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }} onClick={handleEdit}>
+              <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}/*  onClick={handleEdit} */>
                 <i data-feather="plus-circle"></i>
               </div>
             </div>

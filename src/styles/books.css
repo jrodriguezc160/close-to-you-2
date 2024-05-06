@@ -123,3 +123,101 @@
 .images {
   height: auto;
 }
+
+.book-stack {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.book-card {
+  display: grid;
+  position: absolute;
+  top: 50%;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-in-out;
+  margin: auto;
+  box-shadow: 0 2px 5px rgba(30, 30, 30, 0.25);
+  border-radius: 2px 8px 8px 2px;
+  background-color: rgb(226, 226, 226);
+  width: 10vw;
+  height: 15vw;
+  overflow: hidden;
+  color: #00000080;
+  font-size: 10rem;
+  font-family: sans-serif;
+}
+
+.book-card.no-cover-book-card {
+  display: flex;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgb(227, 238, 238);
+  font-family: serif;
+}
+
+.book-card:hover {
+  scale: 1.05;
+  transition: all 0.3s ease-in-out;
+}
+
+.book-card:nth-last-child(n + 4) {
+  transform: rotate(16deg) translate(0, -50%);
+}
+
+.book-card:nth-last-child(3) {
+  transform: rotate(-8deg) translate(0%, -50%);
+}
+
+.book-card:nth-last-child(2) {
+  transform: rotate(8deg) translate(-0%, -50%);
+}
+
+.book-card:nth-last-child(1) {
+  transform: rotate(0deg) translate(0, -50%);
+}
+
+.book-stack:hover {
+  transition: all 0.5s ease-in-out;
+
+  .book-card:nth-last-child(n + 4) {
+    --x: calc(-50% + -100px);
+    transform: translate(var(--x), -50%) scale(0.9) rotate(-24deg);
+    box-shadow: 0 0 1px 1px #00000003;
+  }
+
+  .book-card:nth-last-child(3) {
+    --x: calc(-50% + -50px);
+    transform: translate(var(--x), -35%) scale(0.8) rotate(-16deg);
+  }
+
+  .book-card:nth-last-child(2) {
+    --x: calc(-50%);
+    transform: translate(var(--x), -45%) scale(0.9) rotate(-8deg);
+  }
+
+  .book-card:nth-last-child(1) {
+    --x: calc(-50% + 50px);
+    transform: translate(var(--x), -50%) scale(1) rotate(-0deg);
+  }
+}
+
+
+@keyframes book-swap {
+  50% {
+    transform: translate(calc(var(--x) + 10vw), -50%) scale(0.75) rotate(-5deg);
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translate(calc(var(--x) + 15px), -50%) scale(0.65);
+    z-index: -1;
+  }
+}
