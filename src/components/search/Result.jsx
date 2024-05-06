@@ -47,7 +47,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
 
         <div className="result-buttons">
           <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
-          <div className="nav-button"><i data-feather="package"></i><span>Ver colecciones</span></div>
+          <div className="nav-button"><i data-feather="external-link"></i><span>Ver perfil</span></div>
         </div>
       </div>
     </div>

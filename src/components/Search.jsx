@@ -53,11 +53,6 @@ const Search = () => {
     setOpenResultIndex(index);
   };
 
-  /*   const handleItemClick = async (index) => {
-      setSelectedItemIndex(index);
-      console.log(index, selectedItemIndex);
-    } */
-
   return (
     <>
       <div className="two-columns">
