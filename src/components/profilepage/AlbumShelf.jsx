@@ -27,11 +27,11 @@ const AlbumShelf = ({ currentUser }) => {
     fetchData();
   }, [currentUser]);
 
-  const handleRemoveFavourite = () => {
-    const updatedAlbum = [...myFavAlbums];
-    updatedAlbum.shift(); // Remove the first album
-    setMyFavAlbums(updatedAlbum);
-  }
+  /*   const handleRemoveFavourite = () => {
+      const updatedAlbum = [...myFavAlbums];
+      updatedAlbum.shift(); // Remove the first album
+      setMyFavAlbums(updatedAlbum);
+    } */
 
   useEffect(() => {
     imageWidthRef.current = imagesRef?.current?.firstElementChild?.offsetWidth;

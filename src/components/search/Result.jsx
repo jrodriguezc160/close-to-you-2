@@ -46,8 +46,17 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
         </div>
 
         <div className="result-buttons">
-          <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
-          <div className="nav-button"><i data-feather="external-link"></i><span>Ver perfil</span></div>
+          {filtros === 'users' ? (
+            <>
+              <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
+              <div className="nav-button"><i data-feather="external-link"></i><span>Ver perfil</span></div>
+            </>
+          ) : (
+            <>
+              <div className="nav-button"><i data-feather="plus-circle"></i><span>Guardar</span></div>
+              <div className="nav-button"><i data-feather="star"></i><span>Destacar</span></div>
+            </>
+          )}
         </div>
       </div>
     </div>
