@@ -1,5 +1,6 @@
 import PostShowcase from './PostShowcase';
 import ProfileCard from './ProfileCard';
+import BookShelf from './profilepage/BookShelf';
 
 const ProfilePage = ({ datosUsuario }) => {
   return (
@@ -8,6 +9,7 @@ const ProfilePage = ({ datosUsuario }) => {
         <div style={{ height: '2rem' }}></div>
         <div className="collections">
           <div style={{ backgroundColor: '#EBEBEB', height: '100%', width: '50%', borderRadius: '1rem' }}>
+            <BookShelf currentUser={datosUsuario.id} />
           </div>
           <div style={{ backgroundColor: '#EBEBEB', height: '100%', width: '50%', borderRadius: '1rem' }}>
           </div>
