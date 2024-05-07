@@ -7,7 +7,6 @@ const SearchMovies = ({ search, setResponseData }) => {
       try {
         const response = await getMovieRequest(search);
         const formattedData = formatMovieData(response.data.results);
-        console.log(response)
         setResponseData(formattedData);
       } catch (error) {
         console.error(error);
@@ -36,7 +35,7 @@ const SearchMovies = ({ search, setResponseData }) => {
       authors: movie.release_date,
       description: truncateDescription(movie.overview || ''),
       image: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '',
-      id: movie.id,
+      id: movie.id.toString(),
     }));
   };
 

@@ -8,7 +8,6 @@ const SearchBooks = ({ search, setResponseData }) => {
         const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyA6SaT23KNiiA6DnUfUQTvFeyAcQEkwnSU&maxResults=15`);
         const formattedData = formatBookData(response.data.items);
         setResponseData(formattedData);
-        console.log(formattedData)
       } catch (error) {
         console.error('Error fetching data:', error);
       }

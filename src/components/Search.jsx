@@ -33,9 +33,9 @@ const Search = ({ currentUser }) => {
 
   const getColeccion = async () => {
     try {
-      const elementos = await getElementosUsuario(currentUser, filtroId)
-      console.log('Colección: ', elementos)
-      setMiColeccion(elementos)
+      const elementos = await getElementosUsuario(currentUser, filtroId);
+      setMiColeccion(elementos);
+      console.log(miColeccion)
     } catch (error) {
       console.error('Error al obtener los elementos o los usuarios');
     }
@@ -133,7 +133,7 @@ const Search = ({ currentUser }) => {
               filtros={filtros}
               isFirstResult={index === 0}
               isOpen={index === openResultIndex}
-              onClick={() => handleResultClick(index)}
+              onClick={() => { handleResultClick(index); console.log(result) }}
               miColeccion={miColeccion}
               getColeccion={getColeccion}
               currentUser={currentUser}

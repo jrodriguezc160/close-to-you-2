@@ -24,11 +24,6 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     feather.replace();
   }, [miColeccion, result.id]);
 
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    feather.replace();
-  }, [isSaved])
-
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
     if (typeof children !== 'string') {
@@ -61,20 +56,30 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
   }
 
   const handleAddElemento = async () => {
-    console.log('miColeccion', miColeccion)
     if (!miColeccion.some(item => item.id_api === result.id)) {
       try {
-        // console.log(result.id)
-        // await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 0);
+        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 0);
         await getColeccion();
         console.log('Elemento agregado con éxito');
+        console.log(isSaved)
       } catch (error) {
+        console.log(result.image)
         console.error('Error al agregar el elemento');
       }
     } else {
       console.warn('Ya existe este elemento')
     }
   }
+
+  /*   const handleDeleteElemento = async () => {
+      try {
+        await deleteElemento(result.id, 0);
+        await getColeccion();
+        console.log('Elemento agregado con éxito');
+      } catch (error) {
+        console.error('Error al agregar el elemento');
+      }
+    } */
 
   return (
     <div className={classNames} onClick={onClick}>
@@ -83,7 +88,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
       </div>
       <div className="result-text">
         <div className="result-title">{result.title}</div>
-        <div className="result-authors">{filtros === 'Usuarios' && '@'}{result.authors}</div>
+        <div className="result-authors">{filtros === 'users' && '@'}{result.authors}</div>
         <div className="result-desc">
           <Linkify>{result.description}</Linkify>
         </div>
@@ -104,7 +109,6 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
               )}
 
               {/* Si el resultado está marcado como favorito... */}
-              {console.log(result, isSaved)}
               {isFav ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="star"></i><span>Destacado</span></div>
               ) : (
