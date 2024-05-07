@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { addElemento } from '../../services/ElementosServices';
+import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
 import { useState } from 'react';
 
 const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion }) => {
@@ -61,7 +61,6 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
         await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 0);
         await getColeccion();
         console.log('Elemento agregado con éxito');
-        console.log(isSaved)
       } catch (error) {
         console.log(result.image)
         console.error('Error al agregar el elemento');
@@ -71,15 +70,29 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     }
   }
 
-  /*   const handleDeleteElemento = async () => {
+  const handleDeleteElemento = async () => {
+    try {
+      await deleteElemento(result.id, 0);
+      await getColeccion();
+      console.log('Elemento agregado con éxito');
+    } catch (error) {
+      console.error('Error al agregar el elemento');
+    }
+  }
+
+  const handleStarElemento = async () => {
+    if (!miColeccion.some(item => item.id_api === result.id)) {
+    } else {
       try {
-        await deleteElemento(result.id, 0);
+        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 1);
         await getColeccion();
         console.log('Elemento agregado con éxito');
       } catch (error) {
+        console.log(result.image)
         console.error('Error al agregar el elemento');
       }
-    } */
+    }
+  }
 
   return (
     <div className={classNames} onClick={onClick}>
@@ -103,7 +116,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
             <>
               {/* Si el resultado está guardado en la colección... */}
               {isSaved ? (
-                <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="check-circle"></i><span>Guardado</span></div>
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check-circle"></i><span>Guardado</span></div>
               ) : (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleAddElemento}><i data-feather="plus-circle"></i><span>Guardar</span></div>
               )}
