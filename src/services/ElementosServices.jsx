@@ -82,9 +82,10 @@ export const editElemento = async (id_api, favorito) => {
   }
 };
 
-export const deleteElemento = async (id_api) => {
+export const deleteElemento = async (id_usuario, id_api) => {
   try {
     const formData = new FormData();
+    formData.append('id_usuario', id_usuario);
     formData.append('id_api', id_api);
 
     const response = await fetch(baseUrl + 'deleteElemento.php', {

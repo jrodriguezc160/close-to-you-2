@@ -72,7 +72,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
   const handleDeleteElemento = async () => {
     try {
-      await deleteElemento(result.id, 0);
+      await deleteElemento(currentUser, result.id);
       await getColeccion();
       console.log('Elemento agregado con éxito');
     } catch (error) {
