@@ -3,8 +3,13 @@ import ProfileCard from './ProfileCard';
 import AlbumShelf from './profilepage/AlbumShelf';
 import BookShelf from './profilepage/BookShelf';
 import MovieShelf from './profilepage/MovieShelf';
+import { useState } from 'react';
 
 const ProfilePage = ({ datosUsuario }) => {
+  const [showBookModal, setShowBookModal] = useState(false)
+  const [showMovieModal, setShowMovieModal] = useState(false)
+  const [showAlbumModal, setShowAlbumModal] = useState(false)
+
   return (
     <div className="two-columns">
       <div className="left-column">

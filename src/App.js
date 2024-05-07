@@ -12,11 +12,12 @@ import Navbar from './components/Navbar';
 import { getUsuarioData } from './services/UserServices';
 
 function App () {
+  const [datosUsuario, setDatosUsuario] = useState([]);
+
   const [currentUser, setCurrentUser] = useState(() => {
     const storedCurrentUser = sessionStorage.getItem('currentUser');
     return storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
   });
-  const [datosUsuario, setDatosUsuario] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
     return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
@@ -53,7 +54,7 @@ function App () {
         <Route exact path="/login" element={<LogIn setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/buscar" element={<Search />} />
+          <Route exact path="/buscar" element={<Search currentUser={currentUser} />} />
           <Route exact path="/perfil" element={<ProfilePage datosUsuario={datosUsuario} />} />
           <Route exact path="/ajustes" element={<Settings />} />
         </Route>

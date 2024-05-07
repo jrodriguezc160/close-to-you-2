@@ -1,6 +1,29 @@
-// Result Card
+import { useEffect } from 'react';
+import { addElemento } from '../../services/ElementosServices';
+import { useState } from 'react';
 
-const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion }) => {
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const checkIfSaved = async () => {
+      try {
+        const isSaved = miColeccion.some(item => item.id_api === result.id);
+        setIsSaved(isSaved);
+      } catch (error) {
+        console.error('Error al verificar si el elemento está guardado');
+      }
+    };
+
+    checkIfSaved();
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [miColeccion, result.id]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [isSaved])
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -33,6 +56,22 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
     classNames += " open";
   }
 
+  const handleAddElemento = async () => {
+    console.log('miColeccion', miColeccion)
+    if (!miColeccion.some(item => item.id_api === result.id)) {
+      try {
+        // console.log(result.id)
+        // await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 0);
+        await getColeccion();
+        console.log('Elemento agregado con éxito');
+      } catch (error) {
+        console.error('Error al agregar el elemento');
+      }
+    } else {
+      console.warn('Ya existe este elemento')
+    }
+  }
+
   return (
     <div className={classNames} onClick={onClick}>
       <div className={`result-pic ${filtros}-result`}>
@@ -48,13 +87,24 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick }) => {
         <div className="result-buttons">
           {filtros === 'users' ? (
             <>
-              <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
-              <div className="nav-button"><i data-feather="external-link"></i><span>Ver perfil</span></div>
+              <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="user-plus"></i><span>Seguir</span></div>
+              <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="external-link"></i><span>Ver perfil</span></div>
             </>
           ) : (
             <>
-              <div className="nav-button"><i data-feather="plus-circle"></i><span>Guardar</span></div>
-              <div className="nav-button"><i data-feather="star"></i><span>Destacar</span></div>
+              {/* Si el resultado está guardado en la colección... */}
+              {isSaved ? (
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="check-circle"></i><span>Guardado</span></div>
+              ) : (
+                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleAddElemento}><i data-feather="plus-circle"></i><span>Guardar</span></div>
+              )}
+
+              {/* Si el resultado está marcado como favorito... */}
+              {miColeccion.find(item => item.id_api === result.id && item.favorito === '1') ? (
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="star"></i><span>Destacado</span></div>
+              ) : (
+                <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="star"></i><span>Destacar</span></div>
+              )}
             </>
           )}
         </div>

@@ -523,6 +523,15 @@
           width: 0;
         }
       }
+
+      .nav-button.selected {
+        background-color: var(--black);
+        color: var(--gray-1);
+      }
+
+      .nav-button.selected:hover {
+        filter: drop-shadow(0 .25rem .25rem var(--gray-1));
+      }
     }
   }
 

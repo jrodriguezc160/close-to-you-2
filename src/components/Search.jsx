@@ -5,8 +5,9 @@ import SearchMovies from './search/SearchMovies';
 import SearchAlbums from './search/SearchAlbums';
 import SearchUsers from './search/SearchUsers';
 import Result from './search/Result';
+import { getElementosUsuario } from '../services/ElementosServices';
 
-const Search = () => {
+const Search = ({ currentUser }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -14,6 +15,8 @@ const Search = () => {
   const [responseData, setResponseData] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [openResultIndex, setOpenResultIndex] = useState(0);
+  const [miColeccion, setMiColeccion] = useState([]);
+  const [filtroId, setFiltroId] = useState(0);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -28,11 +31,26 @@ const Search = () => {
     feather.replace();
   }, [search, responseData]);
 
+  const getColeccion = async () => {
+    try {
+      const elementos = await getElementosUsuario(currentUser, filtroId)
+      console.log('Colección: ', elementos)
+      setMiColeccion(elementos)
+    } catch (error) {
+      console.error('Error al obtener los elementos o los usuarios');
+    }
+  }
+
+  useEffect(() => {
+    // Llamar a getColeccion cada vez que cambie filtroId
+    getColeccion();
+  }, [filtroId]);
+
   useEffect(() => {
     setResponseData([]);
     setSelectedItemIndex(null);
     setOpenResultIndex(0);
-  }, [filtros])
+  }, [filtros]);
 
   const renderSearchComponent = () => {
     switch (filtros) {
@@ -40,10 +58,10 @@ const Search = () => {
         return <SearchUsers search={search} setResponseData={setResponseData} />;
       case 'books':
         return <SearchBooks search={search} setResponseData={setResponseData} />;
-      case 'movies':
-        return <SearchMovies search={search} setResponseData={setResponseData} />;
       case 'albums':
         return <SearchAlbums search={search} setResponseData={setResponseData} />;
+      case 'movies':
+        return <SearchMovies search={search} setResponseData={setResponseData} />;
       default:
         return null;
     }
@@ -71,10 +89,38 @@ const Search = () => {
             </div>
 
             <div className={showFilters ? ('search-filters visible') : ('search-filters')}>
-              <div className={`nav-button ${filtros === 'users' ? 'selected' : ''}`} onClick={() => setFiltros('users')}><i data-feather="user"></i>Usuarios</div>
-              <div className={`nav-button ${filtros === 'books' ? 'selected' : ''}`} onClick={() => setFiltros('books')}><i data-feather="book"></i>Libros</div>
-              <div className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`} onClick={() => setFiltros('movies')}><i data-feather="film"></i>Películas</div>
-              <div className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`} onClick={() => setFiltros('albums')}><i data-feather="disc"></i>Álbumes</div>
+              <div
+                className={`nav-button ${filtros === 'users' ? 'selected' : ''}`}
+                onClick={() => {
+                  setFiltros('users');
+                  setFiltroId(99)
+                }}>
+                <i data-feather="user"></i>Usuarios
+              </div>
+              <div
+                className={`nav-button ${filtros === 'books' ? 'selected' : ''}`}
+                onClick={() => {
+                  setFiltros('books');
+                  setFiltroId(1)
+                }}>
+                <i data-feather="book"></i>Libros
+              </div>
+              <div
+                className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`}
+                onClick={() => {
+                  setFiltros('movies');
+                  setFiltroId(5)
+                }}>
+                <i data-feather="film"></i>Películas
+              </div>
+              <div
+                className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`}
+                onClick={() => {
+                  setFiltros('albums');
+                  setFiltroId(4)
+                }}>
+                <i data-feather="disc"></i>Álbumes
+              </div>
             </div>
           </div>
         </div>
@@ -88,6 +134,10 @@ const Search = () => {
               isFirstResult={index === 0}
               isOpen={index === openResultIndex}
               onClick={() => handleResultClick(index)}
+              miColeccion={miColeccion}
+              getColeccion={getColeccion}
+              currentUser={currentUser}
+              idColeccion={filtroId}
             />
           ))}
         </div>
