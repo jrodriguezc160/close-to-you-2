@@ -4,12 +4,16 @@ import { useState } from 'react';
 
 const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion }) => {
   const [isSaved, setIsSaved] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     const checkIfSaved = async () => {
       try {
         const isSaved = miColeccion.some(item => item.id_api === result.id);
         setIsSaved(isSaved);
+
+        const isFav = miColeccion.find(item => item.id_api === result.id && item.favorito === '1');
+        setIsFav(isFav);
       } catch (error) {
         console.error('Error al verificar si el elemento está guardado');
       }
@@ -100,7 +104,8 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
               )}
 
               {/* Si el resultado está marcado como favorito... */}
-              {miColeccion.find(item => item.id_api === result.id && item.favorito === '1') ? (
+              {console.log(result, isSaved)}
+              {isFav ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="star"></i><span>Destacado</span></div>
               ) : (
                 <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="star"></i><span>Destacar</span></div>
