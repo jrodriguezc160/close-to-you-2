@@ -35,7 +35,7 @@ const Search = ({ currentUser }) => {
     try {
       const elementos = await getElementosUsuario(currentUser, filtroId);
       setMiColeccion(elementos);
-      console.log(miColeccion)
+      console.log(miColeccion);
     } catch (error) {
       console.error('Error al obtener los elementos o los usuarios');
     }
@@ -55,13 +55,13 @@ const Search = ({ currentUser }) => {
   const renderSearchComponent = () => {
     switch (filtros) {
       case 'users':
-        return <SearchUsers search={search} setResponseData={setResponseData} />;
+        return <SearchUsers search={search} setResponseData={setResponseData} />
       case 'books':
-        return <SearchBooks search={search} setResponseData={setResponseData} />;
+        return <SearchBooks search={search} setResponseData={setResponseData} />
       case 'albums':
-        return <SearchAlbums search={search} setResponseData={setResponseData} />;
+        return <SearchAlbums search={search} setResponseData={setResponseData} />
       case 'movies':
-        return <SearchMovies search={search} setResponseData={setResponseData} />;
+        return <SearchMovies search={search} setResponseData={setResponseData} />
       default:
         return null;
     }
@@ -133,7 +133,9 @@ const Search = ({ currentUser }) => {
               filtros={filtros}
               isFirstResult={index === 0}
               isOpen={index === openResultIndex}
-              onClick={() => { handleResultClick(index); console.log(result) }}
+              onClick={() => {
+                handleResultClick(index); console.log(miColeccion)
+              }}
               miColeccion={miColeccion}
               getColeccion={getColeccion}
               currentUser={currentUser}

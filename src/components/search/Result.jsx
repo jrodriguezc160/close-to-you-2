@@ -12,7 +12,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
         const isSaved = miColeccion.some(item => item.id_api === result.id);
         setIsSaved(isSaved);
 
-        const isFav = miColeccion.find(item => item.id_api === result.id && item.favorito === '1');
+        const isFav = miColeccion.some(item => item.id_api === result.id && item.favorito === '1');
         setIsFav(isFav);
       } catch (error) {
         console.error('Error al verificar si el elemento está guardado');
@@ -55,10 +55,10 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     classNames += " open";
   }
 
-  const handleAddElemento = async () => {
-    if (!miColeccion.some(item => item.id_api === result.id)) {
+  const handleAddElemento = async (favorito) => {
+    if (!isSaved) {
       try {
-        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 0);
+        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, favorito);
         await getColeccion();
         console.log('Elemento agregado con éxito');
       } catch (error) {
@@ -66,7 +66,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
         console.error('Error al agregar el elemento');
       }
     } else {
-      console.warn('Ya existe este elemento')
+      console.warn('Ya existe este elemento');
     }
   }
 
@@ -80,16 +80,19 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     }
   }
 
-  const handleStarElemento = async () => {
-    if (!miColeccion.some(item => item.id_api === result.id)) {
+  const handleEditElemento = async () => {
+    if (!isSaved) {
+      handleAddElemento(1);
     } else {
+      let favorito = isSaved && !isFav ? 1 : 0; // Si está guardado y no es favorito, marcar como favorito (1), de lo contrario, no (0)
+
       try {
-        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, 1);
+        await editElemento(currentUser, result.id, idColeccion, favorito)
         await getColeccion();
-        console.log('Elemento agregado con éxito');
+        console.log('Elemento editado con éxito');
       } catch (error) {
         console.log(result.image)
-        console.error('Error al agregar el elemento');
+        console.error('Error al editar el elemento');
       }
     }
   }
@@ -118,14 +121,14 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
               {isSaved ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check-circle"></i><span>Guardado</span></div>
               ) : (
-                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleAddElemento}><i data-feather="plus-circle"></i><span>Guardar</span></div>
+                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleAddElemento(0)}><i data-feather="plus-circle"></i><span>Guardar</span></div>
               )}
 
               {/* Si el resultado está marcado como favorito... */}
               {isFav ? (
-                <div className={`nav-button ${!isOpen && 'no-text'} selected`}><i data-feather="star"></i><span>Destacado</span></div>
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleEditElemento}><i data-feather="star"></i><span>Destacado</span></div>
               ) : (
-                <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="star"></i><span>Destacar</span></div>
+                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleEditElemento}><i data-feather="star"></i><span>Destacar</span></div>
               )}
             </>
           )}

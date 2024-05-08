@@ -55,10 +55,12 @@ export const addElemento = async (id_usuario, id_coleccion, titulo, autor, image
   }
 };
 
-export const editElemento = async (id_api, favorito) => {
+export const editElemento = async (id_usuario, id_api, id_coleccion, favorito) => {
   try {
     const formData = new FormData();
+    formData.append('id_usuario', id_usuario);
     formData.append('id_api', id_api);
+    formData.append('id_coleccion', id_coleccion);
     formData.append('favorito', favorito);
 
     const response = await fetch(baseUrl + 'editElemento.php', {
