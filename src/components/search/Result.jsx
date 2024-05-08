@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
 import { useState } from 'react';
 
-const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isFav, setIsFav] = useState(false);
 
@@ -81,18 +81,27 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
   }
 
   const handleEditElemento = async () => {
-    if (!isSaved) {
-      handleAddElemento(1);
-    } else {
-      let favorito = isSaved && !isFav ? 1 : 0; // Si está guardado y no es favorito, marcar como favorito (1), de lo contrario, no (0)
+    // Verificar el número de elementos favoritos en la colección del usuario
+    const favCount = miColeccion.filter(item => item.favorito === '1').length;
+    const favLimit = idColeccion === 4 ? 5 : 3;
 
-      try {
-        await editElemento(currentUser, result.id, idColeccion, favorito)
-        await getColeccion();
-        console.log('Elemento editado con éxito');
-      } catch (error) {
-        console.log(result.image)
-        console.error('Error al editar el elemento');
+    let favorito = isSaved && !isFav ? 1 : 0; // Si está guardado y no es favorito, marcar como favorito (1), de lo contrario, no (0)
+
+    if (favCount >= favLimit && favorito === 1) {
+      setShowLimit(true);
+    } else {
+      if (!isSaved) {
+        handleAddElemento(favorito);
+      } else {
+
+        try {
+          await editElemento(currentUser, result.id, idColeccion, favorito)
+          await getColeccion();
+          console.log('Elemento editado con éxito');
+        } catch (error) {
+          console.log(result.image)
+          console.error('Error al editar el elemento');
+        }
       }
     }
   }
@@ -111,12 +120,12 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
         <div className="result-buttons">
           {filtros === 'users' ? (
-            <>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="user-plus"></i><span>Seguir</span></div>
               <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="external-link"></i><span>Ver perfil</span></div>
-            </>
+            </div>
           ) : (
-            <>
+            <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
               {/* Si el resultado está guardado en la colección... */}
               {isSaved ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check-circle"></i><span>Guardado</span></div>
@@ -130,7 +139,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
               ) : (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleEditElemento}><i data-feather="star"></i><span>Destacar</span></div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

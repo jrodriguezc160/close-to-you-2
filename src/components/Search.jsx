@@ -17,6 +17,8 @@ const Search = ({ currentUser }) => {
   const [openResultIndex, setOpenResultIndex] = useState(0);
   const [miColeccion, setMiColeccion] = useState([]);
   const [filtroId, setFiltroId] = useState(0);
+  const [showLimit, setShowLimit] = useState(false);
+
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -31,6 +33,12 @@ const Search = ({ currentUser }) => {
     feather.replace();
   }, [search, responseData]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowLimit(false);
+    }, 2000);
+  }, [showLimit]);
+
   const getColeccion = async () => {
     try {
       const elementos = await getElementosUsuario(currentUser, filtroId);
@@ -40,6 +48,8 @@ const Search = ({ currentUser }) => {
       console.error('Error al obtener los elementos o los usuarios');
     }
   }
+
+  const favLimit = filtroId === 4 ? 5 : 3;
 
   useEffect(() => {
     // Llamar a getColeccion cada vez que cambie filtroId
@@ -71,8 +81,25 @@ const Search = ({ currentUser }) => {
     setOpenResultIndex(index);
   };
 
+  const handleClickExterior = (event) => {
+    if (event.target.classList.contains('modal-screen')) {
+      setTimeout(() => {
+        setShowLimit(false)
+      }, 1000);
+    }
+  }
+
   return (
     <>
+      <div className={`modal-screen ${showLimit ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }} onClick={handleClickExterior}>
+        <div className={`modal-message ${showLimit ? 'visible' : ''}`} style={{ zIndex: '201', visibility: showLimit ? 'visible' : 'hidden', opacity: showLimit ? 1 : 0 }}>
+          <i data-feather="alert-triangle"></i>
+
+          <p>Límite de favoritos: {favLimit}</p>
+          <p>Elimine un favorito para continuar</p>
+        </div>
+      </div>
+
       <div className="two-columns">
         <div className="search-left-column">
           <div className={showFilters ? "wrapper expanded" : "wrapper"}>
@@ -140,6 +167,7 @@ const Search = ({ currentUser }) => {
               getColeccion={getColeccion}
               currentUser={currentUser}
               idColeccion={filtroId}
+              setShowLimit={setShowLimit}
             />
           ))}
         </div>
