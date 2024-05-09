@@ -3,7 +3,7 @@ import { addElemento, deleteElemento, editElemento } from '../../services/Elemen
 import { useState } from 'react';
 import { followUsuario, unfollowUsuario } from '../../services/UserServices';
 
-const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit, getUsuariosSeguidos, usuariosSeguidos }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit, getUsuariosSeguidos, usuariosSeguidos, handleVerPerfil }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isFav, setIsFav] = useState(false);
   const [isFollowed, setIsFollowed] = useState(false);
@@ -167,17 +167,17 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
         <div className="result-buttons">
           {filtros === 'users' ? (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               {/* Si el usuario actual no siga al usuario mostrado... */}
               {isFollowed ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleUnfollowUser}><i data-feather="user-plus"></i><span>Seguido</span></div>
               ) : (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
               )}
-              <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="external-link"></i><span>Ver perfil</span></div>
+              <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleVerPerfil(result.id)}><i data-feather="external-link"></i><span>Ver perfil</span></div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', width: '100%' }}>
               {/* Si el resultado está guardado en la colección... */}
               {isSaved ? (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check-circle"></i><span>Guardado</span></div>
