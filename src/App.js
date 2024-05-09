@@ -13,6 +13,7 @@ import { getUsuarioData } from './services/UserServices';
 
 function App () {
   const [datosUsuario, setDatosUsuario] = useState([]);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const [currentUser, setCurrentUser] = useState(() => {
     const storedCurrentUser = sessionStorage.getItem('currentUser');
@@ -49,13 +50,13 @@ function App () {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />
       <Routes>
         <Route exact path="/login" element={<LogIn setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/buscar" element={<Search currentUser={currentUser} />} />
-          <Route exact path="/perfil" element={<ProfilePage datosUsuario={datosUsuario} />} />
+          <Route exact path="/buscar" element={<Search currentUser={currentUser} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />} />
+          <Route exact path="/perfil" element={<ProfilePage datosUsuario={datosUsuario} currentUser={currentUser} />} />
           <Route exact path="/ajustes" element={<Settings />} />
         </Route>
       </Routes>

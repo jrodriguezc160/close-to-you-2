@@ -10,7 +10,7 @@ import { getUsuariosSeguidos } from '../services/UserServices';
 import ProfilePage from './ProfilePage';
 import { getUsuarioData } from '../services/UserServices';
 
-const Search = ({ currentUser }) => {
+const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -22,7 +22,6 @@ const Search = ({ currentUser }) => {
   const [filtroId, setFiltroId] = useState(0);
   const [showLimit, setShowLimit] = useState(false);
   const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [resultUserData, setResultUserData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -125,7 +124,7 @@ const Search = ({ currentUser }) => {
     setTimeout(async () => {
       await setLoading(false)
       await setProfileOpen(true);
-    }, 1500);
+    }, 1000);
   }
 
   return (
@@ -231,7 +230,7 @@ const Search = ({ currentUser }) => {
         </>
       ) : (
         <>
-          <ProfilePage datosUsuario={resultUserData} />
+          <ProfilePage datosUsuario={resultUserData} currentUser={currentUser} />
         </>
       )}
     </>

@@ -1,6 +1,12 @@
 // Profile Card
 
-const ProfileCard = ({ datosUsuario }) => {
+import { useEffect } from 'react';
+
+const ProfileCard = ({ datosUsuario, currentUser }) => {
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [datosUsuario])
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -39,7 +45,11 @@ const ProfileCard = ({ datosUsuario }) => {
         </div>
 
         <div className="profile-buttons">
-          <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
+          {currentUser === datosUsuario.id ? (
+            <div className="nav-button"><i data-feather="edit-3"></i><span>Editar perfil</span></div>
+          ) : (
+            <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
+          )}
           <div className="nav-button"><i data-feather="package"></i><span>Ver colecciones</span></div>
         </div>
       </div>
