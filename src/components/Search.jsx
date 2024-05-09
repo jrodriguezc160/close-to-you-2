@@ -24,6 +24,7 @@ const Search = ({ currentUser }) => {
   const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
   const [profileOpen, setProfileOpen] = useState(false);
   const [resultUserData, setResultUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -120,7 +121,11 @@ const Search = ({ currentUser }) => {
       }
     };
     await getUserData();
-    await setProfileOpen(true);
+    await setLoading(true);
+    setTimeout(async () => {
+      await setLoading(false)
+      await setProfileOpen(true);
+    }, 1500);
   }
 
   return (
@@ -131,6 +136,13 @@ const Search = ({ currentUser }) => {
 
           <p>Límite de favoritos: {favLimit}</p>
           <p>Elimine un favorito para continuar</p>
+        </div>
+      </div>
+
+      <div className={`modal-screen ${loading ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }} onClick={handleClickExterior}>
+        <div className={`modal-message ${loading ? 'visible' : ''}`} style={{ zIndex: '201', gap: '1rem', visibility: loading ? 'visible' : 'hidden', opacity: loading ? 1 : 0 }}>
+          <i data-feather="loader" className='loader'></i>
+          <p>Cargando...</p>
         </div>
       </div>
 
