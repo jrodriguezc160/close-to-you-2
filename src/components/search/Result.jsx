@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
 import { useState } from 'react';
+import { followUsuario, unfollowUsuario } from '../../services/UserServices';
 
-const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit, getUsuariosSeguidos, usuariosSeguidos }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isFav, setIsFav] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
+
 
   useEffect(() => {
     const checkIfSaved = async () => {
@@ -23,6 +26,21 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     // eslint-disable-next-line no-undef
     feather.replace();
   }, [miColeccion, result.id]);
+
+  useEffect(() => {
+    const checkIfFollowed = async () => {
+      try {
+        const isFollowed = usuariosSeguidos.some(item => item.id === result.id);
+        setIsFollowed(isFollowed);
+      } catch (error) {
+        console.error('Error al verificar si el usuario es seguido')
+      }
+    }
+
+    checkIfFollowed();
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [usuariosSeguidos])
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -55,6 +73,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     classNames += " open";
   }
 
+  // Guardar en colección, destacar y eliminar elementos
   const handleAddElemento = async (favorito) => {
     if (!isSaved) {
       try {
@@ -106,6 +125,34 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     }
   }
 
+  // Seguir y dejar de seguir usuarios
+  const handleFollowUser = async () => {
+    if (!isSaved) {
+      try {
+        await followUsuario(result.id, currentUser);
+        console.log('Usuario seguido con éxito');
+        await getUsuariosSeguidos();
+        setIsFollowed(true)
+      } catch (error) {
+        console.log(result.image)
+        console.error('Error al agregar el elemento');
+      }
+    } else {
+      console.warn('Ya existe este elemento');
+    }
+  }
+
+  const handleUnfollowUser = async () => {
+    try {
+      await unfollowUsuario(result.id, currentUser)
+      await getColeccion();
+      setIsFollowed(false)
+      console.log('Elemento agregado con éxito');
+    } catch (error) {
+      console.error('Error al agregar el elemento');
+    }
+  }
+
   return (
     <div className={classNames} onClick={onClick}>
       <div className={`result-pic ${filtros}-result`}>
@@ -121,7 +168,12 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
         <div className="result-buttons">
           {filtros === 'users' ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="user-plus"></i><span>Seguir</span></div>
+              {/* Si el usuario actual no siga al usuario mostrado... */}
+              {isFollowed ? (
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleUnfollowUser}><i data-feather="user-plus"></i><span>Seguido</span></div>
+              ) : (
+                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
+              )}
               <div className={`nav-button ${!isOpen && 'no-text'}`}><i data-feather="external-link"></i><span>Ver perfil</span></div>
             </div>
           ) : (

@@ -105,3 +105,75 @@ export const searchUsuarios = async (searchString) => {
     throw new Error('Error al buscar usuarios: ' + error.message);
   }
 };
+
+export const followUsuario = async (followed_id, follower_id) => {
+  try {
+    const formData = new FormData();
+    formData.append('follower_id', follower_id);
+    formData.append('followed_id', followed_id);
+
+    const response = await fetch(`${baseUrl}followUsuario.php`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al seguir al usuario');
+    }
+
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al seguir al usuario: ' + error.message);
+  }
+};
+
+export const unfollowUsuario = async (followed_id, follower_id) => {
+  try {
+    const formData = new FormData();
+    formData.append('follower_id', follower_id);
+    formData.append('followed_id', followed_id);
+
+    const response = await fetch(`${baseUrl}unfollowUsuario.php`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al dejar de seguir al usuario');
+    }
+
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al dejar de seguir al usuario: ' + error.message);
+  }
+};
+
+export const getUsuariosSeguidos = async (id_usuario) => {
+  try {
+    const response = await fetch(`${baseUrl}getUsuariosSeguidos.php?id_usuario=${id_usuario}`);
+    if (!response.ok) {
+      throw new Error('Error al obtener los usuarios seguidos');
+    }
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data.data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al obtener los usuarios seguidos: ' + error.message);
+  }
+};

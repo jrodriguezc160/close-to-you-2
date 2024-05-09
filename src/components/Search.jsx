@@ -6,6 +6,7 @@ import SearchAlbums from './search/SearchAlbums';
 import SearchUsers from './search/SearchUsers';
 import Result from './search/Result';
 import { getElementosUsuario } from '../services/ElementosServices';
+import { getUsuariosSeguidos } from '../services/UserServices';
 
 const Search = ({ currentUser }) => {
   const [search, setSearch] = useState('');
@@ -18,7 +19,7 @@ const Search = ({ currentUser }) => {
   const [miColeccion, setMiColeccion] = useState([]);
   const [filtroId, setFiltroId] = useState(0);
   const [showLimit, setShowLimit] = useState(false);
-
+  const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -39,6 +40,15 @@ const Search = ({ currentUser }) => {
     }, 2000);
   }, [showLimit]);
 
+  const fetchUsuariosSeguidos = async () => {
+    try {
+      const usuarios = await getUsuariosSeguidos(currentUser);
+      setUsuariosSeguidos(usuarios);
+    } catch (error) {
+      console.error('Error al obtener los usuarios seguidos');
+    }
+  }
+
   const getColeccion = async () => {
     try {
       const elementos = await getElementosUsuario(currentUser, filtroId);
@@ -52,8 +62,13 @@ const Search = ({ currentUser }) => {
   const favLimit = filtroId === 4 ? 5 : 3;
 
   useEffect(() => {
-    // Llamar a getColeccion cada vez que cambie filtroId
-    getColeccion();
+    if (filtros === 'users') {
+      fetchUsuariosSeguidos();
+      console.log(getUsuariosSeguidos())
+    } else {
+      // Llamar a getColeccion cada vez que cambie filtroId
+      getColeccion();
+    }
   }, [filtroId]);
 
   useEffect(() => {
@@ -168,6 +183,8 @@ const Search = ({ currentUser }) => {
               currentUser={currentUser}
               idColeccion={filtroId}
               setShowLimit={setShowLimit}
+              getUsuariosSeguidos={getUsuariosSeguidos}
+              usuariosSeguidos={usuariosSeguidos}
             />
           ))}
         </div>
