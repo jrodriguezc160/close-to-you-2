@@ -208,7 +208,9 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
                   isFirstResult={index === 0}
                   isOpen={index === openResultIndex}
                   onClick={() => {
-                    handleResultClick(index); console.log(miColeccion)
+                    handleResultClick(index);
+                    // eslint-disable-next-line no-undef
+                    feather.replace();
                   }}
                   miColeccion={miColeccion}
                   getColeccion={getColeccion}
@@ -218,6 +220,7 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
                   getUsuariosSeguidos={getUsuariosSeguidos}
                   usuariosSeguidos={usuariosSeguidos}
                   handleVerPerfil={handleVerPerfil}
+                  search={search}
                 />
               ))}
             </div>
@@ -230,7 +233,7 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
         </>
       ) : (
         <>
-          <ProfilePage datosUsuario={resultUserData} currentUser={currentUser} />
+          <ProfilePage datosUsuario={resultUserData} currentUser={currentUser} getUsuariosSeguidos={getUsuariosSeguidos} usuariosSeguidos={usuariosSeguidos} />
         </>
       )}
     </>

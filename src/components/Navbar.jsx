@@ -13,7 +13,7 @@ const Navbar = ({ isLoggedIn, profileOpen, setProfileOpen }) => {
       <div className="nav-left">
         {profileOpen &&
           <div className='nav-button no-text' style={{ margin: '0' }} onClick={() => setProfileOpen(false)}>
-            <i data-feather="arrow-left"></i>
+            <i data-feather="arrow-left" style={{ color: 'var(--gray-2)' }}></i>
           </div>}
 
         <NavLink to="/" activeClassName="active" className='nav-button'><i data-feather="home"></i>Inicio</NavLink>

@@ -3,11 +3,11 @@ import { addElemento, deleteElemento, editElemento } from '../../services/Elemen
 import { useState } from 'react';
 import { followUsuario, unfollowUsuario } from '../../services/UserServices';
 
-const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit, getUsuariosSeguidos, usuariosSeguidos, handleVerPerfil }) => {
+const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, getColeccion, currentUser, idColeccion, setShowLimit, getUsuariosSeguidos, usuariosSeguidos, handleVerPerfil, search }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isFav, setIsFav] = useState(false);
   const [isFollowed, setIsFollowed] = useState(false);
-
+  const [resultId, setResultId] = useState(0);
 
   useEffect(() => {
     const checkIfSaved = async () => {
@@ -23,6 +23,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     };
 
     checkIfSaved();
+    setResultId(parseInt(result.id))
     // eslint-disable-next-line no-undef
     feather.replace();
   }, [miColeccion, result.id]);
@@ -38,9 +39,15 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
     }
 
     checkIfFollowed();
-    // eslint-disable-next-line no-undef
-    feather.replace();
   }, [usuariosSeguidos])
+
+  // Cargar los iconos correspondientes
+  useEffect(() => {
+    setTimeout(() => {
+      // eslint-disable-next-line no-undef
+      feather.replace();
+    }, 10);
+  }, [miColeccion, result.id, isOpen, isFollowed])
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -122,6 +129,9 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
           console.error('Error al editar el elemento');
         }
       }
+
+      // eslint-disable-next-line no-undef
+      feather.replace();
     }
   }
 
@@ -169,9 +179,11 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
           {filtros === 'users' ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               {/* Si el usuario actual no siga al usuario mostrado... */}
-              {isFollowed ? (
-                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleUnfollowUser}><i data-feather="user-plus"></i><span>Seguido</span></div>
-              ) : (
+
+              {currentUser !== resultId && isFollowed && (
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleUnfollowUser}><i data-feather="user-check"></i><span>Seguido</span></div>
+              )}
+              {currentUser !== resultId && !isFollowed && (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
               )}
               <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleVerPerfil(result.id)}><i data-feather="external-link"></i><span>Ver perfil</span></div>
@@ -179,23 +191,25 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', width: '100%' }}>
               {/* Si el resultado está guardado en la colección... */}
-              {isSaved ? (
-                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check-circle"></i><span>Guardado</span></div>
-              ) : (
-                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleAddElemento(0)}><i data-feather="plus-circle"></i><span>Guardar</span></div>
+              {isSaved && (
+                <div div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleDeleteElemento}><i data-feather="check"></i><span>Guardado</span></div>
+              )}
+              {!isSaved && (
+                <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleAddElemento(0)}><i data-feather="plus"></i><span>Guardar</span></div>
               )}
 
               {/* Si el resultado está marcado como favorito... */}
-              {isFav ? (
-                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleEditElemento}><i data-feather="star"></i><span>Destacado</span></div>
-              ) : (
+              {isFav && (
+                <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleEditElemento}><i data-feather="star" style={{ fill: 'var(--white-1)' }}></i><span>Destacado</span></div>
+              )}
+              {!isFav && (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleEditElemento}><i data-feather="star"></i><span>Destacar</span></div>
               )}
             </div>
           )}
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

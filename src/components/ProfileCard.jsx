@@ -1,12 +1,28 @@
-// Profile Card
+import { useEffect, useState } from 'react';
+import { followUsuario, unfollowUsuario } from '../services/UserServices';
 
-import { useEffect } from 'react';
+const ProfileCard = ({ datosUsuario, currentUser, getUsuariosSeguidos, usuariosSeguidos }) => {
+  const [isFollowed, setIsFollowed] = useState(false);
 
-const ProfileCard = ({ datosUsuario, currentUser }) => {
+  useEffect(() => {
+    const checkIfFollowed = async () => {
+      try {
+        const isFollowed = usuariosSeguidos.some(item => item.id === datosUsuario.id);
+        setIsFollowed(isFollowed);
+      } catch (error) {
+        console.error('Error al verificar si el usuario es seguido')
+      }
+    }
+
+    checkIfFollowed();
+    // eslint-disable-next-line no-undef
+    feather.replace();
+  }, [usuariosSeguidos])
+
   useEffect(() => {
     // eslint-disable-next-line no-undef
     feather.replace();
-  }, [datosUsuario])
+  }, [datosUsuario, usuariosSeguidos])
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -31,6 +47,35 @@ const ProfileCard = ({ datosUsuario, currentUser }) => {
     return (<span dangerouslySetInnerHTML={{ __html: html }} />)
   }
 
+  const resultId = parseInt(datosUsuario.id);
+
+
+  // Seguir y dejar de seguir usuarios
+  const handleFollowUser = async () => {
+    if (!isFollowed) {
+      try {
+        await followUsuario(datosUsuario.id, currentUser);
+        console.log('Usuario seguido con éxito');
+        await getUsuariosSeguidos();
+        setIsFollowed(true)
+      } catch (error) {
+        console.error('Error al agregar el elemento');
+      }
+    } else {
+      console.warn('Ya existe este elemento');
+    }
+  }
+
+  const handleUnfollowUser = async () => {
+    try {
+      await unfollowUsuario(datosUsuario.id, currentUser)
+      await getUsuariosSeguidos();
+      setIsFollowed(false)
+      console.log('Elemento agregado con éxito');
+    } catch (error) {
+      console.error('Error al agregar el elemento');
+    }
+  }
 
   return (
     <div className="profile-card">
@@ -45,15 +90,19 @@ const ProfileCard = ({ datosUsuario, currentUser }) => {
         </div>
 
         <div className="profile-buttons">
-          {currentUser === datosUsuario.id ? (
+          {currentUser === resultId && (
             <div className="nav-button"><i data-feather="edit-3"></i><span>Editar perfil</span></div>
-          ) : (
-            <div className="nav-button"><i data-feather="user-plus"></i><span>Seguir</span></div>
+          )}
+          {currentUser !== resultId && isFollowed && (
+            <div className={`nav-button selected`} onClick={handleUnfollowUser}><i data-feather="user-plus"></i><span>Seguido</span></div>
+          )}
+          {currentUser !== resultId && !isFollowed && (
+            <div className={`nav-button`} onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
           )}
           <div className="nav-button"><i data-feather="package"></i><span>Ver colecciones</span></div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
