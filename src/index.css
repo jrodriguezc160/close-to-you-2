@@ -141,18 +141,18 @@ a:visited {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2vw;
+  gap: 1.75vw;
   filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   animation: modalScale 0.75s ease-in-out forwards;
   transition: all .5s ease-in-out;
-  margin-bottom: 5vw;
   border-radius: 1rem;
   background-color: var(--white-1);
+  padding: 1rem 0;
   min-width: 25vw;
   min-height: 25vw;
 
   h2 {
-    margin-bottom: 0;
+    margin-bottom: .5rem;
   }
 }
 
