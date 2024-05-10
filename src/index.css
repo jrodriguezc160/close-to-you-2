@@ -148,8 +148,8 @@ a:visited {
   margin-bottom: 5vw;
   border-radius: 1rem;
   background-color: var(--white-1);
-  width: 30vw;
-  height: 30vw;
+  min-width: 25vw;
+  min-height: 25vw;
 
   h2 {
     margin-bottom: 0;
@@ -217,4 +217,24 @@ a:visited {
   background-color: var(--semi-transparent-white);
   width: 20rem;
   height: 10rem;
+}
+
+.change-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .25rem;
+  font-size: 12px;
+
+  .register {
+    transition: all .25s ease-in-out;
+    cursor: pointer;
+    color: dodgerblue;
+    text-decoration: underline;
+  }
+
+  .register:hover {
+    color: rgb(25, 114, 203);
+  }
 }

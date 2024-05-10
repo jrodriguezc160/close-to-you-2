@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { followUsuario, unfollowUsuario } from '../services/UserServices';
+import { followUsuario, unfollowUsuario } from '../../services/UserServices';
 
 const ProfileCard = ({ datosUsuario, currentUser, getUsuariosSeguidos, usuariosSeguidos }) => {
   const [isFollowed, setIsFollowed] = useState(false);

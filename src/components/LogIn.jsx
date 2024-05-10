@@ -42,6 +42,10 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         </div>
 
         <button type="submit" style={{ width: '5rem', border: 'none' }} className='nav-button'>Log in</button>
+        <div className="change-form">
+          <span>¿No tienes una cuenta?</span>
+          <span className='register'>Regístrate ahora</span>
+        </div>
       </form>
     </div>
   )

@@ -1,4 +1,4 @@
-import '../styles/profilepage.css'
+import '../../styles/profilepage.css'
 
 const PostShowcase = ({ datosUsuario }) => {
   return (
