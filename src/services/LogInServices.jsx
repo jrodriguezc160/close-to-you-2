@@ -20,3 +20,23 @@ export const logIn = async (usuario, passwd) => {
     throw new Error('Error al iniciar sesión: ' + error.message);
   }
 };
+
+export const signUp = async (usuario, nombreMostrado, email, passwd) => {
+  try {
+    const response = await fetch(`${baseUrl}signUp.php?usuario=${usuario}&nombreMostrado=${nombreMostrado}&email=${email}&passwd=${passwd}&`);
+    if (!response.ok) {
+      throw new Error('Error al registrarse');
+    }
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return {
+        message: data.message, // Mensaje de éxito
+      };
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al registrarse: ' + error.message);
+  }
+};
