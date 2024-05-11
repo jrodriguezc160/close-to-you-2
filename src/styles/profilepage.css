@@ -225,3 +225,9 @@
   width: 50%;
   height: 100%;
 }
+
+.nav-button.selected {
+  border-color: var(--black);
+  background-color: var(--black);
+  color: var(--white-2);
+}
