@@ -4,13 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [logInForm, setLogInForm] = useState(true);
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const [fieldsChecked, setFieldsChecked] = useState(true);
 
   const [nombreApellidosCheck, setNombreApellidosCheck] = useState(false);
   const [mailCheck, setMailCheck] = useState(false);
   const [usuarioCheck, setUsuarioCheck] = useState(false);
   const [fotoPerfilCheck, setFotoPerfilCheck] = useState(false);
+  const [passwordEqual, setPasswordEqual] = useState(true);
+  const [validMail, setValidMail] = useState(true);
+
 
   const [usuario, setUsuario] = useState('');
   const [nombre, setNombre] = useState('');
@@ -21,7 +25,6 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [password, setPassword] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState('');
-
 
   const [usuarioIsFocused, setUsuarioIsFocused] = useState(false);
   const [nombreIsFocused, setNombreIsFocused] = useState(false);
@@ -62,7 +65,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     event.preventDefault();
     try {
       // Llama a la función signUp con los datos del usuario
-      const { message } = await signUp(usuario, nombreMostrado, mail, password);
+      const { message } = await signUp(nombreMostrado, usuario, password, mail, nombre, ap1, ap2, fotoPerfil);
 
       if (message === 'Usuario registrado correctamente') {
         // Si el registro es exitoso, muestra un mensaje de éxito y redirige al usuario a la página de inicio de sesión
@@ -76,24 +79,53 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     }
   }
 
-  useEffect(() => {
+  const handleNextStep = () => {
     switch (step) {
       case 1:
-        nombre !== '' && ap1 !== '' && setNombreApellidosCheck(true);
+        if (nombre !== '' && ap1 !== '') {
+          setNombreApellidosCheck(true);
+          setFieldsChecked(true);
+          setStep(2);
+        } else {
+          setFieldsChecked(false);
+        }
         break;
 
       case 2:
-        usuario !== '' && nombreMostrado !== '' && (setUsuarioCheck(true));
+        if (usuario !== '' && nombreMostrado !== '') {
+          setUsuarioCheck(true);
+          setFieldsChecked(true);
+          setStep(3);
+        } else {
+          setFieldsChecked(false);
+        }
         break;
 
       case 3:
-        mail !== '' && password !== '' && confirmPassword === password && setMailCheck(true);
+        if (mail !== '' && password !== '' && confirmPassword !== '') {
+          setFieldsChecked(true);
+          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { // Comprueba si el correo tiene la estructura adecuada
+            setValidMail(true)
+            if (password === confirmPassword) {
+              setMailCheck(true);
+              setStep(4);
+            } else {
+              setPasswordEqual(false);
+              setFieldsChecked(false);
+            }
+          } else {
+            setValidMail(false)
+          }
+        } else {
+          setFieldsChecked(false);
+        }
+
         break;
 
       default:
         break;
     }
-  }, [step])
+  }
 
   return (
     <div className='modal-screen visible'>
@@ -110,7 +142,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
             <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false) }} />
           </div>
 
-          <button type="submit" style={{ width: '5rem', border: 'none' }} className='nav-button'>Log in</button>
+          <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button'>Iniciar sesión</button>
           <div className="change-form">
             <span>¿No tienes una cuenta?</span>
             <span className='register' onClick={() => setLogInForm(false)}>Regístrate ahora</span>
@@ -138,7 +170,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
                 <input type="text" placeholder='' value={ap2} onChange={e => setAp2(e.target.value)} onFocus={() => setAp2IsFocused(true)} onBlur={() => { ap2 === '' && setAp2IsFocused(false) }} />
               </div>
 
-              <div className="nav-button no-text" onClick={() => setStep(1)}><i data-feather="arrow-right"></i></div>
+              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
             </>
           )}
 
@@ -157,11 +189,11 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
                 <input type="text" placeholder='' value={nombreMostrado} onChange={e => setNombreMostrado(e.target.value)} onFocus={() => setNombreMostradoIsFocused(true)} onBlur={() => { nombreMostrado === '' && setNombreMostradoIsFocused(false) }} />
               </div>
 
-              <div className="nav-button no-text" onClick={() => setStep(2)}><i data-feather="arrow-right"></i></div>
+              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
             </>
           )}
 
-          {mailCheck && !fotoPerfilCheck && (
+          {usuarioCheck && !mailCheck && (
             <>
               <h2>Ya casi está, {nombre}</h2>
               <p>Introduce un email y la contraseña con la que entrarás a tu cuenta</p>
@@ -181,14 +213,14 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
                 <input type="password" placeholder='' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} onFocus={() => setConfirmPasswordIsFocused(true)} onBlur={() => { confirmPassword === '' && setConfirmPasswordIsFocused(false) }} />
               </div>
 
-              <div className="nav-button no-text" onClick={() => setStep(3)}><i data-feather="arrow-right"></i></div>
+              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
             </>
           )}
 
-          {fotoPerfilCheck && (
+          {mailCheck && !fotoPerfilCheck && (
             <>
-              <h2>Por último, ponte una foto de perfil</h2>
-              <p>(opcional)</p>
+              <h2>Muestra tu cara al mundo :)</h2>
+              <p>O continúa sin seleccionar una foto de perfil</p>
 
               {fotoPerfil !== '' && (
                 <div className="profile-pic">
@@ -206,6 +238,9 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
           )}
 
           <div className="change-form">
+            {!validMail && (<span style={{ color: 'red' }}><b>¡Debes introducir un correo electrónico válido!</b></span>)}
+            {!passwordEqual && (<span style={{ color: 'red' }}><b>¡Las contraseñas deben coincidir!</b></span>)}
+            {!fieldsChecked && (<span style={{ color: 'red' }}><b>¡Rellena todos los campos para continuar!</b></span>)}
             <span>¿Ya estás registrado?</span>
             <span className='register' onClick={() => setLogInForm(true)}>Inicia sesión</span>
           </div>

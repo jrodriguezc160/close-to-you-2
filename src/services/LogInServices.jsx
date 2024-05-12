@@ -21,9 +21,9 @@ export const logIn = async (usuario, passwd) => {
   }
 };
 
-export const signUp = async (usuario, nombreMostrado, email, passwd) => {
+export const signUp = async (nombreMostrado, usuario, passwd, email, nombre, ap1, ap2, fotoPerfil) => {
   try {
-    const response = await fetch(`${baseUrl}signUp.php?usuario=${usuario}&nombreMostrado=${nombreMostrado}&email=${email}&passwd=${passwd}&`);
+    const response = await fetch(`${baseUrl}signUp.php?nombreMostrado=${nombreMostrado}&usuario=${usuario}&passwd=${passwd}&email=${email}&nombre=${nombre}&ap1=${ap1}&ap2=${ap2}&fotoPerfil=${fotoPerfil}`);
     if (!response.ok) {
       throw new Error('Error al registrarse');
     }
