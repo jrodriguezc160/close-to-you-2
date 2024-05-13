@@ -266,8 +266,3 @@ a:visited {
     color: rgb(25, 114, 203);
   }
 }
-
-.user-result-text {
-  display: flex;
-  align-items: center;
-}
