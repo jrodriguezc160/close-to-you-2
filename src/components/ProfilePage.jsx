@@ -19,7 +19,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
       try {
         const posts = await getPublicacionesUsuario(currentUser);
         // Limitar los posts a los tres primeros
-        setUserPosts(posts.slice(0, 3));
+        setUserPosts(posts.slice(0, 5));
       } catch (error) {
         console.error('Error fetching data:', error);
       }

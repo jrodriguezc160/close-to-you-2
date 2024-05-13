@@ -21,7 +21,6 @@
   margin: auto;
   width: 40rem;
   height: 20rem;
-
   overflow: visible;
   font-size: .75rem;
   font-family: sans-serif;
@@ -155,11 +154,21 @@
   transition: all 0.3s ease-in-out;
 }
 
-.post-showcase-grid:nth-last-child(n + 4) {
-  transform: rotate(8deg) translate(0, -50%);
+.post-showcase-grid:nth-last-child(5) {
+  transform: rotate(-4deg) translate(0%, -50%);
 
   .post {
-    background-color: var(--white-2);
+    opacity: 0;
+    background-color: var(--transparent);
+  }
+}
+
+.post-showcase-grid:nth-last-child(4) {
+  transform: rotate(-4deg) translate(0%, -50%);
+
+  .post {
+    opacity: 0;
+    background-color: var(--transparent);
   }
 }
 
@@ -167,7 +176,7 @@
   transform: rotate(-4deg) translate(0%, -50%);
 
   .post {
-    background-color: var(--white-2);
+    background-color: var(--white-3);
   }
 }
 
