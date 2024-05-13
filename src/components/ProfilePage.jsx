@@ -5,6 +5,7 @@ import BookShelf from './profilepage/BookShelf';
 import MovieShelf from './profilepage/MovieShelf';
 import { useEffect, useState } from 'react';
 import { getPublicacionesUsuario } from '../services/PostServices';
+import '../styles/profilepage.css'
 
 const ProfilePage = ({ datosUsuario, currentUser }) => {
   const [userPosts, setUserPosts] = useState([]);
@@ -12,6 +13,19 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
   const [showBookModal, setShowBookModal] = useState(false);
   const [showMovieModal, setShowMovieModal] = useState(false);
   const [showAlbumModal, setShowAlbumModal] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const posts = await getPublicacionesUsuario(currentUser);
+        // Limitar los posts a los tres primeros
+        setUserPosts(posts.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -30,7 +44,11 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
           <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} />
         </div>
         <div className="right-column" style={{ overflow: 'hidden' }}>
-          <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} />
+          <div style={{
+            width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
+          }}>
+            <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} />
+          </div>
           <div className="albums">
             <AlbumShelf currentUser={datosUsuario.id} />
           </div>
