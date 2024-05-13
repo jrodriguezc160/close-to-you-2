@@ -135,6 +135,26 @@ a:visited {
   z-index: 5;
 }
 
+.modal-screen.visible.form-page {
+  animation: gradient 15s ease infinite;
+  background: linear-gradient(-45deg, #d0b9b2, #d0afbc, #c4d5db, #d1e3df);
+  background-color: none;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .modal {
   display: flex;
   position: absolute;
@@ -245,4 +265,9 @@ a:visited {
   .register:hover {
     color: rgb(25, 114, 203);
   }
+}
+
+.user-result-text {
+  display: flex;
+  align-items: center;
 }

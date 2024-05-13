@@ -128,7 +128,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   }
 
   return (
-    <div className='modal-screen visible'>
+    <div className='modal-screen visible form-page'>
       {logInForm ? (
         <form className='modal' onSubmit={handleSubmitLogIn}>
           <h2>Iniciar sesión</h2>
