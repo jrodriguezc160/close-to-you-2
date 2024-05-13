@@ -1,18 +1,18 @@
 import '../../styles/profilepage.css'
 
-const PostShowcase = ({ datosUsuario }) => {
+const PostShowcase = ({ datosUsuario, postData }) => {
   return (
     <div className="posts-showcase">
       <div className="post">
         <div className="post-profile-pic">
           <div>
-            <img src={datosUsuario.foto_perfil} alt="profile-pic" />
+            <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
           </div>
         </div>
         <div className="post-elements">
-          <div className="post-name">{datosUsuario.nombre_mostrado}</div>
-          <div className="post-username">@{datosUsuario.usuario}</div>
-          <div className="post-text">yo april been a good month for reading</div>
+          <div className="post-name">{datosUsuario?.nombre_mostrado}</div>
+          <div className="post-username">@{datosUsuario?.usuario}</div>
+          <div className="post-text">{postData?.contenido}</div>
           <div className="post-content">
             <div className="post-images">
               <div className='post-image'>

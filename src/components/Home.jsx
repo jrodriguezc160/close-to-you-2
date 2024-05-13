@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../services/UserServices';
 import '../styles/home.css';
+import PostShowcase from './profilepage/PostShowcase';
+import { getPublicacionesUsuario } from '../services/PostServices';
 
 const Home = ({ currentUser }) => {
   const [responseData, setResponseData] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +32,10 @@ const Home = ({ currentUser }) => {
 
   const formatUsuariosData = (usuarios) => {
     return usuarios.map(usuario => ({
-      title: usuario.nombre_mostrado,
-      authors: usuario.usuario,
-      description: usuario.descripcion || '',
-      image: usuario.foto_perfil || '',
+      nombre_mostrado: usuario.nombre_mostrado,
+      usuario: usuario.usuario,
+      descripcion: usuario.descripcion || '',
+      foto_perfil: usuario.foto_perfil || '',
       id: usuario.id || '',
     }));
   };
@@ -65,6 +68,17 @@ const Home = ({ currentUser }) => {
     }
   }
 
+  const handleClickUser = async (targetUserIndex) => {
+    const targetUser = responseData[targetUserIndex];
+
+    try {
+      setUserPosts(await getPublicacionesUsuario(targetUser.id));
+      console.log('userPosts', userPosts)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="two-columns">
       <div className="left-column" style={{ justifyContent: 'flex-end', gap: '1rem' }}>
@@ -74,10 +88,10 @@ const Home = ({ currentUser }) => {
               <div className="info">
                 <div className="result-text">
                   <div className='result-pic users-result' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src={user.image} alt="result-pic" />
+                    <img src={user.foto_perfil} alt="result-pic" />
                   </div>
                   <div className="user-result-text">
-                    <b>{user.title}</b>&nbsp;&nbsp;@{user.authors}
+                    <b>{user.nombre_mostrado}</b>&nbsp;&nbsp;@{user.usuario}
                   </div>
                 </div>
 
@@ -94,12 +108,19 @@ const Home = ({ currentUser }) => {
                 </div>
               </div>
 
-              <div className="nav-button no-text arrow-right"><i data-feather='arrow-right'></i></div>
+              <div className="nav-button no-text arrow-right" onClick={() => handleClickUser(index)}><i data-feather='arrow-right'></i></div>
             </div>
           )
         })}
       </div>
-      <div className="right-column"></div>
+
+      <div className="right-column">
+        {userPosts.map((post, index) => {
+          return (
+            <PostShowcase datosUsuario={responseData[0]} postData={post} />
+          )
+        })}
+      </div>
     </div>
   )
 }
