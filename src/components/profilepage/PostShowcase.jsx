@@ -1,9 +1,12 @@
 import '../../styles/posts.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 const PostShowcase = ({ datosUsuario, userPosts }) => {
+  const [dotIndex, setDotIndex] = useState(0);
+  const stackRef = useRef(null);
+
   useEffect(() => {
-    const stack = document.querySelector(".post-stack");
+    const stack = stackRef.current;
 
     const swap = (e) => {
       const card = e.target.closest(".post-showcase-grid:last-child");
@@ -17,6 +20,10 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
         setTimeout(() => {
           card.style.animation = "";
           stack.prepend(card);
+
+          // Buscar el índice del elemento en userPosts
+          const index = userPosts.findIndex(post => post.id === card.getAttribute("data-post-id"));
+          setDotIndex(index);
         }, 700);
       }
     }
@@ -26,21 +33,21 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
     return () => {
       stack.removeEventListener("click", swap);
     };
-  }, []);
+  }, [userPosts]);
 
   useEffect(() => {
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [])
+  }, []);
 
   return (
     <>
-      <div className="post-stack">
-        {userPosts.map((post, index) => {
+      <div className="post-stack" ref={stackRef}>
+        {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
-            <div className="post-showcase-grid">
+            <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
               <div className="post">
                 <div className="post-profile-pic">
                   <div>
@@ -77,11 +84,9 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
       </div>
 
       <div className="horizontal-scroller">
-        <div className="dot active"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
+        {userPosts.map((post, index) => (
+          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+        ))}
         <div className="scroller-icon separator">|</div>
         <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
       </div>

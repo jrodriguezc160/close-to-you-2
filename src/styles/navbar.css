@@ -60,4 +60,9 @@
 .nav-button.no-text {
   padding: 0;
   width: 1.75rem;
+  color: var(--gray-2);
+}
+
+.nav-button.no-text.active {
+  color: var(--white-2);
 }

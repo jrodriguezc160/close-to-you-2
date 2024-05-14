@@ -59,7 +59,6 @@ a:visited {
 
   .dot {
     transition: all .3s ease-in-out;
-    cursor: pointer;
     border-radius: 2rem;
     background-color: var(--gray-1);
     padding: .15rem;
@@ -103,14 +102,6 @@ a:visited {
     color: var(--gray-2);
   }
 
-  .dot:hover {
-    scale: 1.2;
-    background-color: var(--gray-2);
-  }
-}
-
-.horizontal-scroller:hover {
-  scale: 1.1;
 }
 
 .modal-screen {
