@@ -4,9 +4,8 @@ import { getElementosUsuario } from '../../services/ElementosServices'
 
 const AlbumShelf = ({ currentUser }) => {
   const [myFavAlbums, setMyFavAlbums] = useState([]);
-  const [dotIndex, setDotIndex] = useState(0); // Estado para controlar el índice del dot activo
+  const [dotIndex, setDotIndex] = useState(4); // Estado para controlar el índice del dot activo
   const [isHovering, setIsHovering] = useState(false);
-  const [editing, setEditing] = useState(false);
   const imagesRef = useRef(null);
   const imageWidthRef = useRef(0);
   const imageOffsetRef = useRef(0);
@@ -46,7 +45,7 @@ const AlbumShelf = ({ currentUser }) => {
 
   return (
     <div style={{ width: '100%', height: '15vw', marginTop: '2vw', display: "flex", transition: 'all 1s ease-in-out', justifyContent: 'center', overflow: 'visible', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <AlbumStack myFavAlbums={myFavAlbums} setIsHovering={setIsHovering} />
+      <AlbumStack myFavAlbums={myFavAlbums} setIsHovering={setIsHovering} setDotIndex={setDotIndex} dotIndex={dotIndex} />
 
       {/* Horizontal Scroller */}
       <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
@@ -60,7 +59,7 @@ const AlbumShelf = ({ currentUser }) => {
   );
 };
 
-const AlbumStack = ({ myFavAlbums, setIsHovering }) => {
+const AlbumStack = ({ myFavAlbums, setIsHovering, setDotIndex, dotIndex }) => {
 
   useEffect(() => {
     const stack = document.querySelector(".album-stack");
@@ -71,6 +70,7 @@ const AlbumStack = ({ myFavAlbums, setIsHovering }) => {
       if (!card || !stack.contains(card)) return;
 
       const vinyl = card.querySelector(".vinyl");
+
       if (card) {
         vinyl.classList.add('hide')
         card.style.animation = "album-swap 700ms forwards";
@@ -80,6 +80,11 @@ const AlbumStack = ({ myFavAlbums, setIsHovering }) => {
           card.style.animation = "";
           stack.prepend(card);
           vinyl.classList.remove('hide')
+
+          // Buscar el índice del elemento en myFavAlbums
+          const index = myFavAlbums.findIndex(album => album.id === card.getAttribute("data-album-id"));
+          setDotIndex(index);
+          console.log('dotIndex: ', dotIndex)
           setIsHovering(true);
         }, 700);
       }
@@ -90,15 +95,15 @@ const AlbumStack = ({ myFavAlbums, setIsHovering }) => {
     return () => {
       stack.removeEventListener("click", swap);
     };
-  }, []);
+  }, [myFavAlbums, dotIndex, setDotIndex, setIsHovering]);
 
   return (
     <div className='album-stack'>
       {myFavAlbums.length > 0
         ? (
           <>
-            {myFavAlbums.map((album, index) => (
-              <div key={index} className="album-card">
+            {myFavAlbums.slice().reverse().map((album, index) => (
+              <div key={album.id} className="album-card" data-album-id={album.id}>
                 <div className="album-cover" style={{ backgroundImage: `url(${album.imagen})` }}></div>
                 <div className="vinyl" style={{ zIndex: '-5' }}></div>
               </div>

@@ -2,7 +2,7 @@ import '../../styles/posts.css'
 import React, { useEffect, useState, useRef } from 'react'
 
 const PostShowcase = ({ datosUsuario, userPosts }) => {
-  const [dotIndex, setDotIndex] = useState(0);
+  const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -55,7 +55,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%', marginBottom: '2.5rem' }}>
       <div className="post-stack" ref={stackRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
@@ -102,7 +102,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
         <div className="scroller-icon separator">|</div>
         <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
       </div>
-    </>
+    </div>
   )
 }
 

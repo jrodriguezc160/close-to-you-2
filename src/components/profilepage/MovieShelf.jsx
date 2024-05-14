@@ -4,7 +4,8 @@ import { getElementosUsuario } from '../../services/ElementosServices';
 
 const MovieShelf = ({ currentUser }) => {
   const [myFavMovies, setMyFavMovies] = useState([]);
-  const [chipVisible, setChipVisible] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [dotIndex, setDotIndex] = useState(0); // Estado para controlar el índice del dot activo
   const imagesRef = useRef(null);
   const imageWidthRef = useRef(0);
   const imageOffsetRef = useRef(0);
@@ -27,19 +28,28 @@ const MovieShelf = ({ currentUser }) => {
     imageOffsetRef.current = imagesRef?.current?.firstElementChild?.offsetLeft;
   }, []);
 
-  const handleMouseEnter = () => { setChipVisible(true) }
-  const handleMouseLeave = () => { setChipVisible(false) }
+  const handleMouseEnter = () => { setIsHovering(true) }
+  const handleMouseLeave = () => { setIsHovering(false) }
 
   return (
-    <div style={{ width: '100%', height: '100%', display: "flex", gap: ".5rem", justifyContent: 'center', marginRight: '0' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div style={{ width: '100%', height: '100%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <MovieStack myFavMovies={myFavMovies} setChipVisible={setChipVisible} />
+    <div style={{ width: '100%', height: '100%', display: "flex", gap: "0", justifyContent: 'center', alignItems: 'center', marginRight: '0', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div style={{ width: '100%', height: '87%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <MovieStack myFavMovies={myFavMovies} setIsHovering={setIsHovering} isHovering={isHovering} setDotIndex={setDotIndex} />
+      </div>
+
+      {/* Horizontal Scroller */}
+      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
+        {myFavMovies.map((movie, index) => (
+          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+        ))}
+        <div className="scroller-icon separator">|</div>
+        <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );
 };
 
-const MovieStack = ({ myFavMovies, setChipVisible }) => {
+const MovieStack = ({ myFavMovies, setIsHovering, dotIndex, setDotIndex }) => {
   useEffect(() => {
     const stack = document.querySelector(".movie-stack");
 
@@ -48,11 +58,17 @@ const MovieStack = ({ myFavMovies, setChipVisible }) => {
       if (e.target !== card) return;
 
       card.style.animation = "movie-swap 700ms forwards";
-      setChipVisible(false);
+      setIsHovering(false);
 
       setTimeout(() => {
         card.style.animation = "";
         stack.prepend(card);
+
+        // Buscar el índice del elemento en myFavBooks
+        const index = myFavMovies.findIndex(movie => movie.id === card.getAttribute("data-movie-id"));
+        setDotIndex(index);
+        console.log('dotIndex: ', dotIndex)
+        setIsHovering(true);
       }, 700);
     }
 
@@ -61,14 +77,14 @@ const MovieStack = ({ myFavMovies, setChipVisible }) => {
     return () => {
       stack.removeEventListener("click", swap);
     };
-  }, []);
+  }, [myFavMovies]);
 
   return (
     <div className='movie-stack'>
       {myFavMovies.length > 0
         ? (
           myFavMovies.map((movie, index) => (
-            <div key={index} className="movie-card" style={{ backgroundImage: `url(${movie.imagen})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+            <div key={index} data-movie-id={movie.id} className="movie-card" style={{ backgroundImage: `url(${movie.imagen})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             </div>
           ))
         )
