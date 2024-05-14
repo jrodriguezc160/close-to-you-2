@@ -4,8 +4,8 @@ import { getElementosUsuario } from '../../services/ElementosServices'
 
 const AlbumShelf = ({ currentUser }) => {
   const [myFavAlbums, setMyFavAlbums] = useState([]);
-
-  const [chipVisible, setChipVisible] = useState(false);
+  const [dotIndex, setDotIndex] = useState(0); // Estado para controlar el índice del dot activo
+  const [isHovering, setIsHovering] = useState(false);
   const [editing, setEditing] = useState(false);
   const imagesRef = useRef(null);
   const imageWidthRef = useRef(0);
@@ -30,23 +30,37 @@ const AlbumShelf = ({ currentUser }) => {
   }, []);
 
   const handleMouseEnter = () => {
-    setChipVisible(true)
+    setIsHovering(true)
   }
 
   const handleMouseLeave = () => {
-    setChipVisible(false)
+    setIsHovering(false)
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      // eslint-disable-next-line no-undef
+      feather.replace();
+    }, 100);
+  }, [])
+
   return (
-    <div style={{ width: '100%', height: editing ? 'auto' : '18vw', display: "flex", gap: "2rem", transition: 'all 1s ease-in-out', justifyContent: 'flex-start', overflow: 'visible', alignItems: 'center' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div style={{ width: '100%', height: '100%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "end" }}>
-        <AlbumStack myFavAlbums={myFavAlbums} setChipVisible={setChipVisible} />
+    <div style={{ width: '100%', height: '15vw', marginTop: '2vw', display: "flex", transition: 'all 1s ease-in-out', justifyContent: 'center', overflow: 'visible', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <AlbumStack myFavAlbums={myFavAlbums} setIsHovering={setIsHovering} />
+
+      {/* Horizontal Scroller */}
+      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
+        {myFavAlbums.map((album, index) => (
+          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+        ))}
+        <div className="scroller-icon separator">|</div>
+        <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );
 };
 
-const AlbumStack = ({ myFavAlbums, setChipVisible }) => {
+const AlbumStack = ({ myFavAlbums, setIsHovering }) => {
 
   useEffect(() => {
     const stack = document.querySelector(".album-stack");
@@ -60,12 +74,13 @@ const AlbumStack = ({ myFavAlbums, setChipVisible }) => {
       if (card) {
         vinyl.classList.add('hide')
         card.style.animation = "album-swap 700ms forwards";
-        setChipVisible(false);
+        setIsHovering(false);
 
         setTimeout(() => {
           card.style.animation = "";
           stack.prepend(card);
           vinyl.classList.remove('hide')
+          setIsHovering(true);
         }, 700);
       }
     };

@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 const PostShowcase = ({ datosUsuario, userPosts }) => {
   const [dotIndex, setDotIndex] = useState(0);
   const stackRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     const stack = stackRef.current;
@@ -16,6 +17,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
 
       if (card) {
         card.style.animation = "post-swap 700ms forwards";
+        setIsHovering(false)
 
         setTimeout(() => {
           card.style.animation = "";
@@ -24,6 +26,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
           // Buscar el índice del elemento en userPosts
           const index = userPosts.findIndex(post => post.id === card.getAttribute("data-post-id"));
           setDotIndex(index);
+          setIsHovering(true)
         }, 700);
       }
     }
@@ -40,11 +43,20 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, []);
+  }, [])
+
+
+  const handleMouseEnter = () => {
+    setIsHovering(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovering(false)
+  }
 
   return (
     <>
-      <div className="post-stack" ref={stackRef}>
+      <div className="post-stack" ref={stackRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
             <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
@@ -83,7 +95,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
         })}
       </div>
 
-      <div className="horizontal-scroller">
+      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
         {userPosts.map((post, index) => (
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}

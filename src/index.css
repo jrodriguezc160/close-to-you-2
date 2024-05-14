@@ -49,6 +49,7 @@ a:visited {
   justify-content: center;
   align-items: center;
   gap: .5rem;
+  opacity: 0;
   filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: all .5s ease-in-out;
   border-radius: 2rem;
@@ -102,6 +103,11 @@ a:visited {
     color: var(--gray-2);
   }
 
+}
+
+.horizontal-scroller.hovering {
+  opacity: 1;
+  transition: all .5s ease-in-out;
 }
 
 .modal-screen {
