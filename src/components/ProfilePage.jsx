@@ -34,9 +34,11 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
   return (
     <>
       <Collections
+        currentUser={currentUser}
         showCollectionsModal={showCollectionsModal}
         setShowCollectionsModal={setShowCollectionsModal}
         filtros={filtros}
+        setFiltros={setFiltros}
       />
 
       <div className="two-columns">

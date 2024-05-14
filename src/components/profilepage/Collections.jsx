@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { getElementosUsuario } from '../../services/ElementosServices';
 
-const Collections = ({ filtros, setFiltros, showCollectionsModal, setShowCollectionsModal }) => {
+const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal }) => {
   const [filtroId, setFiltroId] = useState(0);
+  const [coleccion, setColeccion] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const coleccion = await getElementosUsuario(currentUser, filtroId, 0);
+        setColeccion(coleccion);
+      } catch (error) {
+        console.error('Error al obtener los elementos o los usuarios:', error);
+      }
+    }
+
+    fetchData();
+  }, [currentUser]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -13,7 +28,7 @@ const Collections = ({ filtros, setFiltros, showCollectionsModal, setShowCollect
   return (
     <>
       {showCollectionsModal && (
-        <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }} onClick={() => setShowCollectionsModal(false)}>
+        <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
           <div className="collection-modal">
             <h2>Colecciones</h2>
             <div className='search-filters visible'>
@@ -49,6 +64,15 @@ const Collections = ({ filtros, setFiltros, showCollectionsModal, setShowCollect
                 }}>
                 <i data-feather="disc"></i>Álbumes
               </div>
+            </div>
+
+            <div className='collection'>
+              {coleccion.map((e, index) => (
+                <div >
+                  <div className="poster" style={{ backgroundImage: `url(${e.imagen})` }}></div>
+                  <div className="title">{e.nombre}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

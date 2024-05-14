@@ -254,4 +254,16 @@
     filter: drop-shadow(0 .25rem .5rem var(--gray-1));
     background-color: var(--white-2);
   }
+
+  .nav-button.selected:hover {
+    filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+    background-color: var(--black);
+  }
+}
+
+.collection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
 }
