@@ -2,7 +2,7 @@ import "../../styles/albums.css"
 import React, { useEffect, useRef, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices'
 
-const AlbumShelf = ({ currentUser }) => {
+const AlbumShelf = ({ currentUser, handleOpenCollections }) => {
   const [myFavAlbums, setMyFavAlbums] = useState([]);
   const [dotIndex, setDotIndex] = useState(4); // Estado para controlar el índice del dot activo
   const [isHovering, setIsHovering] = useState(false);
@@ -53,7 +53,7 @@ const AlbumShelf = ({ currentUser }) => {
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}
         <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
+        <div className="scroller-icon" onClick={() => handleOpenCollections('albums')}><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );

@@ -6,13 +6,12 @@ import MovieShelf from './profilepage/MovieShelf';
 import { useEffect, useState } from 'react';
 import { getPublicacionesUsuario } from '../services/PostServices';
 import '../styles/profilepage.css'
+import Collections from './profilepage/Collections';
 
 const ProfilePage = ({ datosUsuario, currentUser }) => {
   const [userPosts, setUserPosts] = useState([]);
-
-  const [showBookModal, setShowBookModal] = useState(false);
-  const [showMovieModal, setShowMovieModal] = useState(false);
-  const [showAlbumModal, setShowAlbumModal] = useState(false);
+  const [filtros, setFiltros] = useState('');
+  const [showCollectionsModal, setShowCollectionsModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,18 +26,29 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
     fetchData();
   }, []);
 
+  const handleOpenCollections = (filtro) => {
+    setShowCollectionsModal(true);
+    setFiltros(filtro)
+  }
+
   return (
     <>
+      <Collections
+        showCollectionsModal={showCollectionsModal}
+        setShowCollectionsModal={setShowCollectionsModal}
+        filtros={filtros}
+      />
+
       <div className="two-columns">
         <div className="left-column">
           <div style={{ height: '2rem' }}></div>
           <div className="collections">
             <div className='collection-container'>
-              <BookShelf currentUser={datosUsuario.id} />
+              <BookShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
             </div>
 
             <div className='collection-container'>
-              <MovieShelf currentUser={datosUsuario.id} />
+              <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
             </div>
           </div>
           <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} />
@@ -50,7 +60,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
             <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} />
           </div>
           <div className="albums">
-            <AlbumShelf currentUser={datosUsuario.id} />
+            <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
           </div>
         </div>
       </div>

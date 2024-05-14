@@ -231,3 +231,27 @@
   background-color: var(--black);
   color: var(--white-2);
 }
+
+.collection-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: var(--semi-transparent-white);
+  width: 75vw;
+  height: 75vh;
+}
+
+.search-filters.visible {
+  overflow: visible;
+
+  .nav-button {
+    border-color: var(--gray-1);
+  }
+
+  .nav-button:hover {
+    filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+    background-color: var(--white-2);
+  }
+}

@@ -2,7 +2,7 @@ import "../../styles/movies.css"
 import React, { useEffect, useRef, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices';
 
-const MovieShelf = ({ currentUser }) => {
+const MovieShelf = ({ currentUser, handleOpenCollections }) => {
   const [myFavMovies, setMyFavMovies] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   const [dotIndex, setDotIndex] = useState(0); // Estado para controlar el índice del dot activo
@@ -43,7 +43,7 @@ const MovieShelf = ({ currentUser }) => {
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}
         <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
+        <div className="scroller-icon" onClick={() => handleOpenCollections('movies')}><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );
