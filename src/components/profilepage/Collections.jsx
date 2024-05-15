@@ -8,7 +8,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const coleccion = await getElementosUsuario(currentUser, filtroId, 0);
+        const coleccion = await getElementosUsuario(currentUser, filtroId);
         setColeccion(coleccion);
       } catch (error) {
         console.error('Error al obtener los elementos o los usuarios:', error);
@@ -16,7 +16,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
     }
 
     fetchData();
-  }, [currentUser]);
+  }, [currentUser, filtroId]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,6 +30,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
       {showCollectionsModal && (
         <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
           <div className="collection-modal">
+            <div className="nav-button no-text back" onClick={() => setShowCollectionsModal(false)}><i data-feather="arrow-left"></i></div>
             <h2>Colecciones</h2>
             <div className='search-filters visible'>
               <div
@@ -66,11 +67,15 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
               </div>
             </div>
 
-            <div className='collection'>
+            <div className={`collection ${filtros}`}>
               {coleccion.map((e, index) => (
-                <div >
-                  <div className="poster" style={{ backgroundImage: `url(${e.imagen})` }}></div>
-                  <div className="title">{e.nombre}</div>
+                <div className='element'>
+                  <div className='imagen'>
+                    <img src={e.imagen} alt="cover" className='cover' />
+                    <img src={e.imagen} alt="ambilight" className='ambilight' />
+                  </div>
+                  <div className='titulo'>{e.titulo}</div>
+                  <div className='autor'>{e.autor}</div>
                 </div>
               ))}
             </div>

@@ -240,30 +240,132 @@
   border-radius: 1rem;
   background-color: var(--semi-transparent-white);
   width: 75vw;
-  height: 75vh;
+  height: 80vh;
+
+  .search-filters.visible {
+    overflow: visible;
+
+    .nav-button {
+      border-color: var(--gray-1);
+    }
+
+    .nav-button:hover {
+      filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      background-color: var(--white-2);
+    }
+
+    .nav-button.selected {
+      border-color: var(--black);
+    }
+
+    .nav-button.selected:hover {
+      filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      background-color: var(--black);
+    }
+  }
 }
 
-.search-filters.visible {
-  overflow: visible;
+.nav-button.no-text.back {
+  position: absolute;
+  top: 12%;
+  left: 13%;
+  transition: all .5s ease-in-out;
+  background-color: var(--transparent);
+}
 
-  .nav-button {
-    border-color: var(--gray-1);
-  }
-
-  .nav-button:hover {
-    filter: drop-shadow(0 .25rem .5rem var(--gray-1));
-    background-color: var(--white-2);
-  }
-
-  .nav-button.selected:hover {
-    filter: drop-shadow(0 .25rem .5rem var(--gray-1));
-    background-color: var(--black);
-  }
+.nav-button.no-text.back:hover {
+  background-color: var(--semi-transparent-white);
 }
 
 .collection {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  height: 50%;
+  gap: 2rem;
+  padding: 3rem 3rem 1rem 3rem;
+  width: 80%;
+  height: 55%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  .element {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+    width: 20vh;
+    height: auto;
+    min-height: 35vh;
+
+    .imagen {
+      display: flex;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+
+      .cover,
+      .ambilight {
+        border-radius: .25rem;
+        width: auto;
+        height: 25vh;
+      }
+
+      .cover {
+        position: absolute;
+        z-index: 100;
+        transition: all .5s ease-in-out;
+      }
+
+      .ambilight {
+        visibility: hidden;
+        opacity: 0;
+        filter: blur(1.5rem);
+        transition: all .5s ease-in-out;
+      }
+    }
+
+    .imagen:hover {
+      .cover:hover {
+        scale: 1.1;
+      }
+
+      .ambilight {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    .titulo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 10h;
+      height: auto;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .autor {
+      text-align: center;
+    }
+  }
+}
+
+.collection.albums {
+  gap: 3.5rem;
+}
+
+.collection.movies>.element>.imagen>.cover,
+.ambilight {
+  width: 17vh;
+  height: 25vh;
+}
+
+.collection.books>.element>.imagen>.cover,
+.ambilight {
+  border-radius: .25rem .75rem .75rem .25rem;
+  width: 17vh;
+  height: 25vh;
 }
