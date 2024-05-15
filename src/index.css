@@ -264,3 +264,18 @@ a:visited {
     color: rgb(25, 114, 203);
   }
 }
+
+.empty-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  border-radius: 1rem;
+  height: 50%;
+  color: var(--gray-2);
+
+  .icon {
+    color: var(--gray-1);
+  }
+}

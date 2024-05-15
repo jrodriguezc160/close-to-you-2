@@ -200,29 +200,44 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
             </div>
 
             <div className="results-column">
-              {responseData.map((result, index) => (
-                <Result
-                  result={result}
-                  key={index}
-                  filtros={filtros}
-                  isFirstResult={index === 0}
-                  isOpen={index === openResultIndex}
-                  onClick={() => {
-                    handleResultClick(index);
-                    // eslint-disable-next-line no-undef
-                    feather.replace();
-                  }}
-                  miColeccion={miColeccion}
-                  getColeccion={getColeccion}
-                  currentUser={currentUser}
-                  idColeccion={filtroId}
-                  setShowLimit={setShowLimit}
-                  getUsuariosSeguidos={getUsuariosSeguidos}
-                  usuariosSeguidos={usuariosSeguidos}
-                  handleVerPerfil={handleVerPerfil}
-                  search={search}
-                />
-              ))}
+              {responseData.length > 0 ? (
+                <>
+                  {
+                    responseData.map((result, index) => (
+                      <Result
+                        result={result}
+                        key={index}
+                        filtros={filtros}
+                        isFirstResult={index === 0}
+                        isOpen={index === openResultIndex}
+                        onClick={() => {
+                          handleResultClick(index);
+                          // eslint-disable-next-line no-undef
+                          feather.replace();
+                        }}
+                        miColeccion={miColeccion}
+                        getColeccion={getColeccion}
+                        currentUser={currentUser}
+                        idColeccion={filtroId}
+                        setShowLimit={setShowLimit}
+                        getUsuariosSeguidos={getUsuariosSeguidos}
+                        usuariosSeguidos={usuariosSeguidos}
+                        handleVerPerfil={handleVerPerfil}
+                        search={search}
+                      />
+                    ))
+                  }
+                </>
+              ) : (
+                <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <div className="empty-space" style={{ width: '75%', border: '1px solid var(--white-2)' }}>
+                    Selecciona un filtro para empezar a buscar :)
+                    <div className="icon">
+                      <i data-feather="search"></i>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {renderSearchComponent()}

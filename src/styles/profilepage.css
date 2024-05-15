@@ -293,13 +293,13 @@
   .element {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: .5rem;
     opacity: 0;
     transition: all .25s ease-in-out;
     width: 20vh;
-    height: auto;
+    height: 100%;
     min-height: 35vh;
 
     .imagen {
@@ -399,4 +399,42 @@
   width: 20vh;
   height: 20vh;
   object-fit: cover;
+}
+
+.collection {
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    border: 1px solid var(--gray-1);
+    border-radius: 1rem;
+    padding: 0 .5rem;
+  }
+
+  .nav-button.no-text,
+  .nav-button.no-text.selected {
+    scale: 0.85;
+    margin: 0;
+    background-color: var(--transparent);
+    padding: .25rem 0;
+    width: fit-content;
+    height: fit-content;
+    color: var(--gray-2);
+  }
+
+  .nav-button.no-text:hover,
+  .nav-button.no-text.selected:hover {
+    scale: 1.1;
+    background-color: var(--transparent);
+    color: var(--black);
+  }
+
+  .nav-button.no-text.selected.star>svg {
+    fill: var(--gray-2);
+  }
+
+  .nav-button.no-text.selected.star>svg:hover {
+    fill: var(--black);
+  }
 }
