@@ -57,7 +57,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
               <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
             </div>
           </div>
-          <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} />
+          <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} handleOpenCollections={handleOpenCollections} />
         </div>
         <div className="right-column" style={{ overflow: 'hidden' }}>
           <div style={{

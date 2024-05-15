@@ -5,12 +5,16 @@ import { getUsuariosSeguidos } from '../../services/UserServices';
 const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId }) => {
   const [coleccion, setColeccion] = useState([]);
 
+  // Eliminamos la clase .visible para los elementos de la antigua colección
   useEffect(() => {
     const elements = document.querySelectorAll('.element');
     elements.forEach(el => {
       el.classList.remove('visible');
     });
+  }, [filtroId])
 
+  // Con el cambio de colección llamamos al servicio para recibir nuevos elementos
+  useEffect(() => {
     setTimeout(() => {
       if (filtros !== 'users') {
         const fetchData = async () => {
@@ -47,13 +51,13 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         fetchData();
       }
     }, 200);
-  }, [currentUser, filtroId]);
+  }, [currentUser, filtros]);
 
   useEffect(() => {
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
-    }, 100);
+    }, 200);
 
     setTimeout(() => {
       let delay = 50;
@@ -66,7 +70,14 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         delay += 50;
       });
     }, 500);
-  }, [showCollectionsModal, filtroId])
+  }, [showCollectionsModal, filtros]);
+
+  const handleChangeFilter = (filtro, id_filtro) => {
+    setFiltroId(id_filtro);
+    setTimeout(() => {
+      setFiltros(filtro);
+    }, 200);
+  }
 
   return (
     <>
@@ -78,34 +89,22 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             <div className='search-filters visible'>
               <div
                 className={`nav-button ${filtros === 'users' ? 'selected' : ''}`}
-                onClick={() => {
-                  setFiltros('users');
-                  setFiltroId(99)
-                }}>
+                onClick={() => handleChangeFilter('users', 99)}>
                 <i data-feather="user"></i>Usuarios
               </div>
               <div
                 className={`nav-button ${filtros === 'books' ? 'selected' : ''}`}
-                onClick={() => {
-                  setFiltros('books');
-                  setFiltroId(1)
-                }}>
+                onClick={() => handleChangeFilter('books', 1)}>
                 <i data-feather="book"></i>Libros
               </div>
               <div
                 className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`}
-                onClick={() => {
-                  setFiltros('movies');
-                  setFiltroId(5)
-                }}>
+                onClick={() => handleChangeFilter('movies', 5)}>
                 <i data-feather="film"></i>Películas
               </div>
               <div
                 className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`}
-                onClick={() => {
-                  setFiltros('albums');
-                  setFiltroId(4)
-                }}>
+                onClick={() => handleChangeFilter('albums', 4)}>
                 <i data-feather="disc"></i>Álbumes
               </div>
             </div>

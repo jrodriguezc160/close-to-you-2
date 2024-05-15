@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../../services/UserServices';
 
-const ProfileCard = ({ datosUsuario, currentUser }) => {
+const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections }) => {
   const [isFollowed, setIsFollowed] = useState(false);
   const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
 
@@ -119,7 +119,7 @@ const ProfileCard = ({ datosUsuario, currentUser }) => {
           {currentUser !== resultId && !isFollowed && (
             <div className='nav-button' onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
           )}
-          <div className="nav-button"><i data-feather="package"></i><span>Ver colecciones</span></div>
+          <div className="nav-button" onClick={() => handleOpenCollections()}><i data-feather="package"></i><span>Ver colecciones</span></div>
         </div>
       </div >
     </div >

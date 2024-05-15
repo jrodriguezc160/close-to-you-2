@@ -363,12 +363,21 @@
 
 .collection.albums {
   gap: 3.5rem;
+  padding-left: 4.5rem;
 }
 
-.collection.movies>.element>.imagen>.cover,
-.ambilight {
-  width: 17vh;
-  height: 25vh;
+.collection.movies>.element {
+
+  .imagen>.cover,
+  .ambilight {
+    width: 17vh;
+    height: 25vh;
+  }
+
+  .autor {
+    opacity: 0;
+    height: 0;
+  }
 }
 
 .collection.books>.element>.imagen>.cover,
