@@ -1,7 +1,7 @@
 import '../../styles/posts.css'
 import React, { useEffect, useState, useRef } from 'react'
 
-const PostShowcase = ({ datosUsuario, userPosts }) => {
+const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
   const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -84,7 +84,7 @@ const PostShowcase = ({ datosUsuario, userPosts }) => {
                     </div>
 
                     <div className='see-more'>
-                      <div className="nav-button"><i data-feather="package"></i>Ver colección</div>
+                      <div className="nav-button" onClick={() => handleOpenCollections('users', 99)}><i data-feather="package"></i>Ver colección</div>
                       <div className="nav-button no-text"><i data-feather="maximize-2"></i></div>
                     </div>
                   </div>

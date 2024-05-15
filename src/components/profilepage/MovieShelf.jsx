@@ -43,7 +43,7 @@ const MovieShelf = ({ currentUser, handleOpenCollections }) => {
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}
         <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon" onClick={() => handleOpenCollections('movies')}><i data-feather="maximize-2"></i></div>
+        <div className="scroller-icon" onClick={() => handleOpenCollections('movies', 5)}><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ const BookShelf = ({ currentUser, handleOpenCollections }) => {
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}
         <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon" onClick={() => handleOpenCollections('books')}><i data-feather="maximize-2"></i></div>
+        <div className="scroller-icon" onClick={() => handleOpenCollections('books', 1)}><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );

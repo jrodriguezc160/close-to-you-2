@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices';
 import { getUsuariosSeguidos } from '../../services/UserServices';
 
-const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal }) => {
-  const [filtroId, setFiltroId] = useState(0);
+const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId }) => {
   const [coleccion, setColeccion] = useState([]);
 
   useEffect(() => {

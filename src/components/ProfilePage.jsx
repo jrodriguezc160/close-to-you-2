@@ -12,6 +12,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
+  const [filtroId, setFiltroId] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,9 +27,10 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
     fetchData();
   }, []);
 
-  const handleOpenCollections = (filtro) => {
+  const handleOpenCollections = (filtro, filtroId) => {
     setShowCollectionsModal(true);
-    setFiltros(filtro)
+    setFiltros(filtro);
+    setFiltroId(filtroId)
   }
 
   return (
@@ -39,6 +41,8 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
         setShowCollectionsModal={setShowCollectionsModal}
         filtros={filtros}
         setFiltros={setFiltros}
+        filtroId={filtroId}
+        setFiltroId={setFiltroId}
       />
 
       <div className="two-columns">
@@ -59,7 +63,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
           <div style={{
             width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
           }}>
-            <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} />
+            <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} handleOpenCollections={handleOpenCollections} />
           </div>
           <div className="albums">
             <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />

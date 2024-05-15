@@ -53,7 +53,7 @@ const AlbumShelf = ({ currentUser, handleOpenCollections }) => {
           <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
         ))}
         <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon" onClick={() => handleOpenCollections('albums')}><i data-feather="maximize-2"></i></div>
+        <div className="scroller-icon" onClick={() => handleOpenCollections('albums', 4)}><i data-feather="maximize-2"></i></div>
       </div>
     </div>
   );

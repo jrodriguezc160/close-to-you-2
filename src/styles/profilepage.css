@@ -251,6 +251,7 @@
 
     .nav-button:hover {
       filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      border-color: var(--gray-1);
       background-color: var(--white-2);
     }
 
@@ -270,11 +271,12 @@
   top: 12%;
   left: 13%;
   transition: all .5s ease-in-out;
+  border: 1px solid var(--transparent);
   background-color: var(--transparent);
 }
 
 .nav-button.no-text.back:hover {
-  background-color: var(--semi-transparent-white);
+  border: 1px solid var(--gray-1);
 }
 
 .collection {
