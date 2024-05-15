@@ -1,21 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices';
+import { getUsuariosSeguidos } from '../../services/UserServices';
 
 const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal }) => {
   const [filtroId, setFiltroId] = useState(0);
   const [coleccion, setColeccion] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const coleccion = await getElementosUsuario(currentUser, filtroId);
-        setColeccion(coleccion);
-      } catch (error) {
-        console.error('Error al obtener los elementos o los usuarios:', error);
-      }
-    }
+    const elements = document.querySelectorAll('.element');
+    elements.forEach(el => {
+      el.classList.remove('visible');
+    });
 
-    fetchData();
+    setTimeout(() => {
+      if (filtros !== 'users') {
+        const fetchData = async () => {
+          try {
+            const coleccion = await getElementosUsuario(currentUser, filtroId);
+            setColeccion(coleccion);
+          } catch (error) {
+            console.error('Error al obtener los elementos o los usuarios:', error);
+          }
+        }
+
+        fetchData();
+      } else {
+        const formatUsuariosData = (usuarios) => {
+          return usuarios.map(usuario => ({
+            nombre_mostrado: usuario.nombre_mostrado,
+            usuario: usuario.usuario,
+            descripcion: usuario.descripcion || '',
+            foto_perfil: usuario.foto_perfil || '',
+            id: usuario.id || '',
+          }));
+        };
+
+        const fetchData = async () => {
+          try {
+            const usuarios = await getUsuariosSeguidos(currentUser);
+            const formattedData = formatUsuariosData(usuarios);
+
+            setColeccion(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como falso
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+        fetchData();
+      }
+    }, 200);
   }, [currentUser, filtroId]);
 
   useEffect(() => {
@@ -23,7 +55,19 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [showCollectionsModal])
+
+    setTimeout(() => {
+      let delay = 50;
+      const elements = document.querySelectorAll('.element');
+      elements.forEach(el => {
+        setTimeout(() => {
+          el.classList.add('visible');
+        }, delay);
+
+        delay += 50;
+      });
+    }, 500);
+  }, [showCollectionsModal, filtroId])
 
   return (
     <>
@@ -68,7 +112,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             </div>
 
             <div className={`collection ${filtros}`}>
-              {coleccion.map((e, index) => (
+              {filtros !== 'users' && coleccion.map((e, index) => (
                 <div className='element'>
                   <div className='imagen'>
                     <img src={e.imagen} alt="cover" className='cover' />
@@ -76,6 +120,17 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                   </div>
                   <div className='titulo'>{e.titulo}</div>
                   <div className='autor'>{e.autor}</div>
+                </div>
+              ))}
+
+              {filtros === 'users' && coleccion.map((user, index) => (
+                <div className='element'>
+                  <div className='imagen'>
+                    <img src={user.foto_perfil} alt="cover" className='cover' />
+                    <img src={user.foto_perfil} alt="ambilight" className='ambilight' />
+                  </div>
+                  <div className='titulo'>{user.nombre_mostrado}</div>
+                  <div className='autor'>@{user.usuario}</div>
                 </div>
               ))}
             </div>

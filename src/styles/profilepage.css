@@ -294,6 +294,8 @@
     justify-content: flex-start;
     align-items: center;
     gap: .5rem;
+    opacity: 0;
+    transition: all .25s ease-in-out;
     width: 20vh;
     height: auto;
     min-height: 35vh;
@@ -353,6 +355,10 @@
   }
 }
 
+.collection>.element.visible {
+  opacity: 1;
+}
+
 .collection.albums {
   gap: 3.5rem;
 }
@@ -368,4 +374,18 @@
   border-radius: .25rem .75rem .75rem .25rem;
   width: 17vh;
   height: 25vh;
+}
+
+.collection.users>.element>.imagen>.cover {
+  border-radius: 100%;
+  width: 20vh;
+  height: 20vh;
+  object-fit: cover;
+}
+
+.collection.users>.element>.imagen>.ambilight {
+  border-radius: 100%;
+  width: 20vh;
+  height: 20vh;
+  object-fit: cover;
 }
