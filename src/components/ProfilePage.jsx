@@ -37,7 +37,12 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
 
   return (
     <>
-      <EditProfile datosUsuario={datosUsuario} showEditProfileModal={showEditProfileModal} setShowEditProfileModal={setShowEditProfileModal} />
+      <EditProfile
+        datosUsuario={datosUsuario}
+        showEditProfileModal={showEditProfileModal}
+        setShowEditProfileModal={setShowEditProfileModal}
+      />
+
       <Collections
         currentUser={currentUser}
         showCollectionsModal={showCollectionsModal}

@@ -177,3 +177,46 @@ export const getUsuariosSeguidos = async (id_usuario) => {
     throw new Error('Error al obtener los usuarios seguidos: ' + error.message);
   }
 };
+
+export const editUserProfile = async (
+  id,
+  fotoPerfil,
+  nombreMostrado,
+  usuario,
+  nombre,
+  apellido1,
+  apellido2,
+  descripcion
+) => {
+  try {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('fotoPerfil', fotoPerfil);
+    formData.append('nombreMostrado', nombreMostrado);
+    formData.append('usuario', usuario);
+    formData.append('nombre', nombre);
+    formData.append('apellido1', apellido1);
+    formData.append('apellido2', apellido2);
+    formData.append('descripcion', descripcion);
+
+    const response = await fetch(baseUrl + 'editUser.php', {
+      method: 'POST',
+      body: formData
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al editar el perfil de usuario');
+    }
+
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al editar el perfil de usuario: ' + error.message);
+  }
+};
+

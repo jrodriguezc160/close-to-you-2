@@ -19,6 +19,7 @@ function App () {
     const storedCurrentUser = sessionStorage.getItem('currentUser');
     return storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
   });
+
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
     return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
