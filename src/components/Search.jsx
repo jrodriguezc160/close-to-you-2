@@ -9,6 +9,7 @@ import { getElementosUsuario } from '../services/ElementosServices';
 import { getUsuariosSeguidos } from '../services/UserServices';
 import ProfilePage from './ProfilePage';
 import { getUsuarioData } from '../services/UserServices';
+import LimitModal from './LimitModal';
 
 const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
   const [search, setSearch] = useState('');
@@ -57,7 +58,6 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
     try {
       const elementos = await getElementosUsuario(currentUser, filtroId);
       setMiColeccion(elementos);
-      console.log(miColeccion);
     } catch (error) {
       console.error('Error al obtener los elementos o los usuarios');
     }
@@ -100,14 +100,6 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
     setOpenResultIndex(index);
   };
 
-  const handleClickExterior = (event) => {
-    if (event.target.classList.contains('modal-screen')) {
-      setTimeout(() => {
-        setShowLimit(false)
-      }, 1000);
-    }
-  }
-
   const handleVerPerfil = async (idUsuario) => {
     // Llamara a usuarioData con idUsuario
     const getUserData = async () => {
@@ -129,16 +121,9 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
 
   return (
     <>
-      <div className={`modal-screen ${showLimit ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }} onClick={handleClickExterior}>
-        <div className={`modal-message ${showLimit ? 'visible' : ''}`} style={{ zIndex: '201', visibility: showLimit ? 'visible' : 'hidden', opacity: showLimit ? 1 : 0 }}>
-          <i data-feather="alert-triangle"></i>
+      <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
 
-          <p>Límite de favoritos: {favLimit}</p>
-          <p>Elimine un favorito para continuar</p>
-        </div>
-      </div>
-
-      <div className={`modal-screen ${loading ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }} onClick={handleClickExterior}>
+      <div className={`modal-screen ${loading ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }}>
         <div className={`modal-message ${loading ? 'visible' : ''}`} style={{ zIndex: '201', gap: '1rem', visibility: loading ? 'visible' : 'hidden', opacity: loading ? 1 : 0 }}>
           <i data-feather="loader" className='loader'></i>
           <p>Cargando...</p>

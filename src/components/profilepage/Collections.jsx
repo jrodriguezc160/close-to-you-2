@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../../services/UserServices';
+import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
+import LimitModal from '../LimitModal';
 
 const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId }) => {
   const [coleccion, setColeccion] = useState([]);
   const [favElementos, setFavElementos] = useState([]);
+  const [showLimit, setShowLimit] = useState(false);
+
+  const getColeccion = async () => {
+    try {
+      const elementos = await getElementosUsuario(currentUser, filtroId);
+      setColeccion(elementos);
+    } catch (error) {
+      console.error('Error al obtener los elementos o los usuarios');
+    }
+  }
 
   // Eliminamos la clase .visible para los elementos de la antigua colección
   useEffect(() => {
@@ -18,8 +30,8 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
-    }, 1000);
-  }, [filtroId])
+    }, 50);
+  }, [filtroId, coleccion])
 
   // Con el cambio de colección llamamos al servicio para recibir nuevos elementos
   useEffect(() => {
@@ -30,7 +42,8 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             titulo: elemento.titulo,
             autor: elemento.autor,
             imagen: elemento.imagen || '',
-            id: elemento.id
+            id: elemento.id,
+            id_api: elemento.id_api,
           }));
         };
 
@@ -135,8 +148,82 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
     }
   }
 
+  // Guardar en colección, destacar y eliminar elementos
+  const handleAddElemento = async (target, favorito) => {
+    try {
+      await addElemento(currentUser, filtroId, target.title, target.authors, target.image, target.id, favorito);
+      await getColeccion();
+      console.log('Elemento agregado con éxito');
+    } catch (error) {
+      console.log(target.image)
+      console.error('Error al agregar el elemento');
+    }
+  }
+
+  const handleDeleteElemento = async (target) => {
+    try {
+      await deleteElemento(currentUser, target.id_api);
+      await getColeccion();
+      const updatedCollection = coleccion.filter(item => item.id !== target.id);
+      setColeccion(updatedCollection);
+    } catch (error) {
+      console.error('Error al eliminar el elemento:', error);
+    }
+  }
+
+  const handleEditElemento = async (target) => {
+    if (!target) {
+      console.error('El elemento objetivo es undefined');
+      return;
+    }
+
+    const isFav = target.isFav === true;
+    const isSaved = coleccion.find(item => item.id === target.id);
+
+    // Verificar el número de elementos favoritos en la colección del usuario
+    const favCount = coleccion.filter(item => item.isFav === true).length;
+    const favLimit = filtroId === 4 ? 5 : 3;
+
+    let favorito = isSaved ? (isFav ? 0 : 1) : 0; // Si está guardado y no es favorito, marcar como favorito (1), de lo contrario, no (0)
+
+    if (favCount >= favLimit && favorito === 1) {
+      setShowLimit(true);
+    } else {
+      try {
+        if (!isSaved) {
+          await handleAddElemento(target, favorito);
+        } else {
+          await editElemento(currentUser, target.id_api, filtroId, favorito);
+          await getColeccion();
+        }
+      } catch (error) {
+        console.error('Error al editar el elemento:', error);
+      }
+
+      // Actualiza el estado de la colección para reflejar los cambios
+      const updatedCollection = coleccion.map(item => {
+        if (item.id === target.id) {
+          return {
+            ...item,
+            isFav: favorito === 1
+          };
+        }
+        return item;
+      });
+      setColeccion(updatedCollection);
+
+      // eslint-disable-next-line no-undef
+      feather.replace();
+    }
+  }
+
+
+  const favLimit = filtroId === 4 ? 5 : 3;
+
   return (
     <>
+      <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
+
       {showCollectionsModal && (
         <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
           <div className="collection-modal">
@@ -177,18 +264,18 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                     <div className='titulo'>{e.titulo}</div>
                     <div className='autor'>{e.autor}</div>
                     <div className='buttons-container'>
-                      {e.isSaved && (
-                        <div div className='nav-button no-text selected'/*  onClick={handleDeleteElemento} */><i data-feather="check"></i></div>
+                      {coleccion.find(item => item.id === e.id) && (
+                        <div div className='nav-button no-text selected' onClick={() => handleDeleteElemento(e)}><i data-feather="check"></i></div>
                       )}
-                      {!e.isSaved && (
-                        <div className='nav-button no-text' /* onClick={() => handleAddElemento(0)} */><i data-feather="plus"></i></div>
+                      {!coleccion.find(item => item.id === e.id) && (
+                        <div className='nav-button no-text' onClick={() => handleAddElemento(e, 0)}><i data-feather="plus"></i></div>
                       )}
 
-                      {e.isFav && (
-                        <div className='nav-button no-text selected star' /* onClick={handleEditElemento} */><i data-feather="star"></i></div>
+                      {coleccion.find(item => item.id === e.id) && e.isFav && (
+                        <div className='nav-button no-text selected star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
                       )}
-                      {!e.isFav && (
-                        <div className='nav-button no-text star' /* onClick={handleEditElemento} */><i data-feather="star"></i></div>
+                      {coleccion.find(item => item.id === e.id) && !e.isFav && (
+                        <div className='nav-button no-text star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
                       )}
                     </div>
                   </div>
@@ -206,10 +293,10 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
 
                     <div className='buttons-container'>
                       {currentUser !== user.id && user.isFollowed && (
-                        <div className='nav-button no-text selected' onClick={handleUnfollowUser}><i data-feather="user-check"></i></div>
+                        <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
                       )}
                       {currentUser !== user.id && !user.isFollowed && (
-                        <div className='nav-button no-text' onClick={handleFollowUser}><i data-feather="user-plus"></i></div>
+                        <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
                       )}
                       <div className='nav-button no-text'/*  onClick={() => handleVerPerfil(result.id)} */><i data-feather="external-link"></i></div>
                     </div>
