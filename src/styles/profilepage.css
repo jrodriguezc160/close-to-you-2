@@ -439,3 +439,119 @@
     fill: var(--black);
   }
 }
+
+.collection-modal.edit-profile {
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  width: 40vw;
+  max-height: 92vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .header {
+    display: flex;
+    position: sticky;
+    top: -1rem;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9;
+    margin-bottom: 12rem;
+    width: calc(100%);
+
+    .container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
+  .profile-card {
+    background-color: var(--transparent);
+    padding: 0 2rem;
+    height: 14rem;
+
+    .profile-pic {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all .5s ease-in-out;
+      margin: 0;
+
+      img {
+        filter: brightness(.5);
+      }
+
+      .nav-button.no-text {
+        position: absolute;
+        scale: 2;
+        z-index: 6;
+        background-color: var(--transparent);
+
+        svg {
+          stroke: var(--white-2);
+        }
+      }
+    }
+  }
+
+  .profile-card:hover,
+  .profile-card>.profile-pic>img {
+    scale: 1;
+  }
+
+  .profile-card>.profile-pic:hover {
+    scale: 1.1;
+  }
+
+  .nav-button.button {
+    border: 1px solid var(--white-2);
+    background-color: var(--white-1);
+    color: var(--gray-2);
+  }
+
+  .nav-button.button:hover {
+    filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+    border: 1px solid var(--gray-1);
+    background-color: var(--gray-1);
+    color: var(--black);
+  }
+}
+
+.edit-profile-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: .25rem;
+  padding: 0 2rem;
+  width: calc(100% - 6rem);
+
+  div {
+    margin-left: .7rem;
+    font-size: 11px;
+  }
+
+  input,
+  textarea {
+    transition: all .5s ease-in-out;
+    outline: 0;
+    border: 1px solid var(--white-2);
+    border-radius: .75rem;
+    background: var(--semi-transparent-white);
+    padding: .3rem .75rem;
+    width: 100%;
+    color: var(--gray-2);
+  }
+
+  input:focus,
+  textarea:focus {
+    color: var(--black);
+  }
+
+  textarea {
+    height: 5rem;
+  }
+}

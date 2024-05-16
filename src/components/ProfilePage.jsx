@@ -7,12 +7,14 @@ import { useEffect, useState } from 'react';
 import { getPublicacionesUsuario } from '../services/PostServices';
 import '../styles/profilepage.css'
 import Collections from './profilepage/Collections';
+import EditProfile from './profilepage/EditProfile';
 
 const ProfilePage = ({ datosUsuario, currentUser }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
   const [filtroId, setFiltroId] = useState(0);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
 
   return (
     <>
+      <EditProfile datosUsuario={datosUsuario} showEditProfileModal={showEditProfileModal} setShowEditProfileModal={setShowEditProfileModal} />
       <Collections
         currentUser={currentUser}
         showCollectionsModal={showCollectionsModal}
@@ -57,7 +60,7 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
               <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
             </div>
           </div>
-          <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} handleOpenCollections={handleOpenCollections} />
+          <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} handleOpenCollections={handleOpenCollections} setShowEditProfileModal={setShowEditProfileModal} />
         </div>
         <div className="right-column" style={{ overflow: 'hidden' }}>
           <div style={{
