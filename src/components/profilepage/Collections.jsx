@@ -5,19 +5,86 @@ import { addElemento, deleteElemento, editElemento } from '../../services/Elemen
 import LimitModal from '../LimitModal';
 import ProfilePage from '../ProfilePage';
 
-const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId, profileOpen, resultUserData, handleVerPerfil }) => {
+const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId, profileOpen, resultUserData, handleVerPerfil, datosUsuario }) => {
+  // Se definen las variables de estado
+  // Se incluyen las que corresponden al usuario actual (current user o CU)
   const [coleccion, setColeccion] = useState([]);
-  const [favElementos, setFavElementos] = useState([]);
+  const [coleccionCU, setColeccionCU] = useState([]);
   const [showLimit, setShowLimit] = useState(false);
-  const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
 
   const getColeccion = async () => {
-    try {
-      const elementos = await getElementosUsuario(currentUser, filtroId);
-      setColeccion(elementos);
-    } catch (error) {
-      console.error('Error al obtener los elementos o los usuarios');
-    }
+    setTimeout(() => {
+      if (filtros !== 'users') {
+        const formatElementosData = (elementos) => {
+          return elementos.map(elemento => ({
+            titulo: elemento.titulo,
+            autor: elemento.autor,
+            imagen: elemento.imagen || '',
+            id: elemento.id,
+            id_api: elemento.id_api,
+          }));
+        };
+
+        const fetchData = async () => {
+          try {
+            // Guardamos los elementos favoritos del current user (usuario con quien se ha iniciado sesión)
+            const favElementosCU = await getElementosUsuario(currentUser, filtroId, 1);
+
+            // Guardamos todos los elementos del current user
+            const coleccionCU = await getElementosUsuario(currentUser, filtroId);
+            const formattedDataCU = formatElementosData(coleccionCU);
+            const formattedFavDataCU = formatElementosData(favElementosCU);
+
+            const coleccion = await getElementosUsuario(datosUsuario.id, filtroId);
+            const formattedData = formatElementosData(coleccion);
+            const coleccionConFav = formattedData.map(elemento => {
+              const isSaved = formattedDataCU.some(cuUser => cuUser.id === elemento.id);
+              const isFav = formattedFavDataCU.some(cuUser => cuUser.id === elemento.id);
+
+              return { ...elemento, isSaved, isFav };
+            });
+
+            setColeccion(coleccionConFav);
+          } catch (error) {
+            console.error('Error al obtener los elementos o los usuarios:', error);
+          }
+        }
+
+        fetchData();
+      } else {
+        const formatUsuariosData = (usuarios) => {
+          return usuarios.map(usuario => ({
+            nombre_mostrado: usuario.nombre_mostrado,
+            usuario: usuario.usuario,
+            descripcion: usuario.descripcion || '',
+            foto_perfil: usuario.foto_perfil || '',
+            id: usuario.id || '',
+          }));
+        };
+
+        const fetchData = async () => {
+          try {
+            // Traemos los usuarios seguidos por el usuario en cuyo perfil estamos
+            const usuarios = await getUsuariosSeguidos(datosUsuario.id);
+            const formattedData = formatUsuariosData(usuarios);
+
+            // Traemos los usuarios seguidos por el usuario con el que hemos iniciado sesión (current user)
+            const usuariosCU = await getUsuariosSeguidos(currentUser);
+            const formattedDataCU = formatUsuariosData(usuariosCU);
+
+            const coleccionActualizada = formattedData.map(user => {
+              const isFollowed = formattedDataCU.some(cuUser => cuUser.id === user.id);
+              return { ...user, isFollowed };
+            });
+
+            setColeccion(coleccionActualizada);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+        fetchData();
+      }
+    }, 200);
   }
 
   // Eliminamos la clase .visible para los elementos de la antigua colección
@@ -51,18 +118,23 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
 
         const fetchData = async () => {
           try {
-            // Llamada para obtener elementos favoritos
-            const favElementos = await getElementosUsuario(currentUser, filtroId, 1);
-            const formattedDataFav = formatElementosData(favElementos);
-            setFavElementos(formattedDataFav.map(elemento => ({ ...elemento, isSaved: true })));
+            // Guardamos los elementos favoritos del current user (usuario con quien se ha iniciado sesión)
+            const favElementosCU = await getElementosUsuario(currentUser, filtroId, 1);
 
-            const coleccion = await getElementosUsuario(currentUser, filtroId);
+            // Guardamos todos los elementos del current user
+            const coleccionCU = await getElementosUsuario(currentUser, filtroId);
+            const formattedDataCU = formatElementosData(coleccionCU);
+            const formattedFavDataCU = formatElementosData(favElementosCU);
+
+            const coleccion = await getElementosUsuario(datosUsuario.id, filtroId);
             const formattedData = formatElementosData(coleccion);
-            const coleccionConFav = formattedData.map(elemento => ({
-              ...elemento,
-              isSaved: true,
-              isFav: favElementos.some(fav => fav.id === elemento.id) // Comprueba si el elemento está en favElementos
-            }));
+            const coleccionConFav = formattedData.map(elemento => {
+              const isSaved = formattedDataCU.some(cuUser => cuUser.id === elemento.id);
+              const isFav = formattedFavDataCU.some(cuUser => cuUser.id === elemento.id);
+
+              return { ...elemento, isSaved, isFav };
+            });
+
             setColeccion(coleccionConFav);
           } catch (error) {
             console.error('Error al obtener los elementos o los usuarios:', error);
@@ -83,10 +155,20 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
 
         const fetchData = async () => {
           try {
-            const usuarios = await getUsuariosSeguidos(currentUser);
+            // Traemos los usuarios seguidos por el usuario en cuyo perfil estamos
+            const usuarios = await getUsuariosSeguidos(datosUsuario.id);
             const formattedData = formatUsuariosData(usuarios);
 
-            setColeccion(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como falso
+            // Traemos los usuarios seguidos por el usuario con el que hemos iniciado sesión (current user)
+            const usuariosCU = await getUsuariosSeguidos(currentUser);
+            const formattedDataCU = formatUsuariosData(usuariosCU);
+
+            const coleccionActualizada = formattedData.map(user => {
+              const isFollowed = formattedDataCU.some(cuUser => cuUser.id === user.id);
+              return { ...user, isFollowed };
+            });
+
+            setColeccion(coleccionActualizada);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -153,7 +235,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   // Guardar en colección, destacar y eliminar elementos
   const handleAddElemento = async (target, favorito) => {
     try {
-      await addElemento(currentUser, filtroId, target.title, target.authors, target.image, target.id, favorito);
+      await addElemento(currentUser, filtroId, target.titulo, target.autor, target.imagen, target.id_api, favorito);
       await getColeccion();
       console.log('Elemento agregado con éxito');
     } catch (error) {
@@ -267,17 +349,17 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                         <div className='titulo'>{e.titulo}</div>
                         <div className='autor'>{e.autor}</div>
                         <div className='buttons-container'>
-                          {coleccion.find(item => item.id === e.id) && (
+                          {e.isSaved && (
                             <div div className='nav-button no-text selected' onClick={() => handleDeleteElemento(e)}><i data-feather="check"></i></div>
                           )}
-                          {!coleccion.find(item => item.id === e.id) && (
+                          {!e.isSaved && (
                             <div className='nav-button no-text' onClick={() => handleAddElemento(e, 0)}><i data-feather="plus"></i></div>
                           )}
 
-                          {coleccion.find(item => item.id === e.id) && e.isFav && (
+                          {e.isFav && (
                             <div className='nav-button no-text selected star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
                           )}
-                          {coleccion.find(item => item.id === e.id) && !e.isFav && (
+                          {!e.isFav && (
                             <div className='nav-button no-text star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
                           )}
                         </div>
@@ -324,7 +406,6 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             datosUsuario={resultUserData}
             currentUser={currentUser}
             getUsuariosSeguidos={getUsuariosSeguidos}
-            usuariosSeguidos={usuariosSeguidos}
           />
         </>
       )}

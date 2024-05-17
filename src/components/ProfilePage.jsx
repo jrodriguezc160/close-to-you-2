@@ -48,7 +48,7 @@ const ProfilePage = ({ datosUsuario, currentUser, resultUserData, handleVerPerfi
       />
 
       <Collections
-        currentUser={datosUsuario.id}
+        currentUser={currentUser}
         showCollectionsModal={showCollectionsModal}
         setShowCollectionsModal={setShowCollectionsModal}
         filtros={filtros}
@@ -59,6 +59,7 @@ const ProfilePage = ({ datosUsuario, currentUser, resultUserData, handleVerPerfi
         loading={loading}
         profileOpen={profileOpen}
         resultUserData={resultUserData}
+        datosUsuario={datosUsuario}
       />
 
       <div className="two-columns">
