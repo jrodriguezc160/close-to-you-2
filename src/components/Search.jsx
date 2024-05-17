@@ -8,10 +8,10 @@ import Result from './search/Result';
 import { getElementosUsuario } from '../services/ElementosServices';
 import { getUsuariosSeguidos } from '../services/UserServices';
 import ProfilePage from './ProfilePage';
-import { getUsuarioData } from '../services/UserServices';
 import LimitModal from './LimitModal';
+import Loading from './Loading';
 
-const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
+const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -23,8 +23,6 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
   const [filtroId, setFiltroId] = useState(0);
   const [showLimit, setShowLimit] = useState(false);
   const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
-  const [resultUserData, setResultUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -100,35 +98,10 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
     setOpenResultIndex(index);
   };
 
-  const handleVerPerfil = async (idUsuario) => {
-    // Llamara a usuarioData con idUsuario
-    const getUserData = async () => {
-      try {
-        const userData = await getUsuarioData(idUsuario);
-        console.log('Datos de usuario:', userData);
-        setResultUserData(userData)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    await getUserData();
-    await setLoading(true);
-    setTimeout(async () => {
-      await setLoading(false)
-      await setProfileOpen(true);
-    }, 1000);
-  }
-
   return (
     <>
       <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
-
-      <div className={`modal-screen ${loading ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }}>
-        <div className={`modal-message ${loading ? 'visible' : ''}`} style={{ zIndex: '201', gap: '1rem', visibility: loading ? 'visible' : 'hidden', opacity: loading ? 1 : 0 }}>
-          <i data-feather="loader" className='loader'></i>
-          <p>Cargando...</p>
-        </div>
-      </div>
+      <Loading loading={loading} />
 
       {!profileOpen ? (
         <>
@@ -233,7 +206,12 @@ const Search = ({ currentUser, profileOpen, setProfileOpen }) => {
         </>
       ) : (
         <>
-          <ProfilePage datosUsuario={resultUserData} currentUser={currentUser} getUsuariosSeguidos={getUsuariosSeguidos} usuariosSeguidos={usuariosSeguidos} />
+          <ProfilePage
+            datosUsuario={resultUserData}
+            currentUser={currentUser}
+            getUsuariosSeguidos={getUsuariosSeguidos}
+            usuariosSeguidos={usuariosSeguidos}
+          />
         </>
       )}
     </>

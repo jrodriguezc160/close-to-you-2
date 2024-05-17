@@ -8,8 +8,9 @@ import { getPublicacionesUsuario } from '../services/PostServices';
 import '../styles/profilepage.css'
 import Collections from './profilepage/Collections';
 import EditProfile from './profilepage/EditProfile';
+import Loading from './Loading';
 
-const ProfilePage = ({ datosUsuario, currentUser }) => {
+const ProfilePage = ({ datosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
@@ -19,15 +20,16 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const posts = await getPublicacionesUsuario(currentUser);
+        const posts = await getPublicacionesUsuario(datosUsuario.id);
         // Limitar los posts a los tres primeros
         setUserPosts(posts.slice(0, 5));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching user's posts' data:", error);
       }
     };
+
     fetchData();
-  }, []);
+  }, [datosUsuario]);
 
   const handleOpenCollections = (filtro, filtroId) => {
     setShowCollectionsModal(true);
@@ -37,6 +39,8 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
 
   return (
     <>
+      <Loading loading={loading} />
+
       <EditProfile
         datosUsuario={datosUsuario}
         showEditProfileModal={showEditProfileModal}
@@ -44,13 +48,17 @@ const ProfilePage = ({ datosUsuario, currentUser }) => {
       />
 
       <Collections
-        currentUser={currentUser}
+        currentUser={datosUsuario.id}
         showCollectionsModal={showCollectionsModal}
         setShowCollectionsModal={setShowCollectionsModal}
         filtros={filtros}
         setFiltros={setFiltros}
         filtroId={filtroId}
         setFiltroId={setFiltroId}
+        handleVerPerfil={handleVerPerfil}
+        loading={loading}
+        profileOpen={profileOpen}
+        resultUserData={resultUserData}
       />
 
       <div className="two-columns">

@@ -3,11 +3,13 @@ import { getElementosUsuario } from '../../services/ElementosServices';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../../services/UserServices';
 import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
 import LimitModal from '../LimitModal';
+import ProfilePage from '../ProfilePage';
 
-const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId }) => {
+const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId, profileOpen, resultUserData, handleVerPerfil }) => {
   const [coleccion, setColeccion] = useState([]);
   const [favElementos, setFavElementos] = useState([]);
   const [showLimit, setShowLimit] = useState(false);
+  const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
 
   const getColeccion = async () => {
     try {
@@ -217,102 +219,114 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
     }
   }
 
-
   const favLimit = filtroId === 4 ? 5 : 3;
 
   return (
     <>
-      <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
+      {!profileOpen ? (
+        <>
+          <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
 
-      {showCollectionsModal && (
-        <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
-          <div className="collection-modal">
-            <div className="nav-button no-text back" onClick={() => setShowCollectionsModal(false)}><i data-feather="arrow-left"></i></div>
-            <h2>Colecciones</h2>
-            <div className='search-filters visible'>
-              <div
-                className={`nav-button ${filtros === 'users' ? 'selected' : ''}`}
-                onClick={() => handleChangeFilter('users', 99)}>
-                <i data-feather="user"></i>Usuarios
-              </div>
-              <div
-                className={`nav-button ${filtros === 'books' ? 'selected' : ''}`}
-                onClick={() => handleChangeFilter('books', 1)}>
-                <i data-feather="book"></i>Libros
-              </div>
-              <div
-                className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`}
-                onClick={() => handleChangeFilter('movies', 5)}>
-                <i data-feather="film"></i>Películas
-              </div>
-              <div
-                className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`}
-                onClick={() => handleChangeFilter('albums', 4)}>
-                <i data-feather="disc"></i>Álbumes
+          {showCollectionsModal && (
+            <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
+              <div className="collection-modal">
+                <div className="nav-button no-text back" onClick={() => setShowCollectionsModal(false)}><i data-feather="arrow-left"></i></div>
+                <h2>Colecciones</h2>
+                <div className='search-filters visible'>
+                  <div
+                    className={`nav-button ${filtros === 'users' ? 'selected' : ''}`}
+                    onClick={() => handleChangeFilter('users', 99)}>
+                    <i data-feather="user"></i>Usuarios
+                  </div>
+                  <div
+                    className={`nav-button ${filtros === 'books' ? 'selected' : ''}`}
+                    onClick={() => handleChangeFilter('books', 1)}>
+                    <i data-feather="book"></i>Libros
+                  </div>
+                  <div
+                    className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`}
+                    onClick={() => handleChangeFilter('movies', 5)}>
+                    <i data-feather="film"></i>Películas
+                  </div>
+                  <div
+                    className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`}
+                    onClick={() => handleChangeFilter('albums', 4)}>
+                    <i data-feather="disc"></i>Álbumes
+                  </div>
+                </div>
+
+                {coleccion.length > 0 ? (
+                  <div className={`collection ${filtros}`}>
+                    {filtros !== 'users' && coleccion.map((e, index) => (
+                      <div className='element'>
+                        <div className='imagen'>
+                          <img src={e.imagen} alt="cover" className='cover' />
+                          <img src={e.imagen} alt="ambilight" className='ambilight' />
+                        </div>
+
+                        <div className='titulo'>{e.titulo}</div>
+                        <div className='autor'>{e.autor}</div>
+                        <div className='buttons-container'>
+                          {coleccion.find(item => item.id === e.id) && (
+                            <div div className='nav-button no-text selected' onClick={() => handleDeleteElemento(e)}><i data-feather="check"></i></div>
+                          )}
+                          {!coleccion.find(item => item.id === e.id) && (
+                            <div className='nav-button no-text' onClick={() => handleAddElemento(e, 0)}><i data-feather="plus"></i></div>
+                          )}
+
+                          {coleccion.find(item => item.id === e.id) && e.isFav && (
+                            <div className='nav-button no-text selected star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
+                          )}
+                          {coleccion.find(item => item.id === e.id) && !e.isFav && (
+                            <div className='nav-button no-text star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+
+                    {filtros === 'users' && coleccion.map((user, index) => (
+                      <div className='element'>
+                        <div className='imagen'>
+                          <img src={user.foto_perfil} alt="cover" className='cover' />
+                          <img src={user.foto_perfil} alt="ambilight" className='ambilight' />
+                        </div>
+
+                        <div className='titulo'>{user.nombre_mostrado}</div>
+                        <div className='autor'>@{user.usuario}</div>
+
+                        <div className='buttons-container'>
+                          {currentUser !== user.id && user.isFollowed && (
+                            <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
+                          )}
+                          {currentUser !== user.id && !user.isFollowed && (
+                            <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
+                          )}
+                          <div className='nav-button no-text' onClick={() => handleVerPerfil(user.id)}><i data-feather="external-link"></i></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-space">
+                    Navega por las colecciones seleccionando los filtros :)
+                    <div className="icon">
+                      <i data-feather="folder"></i>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-
-            {coleccion.length > 0 ? (
-              <div className={`collection ${filtros}`}>
-                {filtros !== 'users' && coleccion.map((e, index) => (
-                  <div className='element'>
-                    <div className='imagen'>
-                      <img src={e.imagen} alt="cover" className='cover' />
-                      <img src={e.imagen} alt="ambilight" className='ambilight' />
-                    </div>
-
-                    <div className='titulo'>{e.titulo}</div>
-                    <div className='autor'>{e.autor}</div>
-                    <div className='buttons-container'>
-                      {coleccion.find(item => item.id === e.id) && (
-                        <div div className='nav-button no-text selected' onClick={() => handleDeleteElemento(e)}><i data-feather="check"></i></div>
-                      )}
-                      {!coleccion.find(item => item.id === e.id) && (
-                        <div className='nav-button no-text' onClick={() => handleAddElemento(e, 0)}><i data-feather="plus"></i></div>
-                      )}
-
-                      {coleccion.find(item => item.id === e.id) && e.isFav && (
-                        <div className='nav-button no-text selected star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
-                      )}
-                      {coleccion.find(item => item.id === e.id) && !e.isFav && (
-                        <div className='nav-button no-text star' onClick={() => handleEditElemento(e)}><i data-feather="star"></i></div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {filtros === 'users' && coleccion.map((user, index) => (
-                  <div className='element'>
-                    <div className='imagen'>
-                      <img src={user.foto_perfil} alt="cover" className='cover' />
-                      <img src={user.foto_perfil} alt="ambilight" className='ambilight' />
-                    </div>
-
-                    <div className='titulo'>{user.nombre_mostrado}</div>
-                    <div className='autor'>@{user.usuario}</div>
-
-                    <div className='buttons-container'>
-                      {currentUser !== user.id && user.isFollowed && (
-                        <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
-                      )}
-                      {currentUser !== user.id && !user.isFollowed && (
-                        <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
-                      )}
-                      <div className='nav-button no-text'/*  onClick={() => handleVerPerfil(result.id)} */><i data-feather="external-link"></i></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="empty-space">
-                Navega por las colecciones seleccionando los filtros :)
-                <div className="icon">
-                  <i data-feather="folder"></i>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+          )}
+        </>
+      ) : (
+        <>
+          <ProfilePage
+            datosUsuario={resultUserData}
+            currentUser={currentUser}
+            getUsuariosSeguidos={getUsuariosSeguidos}
+            usuariosSeguidos={usuariosSeguidos}
+          />
+        </>
       )}
     </>
   )

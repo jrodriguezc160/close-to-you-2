@@ -178,16 +178,7 @@ export const getUsuariosSeguidos = async (id_usuario) => {
   }
 };
 
-export const editUserProfile = async (
-  id,
-  fotoPerfil,
-  nombreMostrado,
-  usuario,
-  nombre,
-  apellido1,
-  apellido2,
-  descripcion
-) => {
+export const editUserProfile = async (id, fotoPerfil, nombreMostrado, usuario, nombre, apellido1, apellido2, descripcion) => {
   try {
     const formData = new FormData();
     formData.append('id', id);
