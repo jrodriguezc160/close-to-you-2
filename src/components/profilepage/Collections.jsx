@@ -94,7 +94,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         fetchData();
       }
     }, 200);
-  }, [currentUser, filtros]);
+  }, [currentUser, filtros, filtroId, resultUserData, profileOpen]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -113,7 +113,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         delay += 50;
       });
     }, 500);
-  }, [showCollectionsModal, filtros]);
+  }, [showCollectionsModal, filtros, profileOpen]);
 
   const handleChangeFilter = (filtro, id_filtro) => {
     setFiltroId(id_filtro);
