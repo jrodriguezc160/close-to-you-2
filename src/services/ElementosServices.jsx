@@ -1,4 +1,4 @@
-const baseUrl = 'https://localhost/close-to-you/';
+const baseUrl = 'http://close-to-you.atwebpages.com/close-to-you/';
 
 export const getElementosUsuario = async (id_usuario, id_coleccion, favorito) => {
   try {
