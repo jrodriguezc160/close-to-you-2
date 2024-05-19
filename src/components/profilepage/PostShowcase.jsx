@@ -71,7 +71,7 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
                   <div className="post-username">@{datosUsuario?.usuario}</div>
                   <div className="post-text">{post?.contenido}</div>
                   <div className="post-content">
-                    <div className="post-images">
+                    <div className="post-images" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <div className='post-image'>
                         <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQg6exx0ZTbGvPwynge3k-uNPIaaai_sIb9pdRXfMDgqtEMqyQKK7gCuFsc1XhNEIFgq8m2qOJIQzSzzHn-1Z-tAdylYK-AjLoXV1wmkQtjvo-NKjBpx_cu8A&usqp=CAc" alt='dune' />
                       </div>
