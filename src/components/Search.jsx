@@ -44,11 +44,15 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
   }, [showLimit]);
 
   const fetchUsuariosSeguidos = async () => {
-    try {
-      const usuarios = await getUsuariosSeguidos(currentUser);
-      setUsuariosSeguidos(usuarios);
-    } catch (error) {
-      console.error('Error al obtener los usuarios seguidos');
+    if (currentUser !== undefined) {
+      try {
+        const usuarios = await getUsuariosSeguidos(currentUser);
+        setUsuariosSeguidos(usuarios);
+      } catch (error) {
+        console.error('Error al obtener los usuarios seguidos');
+      }
+    } else {
+      console.log('currentUser must be defined!')
     }
   }
 
@@ -66,7 +70,6 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
   useEffect(() => {
     if (filtros === 'users') {
       fetchUsuariosSeguidos();
-      console.log(getUsuariosSeguidos())
     } else {
       // Llamar a getColeccion cada vez que cambie filtroId
       getColeccion();

@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   opacity: 0;
-  z-index: 6;
+  z-index: 99;
   filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: all .5s ease-in-out;
   margin: 2rem;

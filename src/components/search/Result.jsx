@@ -31,7 +31,8 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
   useEffect(() => {
     const checkIfFollowed = async () => {
       try {
-        const isFollowed = usuariosSeguidos.some(item => item.id === result.id);
+        const isFollowed = usuariosSeguidos.some(item => item.id === parseInt(result.id));
+
         setIsFollowed(isFollowed);
       } catch (error) {
         console.error('Error al verificar si el usuario es seguido')
