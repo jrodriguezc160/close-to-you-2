@@ -11,17 +11,12 @@ import { getUsuarioData } from './services/UserServices';
 import { Navigate } from 'react-router-dom';
 
 function App () {
-  // Estado para almacenar los datos del usuario
-  const [datosUsuario, setDatosUsuario] = useState([]);
+  const [datosUsuario, setDatosUsuario] = useState([]); // Estado para almacenar los datos del usuario
+  const [profileOpen, setProfileOpen] = useState(false); // Estado para controlar la apertura del perfil
+  const [writePost, setWritePost] = useState(false); // Estado para controlar la apertura del modal para escribir publicaciones
 
-  // Estado para controlar la apertura del perfil
-  const [profileOpen, setProfileOpen] = useState(false);
-
-  // Estado para controlar el estado de carga
-  const [loading, setLoading] = useState(false);
-
-  // Estado para almacenar los datos de usuario resultantes
-  const [resultUserData, setResultUserData] = useState(null);
+  const [loading, setLoading] = useState(false); // Estado para controlar el estado de carga
+  const [resultUserData, setResultUserData] = useState(null); // Estado para almacenar los datos de usuario resultantes
 
   // Estado para almacenar el usuario actual
   const [currentUser, setCurrentUser] = useState(() => {
@@ -84,6 +79,7 @@ function App () {
         isLoggedIn={isLoggedIn}
         profileOpen={profileOpen}
         setProfileOpen={setProfileOpen}
+        setWritePost={setWritePost}
       />
       <Routes>
         {/* Rutas */}
@@ -124,6 +120,7 @@ function App () {
             path="/perfil"
             element={<ProfilePage
               datosUsuario={datosUsuario}
+              setDatosUsuario={setDatosUsuario}
               currentUser={currentUser}
               profileOpen={profileOpen}
               resultUserData={resultUserData}

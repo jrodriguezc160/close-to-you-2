@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { editUserProfile } from '../../services/UserServices';
+import { editUserProfile, getUsuarioData } from '../../services/UserServices';
 
-const EditProfile = ({ datosUsuario, showEditProfileModal, setShowEditProfileModal }) => {
+const EditProfile = ({ datosUsuario, setDatosUsuario, showEditProfileModal, setShowEditProfileModal }) => {
   // Estados locales para cada campo
   const [fotoPerfil, setFotoPerfil] = useState(datosUsuario.foto_perfil);
   const [nombreMostrado, setNombreMostrado] = useState(datosUsuario.nombre_mostrado);
@@ -12,7 +12,17 @@ const EditProfile = ({ datosUsuario, showEditProfileModal, setShowEditProfileMod
   const [descripcion, setDescripcion] = useState(datosUsuario.descripcion);
 
   useEffect(() => {
-    console.log(datosUsuario);
+    if (showEditProfileModal === false) {
+      const getUserData = async () => {
+        try {
+          const userData = await getUsuarioData(datosUsuario.id);
+          setDatosUsuario(userData);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserData();
+    }
 
     setTimeout(() => {
       // eslint-disable-next-line no-undef

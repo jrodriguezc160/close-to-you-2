@@ -10,7 +10,7 @@ import Collections from './profilepage/Collections';
 import EditProfile from './profilepage/EditProfile';
 import Loading from './Loading';
 
-const ProfilePage = ({ datosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen }) => {
+const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
@@ -43,6 +43,7 @@ const ProfilePage = ({ datosUsuario, currentUser, resultUserData, handleVerPerfi
 
       <EditProfile
         datosUsuario={datosUsuario}
+        setDatosUsuario={setDatosUsuario}
         showEditProfileModal={showEditProfileModal}
         setShowEditProfileModal={setShowEditProfileModal}
       />

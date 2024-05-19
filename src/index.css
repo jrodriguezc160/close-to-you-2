@@ -279,3 +279,15 @@ a:visited {
     color: var(--gray-1);
   }
 }
+
+.modal-screen.visible.form-page>.modal>.profile-pic {
+  border-radius: 100%;
+  width: 16rem;
+  height: 16rem;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
