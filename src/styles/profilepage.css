@@ -99,7 +99,8 @@
   }
 }
 
-.posts-showcase {
+.posts-showcase,
+.posts-showcase-grid {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
