@@ -248,6 +248,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    transition: all .5s ease-in-out;
     margin: 1rem;
     max-width: auto;
     height: calc(100% - 2rem);
@@ -366,6 +367,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    transition: all .5s ease-in-out;
     margin: .5rem;
     max-width: auto;
     height: calc(100% - 1rem);
@@ -396,6 +398,7 @@
 
     .result-title {
       transition: all .5s ease-in-out;
+      width: fit-content;
       font-weight: bold;
       font-size: 16px;
     }
@@ -420,6 +423,7 @@
       justify-content: start;
       align-items: center;
       gap: .5rem;
+      width: fit-content;
 
       .nav-button {
         gap: 0;
