@@ -60,7 +60,7 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
         {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
             <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
-              <div className="post">
+              <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div className="post-profile-pic">
                   <div>
                     <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
