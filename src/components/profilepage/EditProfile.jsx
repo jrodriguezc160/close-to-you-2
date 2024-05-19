@@ -12,6 +12,8 @@ const EditProfile = ({ datosUsuario, showEditProfileModal, setShowEditProfileMod
   const [descripcion, setDescripcion] = useState(datosUsuario.descripcion);
 
   useEffect(() => {
+    console.log(datosUsuario);
+
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
@@ -107,7 +109,6 @@ const EditProfile = ({ datosUsuario, showEditProfileModal, setShowEditProfileMod
               </div>
               <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
             </div>
-
           </div>
         </div>
       )}
