@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/close-to-you/:path*",
+      "destination": "http://close-to-you.atwebpages.com/close-to-you/:path*"
+    }
+  ]
+}

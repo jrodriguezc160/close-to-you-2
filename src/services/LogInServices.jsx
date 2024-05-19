@@ -1,4 +1,4 @@
-const baseUrl = 'http://close-to-you.atwebpages.com/close-to-you/';
+const baseUrl = 'https://close-to-you-2.vercel.app/close-to-you/';
 
 export const logIn = async (usuario, passwd) => {
   try {
