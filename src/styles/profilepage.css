@@ -108,9 +108,9 @@
   height: 20rem;
 
   .post {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
     filter: drop-shadow(0 .5rem .75rem var(--gray-1));
     transition: all .5s ease-in-out;
     border-radius: 1rem;
@@ -163,9 +163,9 @@
     }
 
     .post-content {
-      display: flex;
-      justify-content: start;
-      align-items: center;
+      display: flex !important;
+      justify-content: start !important;
+      align-items: center !important;
       width: 100%;
       max-width: inherit;
       height: 100%;
@@ -193,9 +193,9 @@
           /* Opacidad total en el primer 10% */
           rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0) 0) 100% calc(50% + 0.5rem) / 100% 100% repeat-x;
       -webkit-mask: var(--mask);
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
       mask: var(--mask);
       padding-top: 1.5rem;
       /* Ajustado para dejar .5rem de espacio entre el borde superior y la máscara */
