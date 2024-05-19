@@ -387,9 +387,9 @@
   }
 
   .result-text {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     gap: .25rem;
     transition: all .5s ease-in-out;
     margin: 1rem;
@@ -398,7 +398,7 @@
 
     .result-title {
       transition: all .5s ease-in-out;
-      width: fit-content;
+      width: fit-content !important;
       font-weight: bold;
       font-size: 16px;
     }
@@ -423,7 +423,7 @@
       justify-content: start;
       align-items: center;
       gap: .5rem;
-      width: fit-content;
+      width: fit-content !important;
 
       .nav-button {
         gap: 0;
