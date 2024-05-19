@@ -7,7 +7,7 @@ const SearchAlbums = ({ search, setResponseData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=album.search&album=${search}&api_key=${API_KEY}&format=json&limit=10`);
+        const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=album.search&album=${search}&api_key=${API_KEY}&format=json&limit=10`);
         if (response.data && response.data.results && response.data.results.albummatches && response.data.results.albummatches.album) {
           const matchingAlbums = response.data.results.albummatches.album;
           const formattedData = formatAlbumData(matchingAlbums);
