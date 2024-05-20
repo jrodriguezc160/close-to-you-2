@@ -78,6 +78,7 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
                       <div className="nav-button no-text"><i data-feather="heart"></i></div>
                       <div className="nav-button no-text"><i data-feather="repeat"></i></div>
                       <div className="nav-button no-text"><i data-feather="message-circle"></i></div>
+                      <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
                     </div>
                   </div>
 

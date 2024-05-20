@@ -11,7 +11,7 @@ import { getUsuarioData } from './services/UserServices';
 import { Navigate } from 'react-router-dom';
 
 function App () {
-  const [datosUsuario, setDatosUsuario] = useState([]); // Estado para almacenar los datos del usuario
+  const [datosUsuario, setDatosUsuario] = useState({}); // Estado para almacenar los datos del usuario
   const [profileOpen, setProfileOpen] = useState(false); // Estado para controlar la apertura del perfil
   const [writePost, setWritePost] = useState(false); // Estado para controlar la apertura del modal para escribir publicaciones
 
@@ -126,6 +126,7 @@ function App () {
               resultUserData={resultUserData}
               handleVerPerfil={handleVerPerfil}
               loading={loading}
+              setLoading={setLoading}
             />}
           />
           <Route

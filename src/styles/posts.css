@@ -22,7 +22,6 @@
   width: 40rem;
   height: 20rem;
   overflow: visible;
-  font-size: .75rem;
   font-family: sans-serif;
 
   .post {
@@ -94,6 +93,7 @@
       align-items: flex-start;
       gap: .25rem;
       margin-top: 1.65rem;
+      font-size: .75rem;
     }
 
     .post-text {}
@@ -160,6 +160,7 @@
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
+      font-size: .75rem;
 
       .nav-button.no-text {
         background-color: var(--transparent);
