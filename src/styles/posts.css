@@ -99,9 +99,9 @@
     .post-text {}
 
     .post-content {
-      display: flex;
-      justify-content: start;
-      align-items: center;
+      display: flex !important;
+      justify-content: start !important;
+      align-items: center !important;
       width: 100%;
       max-width: inherit;
       height: 100%;
@@ -168,10 +168,10 @@
     }
 
     .comments {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
       gap: .75rem;
       border-radius: 1rem 1rem 0 0;
       background-color: var(--white-2);
