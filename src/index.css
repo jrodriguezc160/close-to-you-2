@@ -281,6 +281,9 @@ a:visited {
 }
 
 .modal-screen.visible.form-page>.modal>.profile-pic {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
   border-radius: 100%;
   width: 16rem;
   height: 16rem;
