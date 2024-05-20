@@ -1,5 +1,7 @@
+// src/App.js
+
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import ProfilePage from './components/ProfilePage';
 import Home from './components/Home';
 import Search from './components/Search';
@@ -8,23 +10,18 @@ import LogIn from './components/LogIn';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import { getUsuarioData } from './services/UserServices';
-import { Navigate } from 'react-router-dom';
+import { ThemeProvider } from './ThemeContext';
 
 function App () {
-  const [datosUsuario, setDatosUsuario] = useState({}); // Estado para almacenar los datos del usuario
-  const [profileOpen, setProfileOpen] = useState(false); // Estado para controlar la apertura del perfil
-  const [writePost, setWritePost] = useState(false); // Estado para controlar la apertura del modal para escribir publicaciones
-
-  const [loading, setLoading] = useState(false); // Estado para controlar el estado de carga
-  const [resultUserData, setResultUserData] = useState(null); // Estado para almacenar los datos de usuario resultantes
-
-  // Estado para almacenar el usuario actual
+  const [datosUsuario, setDatosUsuario] = useState({});
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [writePost, setWritePost] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [resultUserData, setResultUserData] = useState(null);
   const [currentUser, setCurrentUser] = useState(() => {
     const storedCurrentUser = sessionStorage.getItem('currentUser');
     return storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
   });
-
-  // Estado para almacenar el estado de inicio de sesión
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
     return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
@@ -54,7 +51,6 @@ function App () {
     }
   }, [isLoggedIn, currentUser]);
 
-  // Función para manejar la visualización del perfil
   const handleVerPerfil = async (idUsuario) => {
     const getUserData = async () => {
       try {
@@ -73,74 +69,69 @@ function App () {
   };
 
   return (
-    <Router>
-      {/* Barra de navegación */}
-      <Navbar
-        isLoggedIn={isLoggedIn}
-        profileOpen={profileOpen}
-        setProfileOpen={setProfileOpen}
-        setWritePost={setWritePost}
-      />
-      <Routes>
-        {/* Rutas */}
-        <Route
-          exact
-          path="/login"
-          element={<LogIn
-            setIsLoggedIn={setIsLoggedIn}
-            setCurrentUser={setCurrentUser}
-          />}
+    <ThemeProvider>
+      <Router>
+        <Navbar
+          isLoggedIn={isLoggedIn}
+          profileOpen={profileOpen}
+          setProfileOpen={setProfileOpen}
+          setWritePost={setWritePost}
         />
-        <Route
-          element={<ProtectedRoutes
-            isLoggedIn={isLoggedIn}
-          />}
-        >
+        <Routes>
           <Route
             exact
-            path="/"
-            element={<Home
-              currentUser={currentUser}
+            path="/login"
+            element={<LogIn
+              setIsLoggedIn={setIsLoggedIn}
+              setCurrentUser={setCurrentUser}
             />}
           />
           <Route
-            exact
-            path="/buscar"
-            element={<Search
-              currentUser={currentUser}
-              profileOpen={profileOpen}
-              setProfileOpen={setProfileOpen}
-              resultUserData={resultUserData}
-              handleVerPerfil={handleVerPerfil}
-              loading={loading}
-            />}
-          />
-          <Route
-            exact
-            path="/perfil"
-            element={<ProfilePage
-              datosUsuario={datosUsuario}
-              setDatosUsuario={setDatosUsuario}
-              currentUser={currentUser}
-              profileOpen={profileOpen}
-              resultUserData={resultUserData}
-              handleVerPerfil={handleVerPerfil}
-              loading={loading}
-              setLoading={setLoading}
-            />}
-          />
-          <Route
-            exact
-            path="/ajustes"
-            element={<Settings />}
-          />
-        </Route>
-      </Routes>
-    </Router>
+            element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}
+          >
+            <Route
+              exact
+              path="/"
+              element={<Home currentUser={currentUser} />}
+            />
+            <Route
+              exact
+              path="/buscar"
+              element={<Search
+                currentUser={currentUser}
+                profileOpen={profileOpen}
+                setProfileOpen={setProfileOpen}
+                resultUserData={resultUserData}
+                handleVerPerfil={handleVerPerfil}
+                loading={loading}
+              />}
+            />
+            <Route
+              exact
+              path="/perfil"
+              element={<ProfilePage
+                datosUsuario={datosUsuario}
+                setDatosUsuario={setDatosUsuario}
+                currentUser={currentUser}
+                profileOpen={profileOpen}
+                resultUserData={resultUserData}
+                handleVerPerfil={handleVerPerfil}
+                loading={loading}
+                setLoading={setLoading}
+              />}
+            />
+            <Route
+              exact
+              path="/ajustes"
+              element={<Settings />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
-// Componente para manejar rutas protegidas
 function ProtectedRoutes ({ isLoggedIn }) {
   let currentLocation = useLocation();
 
@@ -149,7 +140,6 @@ function ProtectedRoutes ({ isLoggedIn }) {
     feather.replace();
   }, [currentLocation]);
 
-  // Redireccionar a la página de inicio de sesión si no se ha iniciado sesión
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
