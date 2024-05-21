@@ -87,7 +87,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
             </div>
             <div className="right-column" style={{ overflow: 'hidden' }}>
               <div style={{
-                width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
+                width: '100%', height: 'calc(65vh - 4rem)', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
               }}>
                 <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} handleOpenCollections={handleOpenCollections} />
               </div>

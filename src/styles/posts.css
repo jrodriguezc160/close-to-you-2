@@ -19,8 +19,9 @@
   transform: translate(-50%, -50%);
   transition: all 0.3s ease-in-out;
   margin: auto;
-  width: 40rem;
-  height: 20rem;
+  width: 95vh;
+  height: 45vh;
+  max-height: 30rem;
   overflow: visible;
   font-family: sans-serif;
 

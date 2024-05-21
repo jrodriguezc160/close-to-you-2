@@ -109,8 +109,8 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  width: 13vw;
-  height: 13vw;
+  width: 25vh;
+  height: 25vh;
 }
 
 .album-card {
@@ -124,8 +124,8 @@
   margin: auto;
   box-shadow: 0 2px 5px rgba(30, 30, 30, 0.25);
   background-color: #e2e2e200;
-  width: 13vw;
-  height: 13vw;
+  width: 25vh;
+  height: 25vh;
   overflow: visible;
   content: '';
   color: #00000080;
