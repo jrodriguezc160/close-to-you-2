@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import { getUsuarioData } from './services/UserServices';
 import { ThemeProvider } from './ThemeContext';
+import { jwtDecode } from 'jwt-decode';
 
 function App () {
   const [datosUsuario, setDatosUsuario] = useState({});
@@ -19,23 +20,14 @@ function App () {
   const [loading, setLoading] = useState(false);
   const [resultUserData, setResultUserData] = useState(null);
   const [currentUser, setCurrentUser] = useState(() => {
-    const storedCurrentUser = sessionStorage.getItem('currentUser');
-    return storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
+    const token = sessionStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    return decodedToken ? decodedToken.userId : null
   });
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
-    return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
+    const token = sessionStorage.getItem('token');
+    return !!token;
   });
-
-  useEffect(() => {
-    sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (currentUser) {
-      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-    }
-  }, [currentUser]);
 
   useEffect(() => {
     if (isLoggedIn && currentUser) {
@@ -84,6 +76,7 @@ function App () {
             element={<LogIn
               setIsLoggedIn={setIsLoggedIn}
               setCurrentUser={setCurrentUser}
+              currentUser={currentUser}
             />}
           />
           <Route
@@ -92,7 +85,7 @@ function App () {
             <Route
               exact
               path="/"
-              element={<Home currentUser={currentUser} />}
+              element={<Home currentUser={currentUser} datosUsuario={datosUsuario} />}
             />
             <Route
               exact

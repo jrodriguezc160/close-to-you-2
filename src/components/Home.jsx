@@ -4,14 +4,14 @@ import '../styles/home.css';
 import PostShowcase from './profilepage/PostShowcase';
 import { getPublicacionesUsuario } from '../services/PostServices';
 
-const Home = ({ currentUser }) => {
+const Home = ({ currentUser, datosUsuario }) => {
   const [responseData, setResponseData] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usuarios = await getUsuariosSeguidos(currentUser);
+        const usuarios = await getUsuariosSeguidos(datosUsuario.id);
         const formattedData = formatUsuariosData(usuarios);
 
         setResponseData(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como falso

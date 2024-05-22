@@ -19,7 +19,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
 
   useEffect(() => {
     const fetchData = async () => {
-      if (datosUsuario && datosUsuario?.id) {
+      if (datosUsuario && datosUsuario.id) {
         try {
           const posts = await getPublicacionesUsuario(datosUsuario?.id);
           // Limitar los posts a los tres primeros

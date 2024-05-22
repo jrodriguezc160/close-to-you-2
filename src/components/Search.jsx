@@ -46,6 +46,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
   const fetchUsuariosSeguidos = async () => {
     if (currentUser !== undefined) {
       try {
+        console.log(currentUser)
         const usuarios = await getUsuariosSeguidos(currentUser);
         setUsuariosSeguidos(usuarios);
       } catch (error) {
