@@ -21,7 +21,7 @@ function App () {
   const [resultUserData, setResultUserData] = useState(null);
   const [currentUser, setCurrentUser] = useState(() => {
     const token = sessionStorage.getItem('token');
-    const decodedToken = jwtDecode(token);
+    const decodedToken = token ? jwtDecode(token) : null;
     return decodedToken ? decodedToken.userId : null
   });
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
