@@ -45,10 +45,10 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
   }, [showLimit]);
 
   const fetchUsuariosSeguidos = async () => {
-    if (currentUser.userId !== undefined) {
+    if (currentUser !== undefined) {
       try {
-        console.log('currentUser.userId', currentUser.userId)
-        const usuarios = await getUsuariosSeguidos(currentUser.userId);
+        console.log('currentUser', currentUser)
+        const usuarios = await getUsuariosSeguidos(currentUser);
         setUsuariosSeguidos(usuarios);
       } catch (error) {
         console.error('Error al obtener los usuarios seguidos');
@@ -60,7 +60,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
 
   const getColeccion = async () => {
     try {
-      const elementos = await getElementosUsuario(currentUser.userId, filtroId);
+      const elementos = await getElementosUsuario(currentUser, filtroId);
       setMiColeccion(elementos);
     } catch (error) {
       console.error('Error al obtener los elementos o los usuarios');

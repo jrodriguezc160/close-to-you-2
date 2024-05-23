@@ -51,9 +51,13 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
 
       if (message === 'Inicio de sesión exitoso') {
         setIsLoggedIn(true);
-        sessionStorage.setItem('token', token); // Guarda el token JWT
+        sessionStorage.setItem('token', token);
+
+        // Decodifica el token para obtener el usuario actual
         const decodedUser = jwtDecode(token);
-        setCurrentUser(decodedUser); // Establece el usuario actual decodificado
+
+        // Establece el usuario actual decodificado
+        setCurrentUser(decodedUser);
         console.log('currentUser', currentUser)
 
         navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito

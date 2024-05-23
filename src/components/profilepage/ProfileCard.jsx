@@ -52,7 +52,7 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
 
   const fetchUsuariosSeguidos = async () => {
     try {
-      const usuarios = await getUsuariosSeguidos(currentUser.userId);
+      const usuarios = await getUsuariosSeguidos(currentUser);
       setUsuariosSeguidos(usuarios);
     } catch (error) {
       console.error('Error al obtener los usuarios seguidos');
@@ -74,7 +74,7 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
   const handleFollowUser = async () => {
     if (!isFollowed) {
       try {
-        await followUsuario(datosUsuario.id, currentUser.userId);
+        await followUsuario(datosUsuario.id, currentUser);
         console.log('Usuario seguido con éxito');
         await getUsuariosSeguidos();
         setIsFollowed(true)
@@ -88,7 +88,7 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
 
   const handleUnfollowUser = async () => {
     try {
-      await unfollowUsuario(datosUsuario.id, currentUser.userId)
+      await unfollowUsuario(datosUsuario.id, currentUser)
       await getUsuariosSeguidos();
       setIsFollowed(false)
       console.log('Elemento agregado con éxito');
@@ -110,13 +110,13 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
         </div>
 
         <div className="profile-buttons">
-          {currentUser.userId === resultId && (
+          {currentUser === resultId && (
             <div className="nav-button" onClick={() => setShowEditProfileModal(true)}><i data-feather="edit-3"></i><span>Editar perfil</span></div>
           )}
-          {currentUser.userId !== resultId && isFollowed && (
+          {currentUser !== resultId && isFollowed && (
             <div className='nav-button selected' onClick={handleUnfollowUser}><i data-feather="user-check"></i><span>Seguido</span></div>
           )}
-          {currentUser.userId !== resultId && !isFollowed && (
+          {currentUser !== resultId && !isFollowed && (
             <div className='nav-button' onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
           )}
           <div className="nav-button" onClick={() => handleOpenCollections()}><i data-feather="package"></i><span>Ver colecciones</span></div>

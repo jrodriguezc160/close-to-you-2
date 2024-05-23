@@ -12,7 +12,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usuarios = await getUsuariosSeguidos(datosUsuario.id);
+        const usuarios = await getUsuariosSeguidos(currentUser);
         const formattedData = formatUsuariosData(usuarios);
 
         setResponseData(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como falso
@@ -44,7 +44,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
   const handleFollowUser = async (targetUserIndex) => {
     try {
       const targetUser = responseData[targetUserIndex];
-      await followUsuario(targetUser.id, currentUser.userId);
+      await followUsuario(targetUser.id, currentUser);
       await getUsuariosSeguidos();
       const updatedResponseData = [...responseData];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: true };
@@ -58,7 +58,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
   const handleUnfollowUser = async (targetUserIndex) => {
     try {
       const targetUser = responseData[targetUserIndex];
-      await unfollowUsuario(targetUser.id, currentUser.userId);
+      await unfollowUsuario(targetUser.id, currentUser);
       await getUsuariosSeguidos();
       const updatedResponseData = [...responseData];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: false };
@@ -101,10 +101,10 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
 
                   <div className="result-buttons">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                      {currentUser.userId !== parseInt(user.id) && user.isFollowed && (
+                      {currentUser !== parseInt(user.id) && user.isFollowed && (
                         <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
                       )}
-                      {currentUser.userId !== parseInt(user.id) && !user.isFollowed && (
+                      {currentUser !== parseInt(user.id) && !user.isFollowed && (
                         <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
                       )}
                       <div className='nav-button no-text'><i data-feather="external-link"></i></div>

@@ -28,10 +28,10 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         const fetchData = async () => {
           try {
             // Guardamos los elementos favoritos del current user (usuario con quien se ha iniciado sesión)
-            const favElementosCU = await getElementosUsuario(currentUser.userId, filtroId, 1);
+            const favElementosCU = await getElementosUsuario(currentUser, filtroId, 1);
 
             // Guardamos todos los elementos del current user
-            const coleccionCU = await getElementosUsuario(currentUser.userId, filtroId);
+            const coleccionCU = await getElementosUsuario(currentUser, filtroId);
             const formattedDataCU = formatElementosData(coleccionCU);
             const formattedFavDataCU = formatElementosData(favElementosCU);
 
@@ -70,7 +70,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             const formattedData = formatUsuariosData(usuarios);
 
             // Traemos los usuarios seguidos por el usuario con el que hemos iniciado sesión (current user)
-            const usuariosCU = await getUsuariosSeguidos(currentUser.userId);
+            const usuariosCU = await getUsuariosSeguidos(currentUser);
             const formattedDataCU = formatUsuariosData(usuariosCU);
 
             const coleccionActualizada = formattedData.map(user => {
@@ -107,7 +107,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   // Con el cambio de colección llamamos al servicio para recibir nuevos elementos
   useEffect(() => {
     getColeccion();
-  }, [currentUser.userId, filtros, filtroId, resultUserData, profileOpen]);
+  }, [currentUser, filtros, filtroId, resultUserData, profileOpen]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -138,7 +138,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   const handleFollowUser = async (targetUserIndex) => {
     try {
       const targetUser = coleccion[targetUserIndex];
-      await followUsuario(targetUser.id, currentUser.userId);
+      await followUsuario(targetUser.id, currentUser);
       await getUsuariosSeguidos();
       const updatedResponseData = [...coleccion];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: true };
@@ -152,7 +152,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   const handleUnfollowUser = async (targetUserIndex) => {
     try {
       const targetUser = coleccion[targetUserIndex];
-      await unfollowUsuario(targetUser.id, currentUser.userId);
+      await unfollowUsuario(targetUser.id, currentUser);
       await getUsuariosSeguidos();
       const updatedResponseData = [...coleccion];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: false };
@@ -166,7 +166,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   // Guardar en colección, destacar y eliminar elementos
   const handleAddElemento = async (target, favorito) => {
     try {
-      await addElemento(currentUser.userId, filtroId, target.titulo, target.autor, target.imagen, target.id_api, favorito);
+      await addElemento(currentUser, filtroId, target.titulo, target.autor, target.imagen, target.id_api, favorito);
       await getColeccion();
       console.log('Elemento agregado con éxito');
     } catch (error) {
@@ -177,7 +177,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
 
   const handleDeleteElemento = async (target) => {
     try {
-      await deleteElemento(currentUser.userId, target.id_api);
+      await deleteElemento(currentUser, target.id_api);
       await getColeccion();
       const updatedCollection = coleccion.filter(item => item.id !== target.id);
       setColeccion(updatedCollection);
@@ -208,7 +208,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         if (!isSaved) {
           await handleAddElemento(target, favorito);
         } else {
-          await editElemento(currentUser.userId, target.id_api, filtroId, favorito);
+          await editElemento(currentUser, target.id_api, filtroId, favorito);
           await getColeccion();
         }
       } catch (error) {
@@ -308,10 +308,10 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                         <div className='autor'>@{user.usuario}</div>
 
                         <div className='buttons-container'>
-                          {currentUser.userId !== user.id && user.isFollowed && (
+                          {currentUser !== user.id && user.isFollowed && (
                             <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
                           )}
-                          {currentUser.userId !== user.id && !user.isFollowed && (
+                          {currentUser !== user.id && !user.isFollowed && (
                             <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
                           )}
                           <div className='nav-button no-text' onClick={() => handleVerPerfil(user.id)}><i data-feather="external-link"></i></div>
