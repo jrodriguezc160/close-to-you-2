@@ -85,7 +85,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
   const handleAddElemento = async (favorito) => {
     if (!isSaved) {
       try {
-        await addElemento(currentUser, idColeccion, result.title, result.authors, result.image, result.id, favorito);
+        await addElemento(currentUser.userId, idColeccion, result.title, result.authors, result.image, result.id, favorito);
         await getColeccion();
         console.log('Elemento agregado con éxito');
       } catch (error) {
@@ -99,7 +99,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
   const handleDeleteElemento = async () => {
     try {
-      await deleteElemento(currentUser, result.id);
+      await deleteElemento(currentUser.userId, result.id);
       await getColeccion();
       console.log('Elemento agregado con éxito');
     } catch (error) {
@@ -122,7 +122,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
       } else {
 
         try {
-          await editElemento(currentUser, result.id, idColeccion, favorito)
+          await editElemento(currentUser.userId, result.id, idColeccion, favorito)
           await getColeccion();
           console.log('Elemento editado con éxito');
         } catch (error) {
@@ -140,7 +140,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
   const handleFollowUser = async () => {
     if (!isSaved) {
       try {
-        await followUsuario(result.id, currentUser);
+        await followUsuario(result.id, currentUser.userId);
         console.log('Usuario seguido con éxito');
         await getUsuariosSeguidos();
         setIsFollowed(true)
@@ -155,7 +155,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
   const handleUnfollowUser = async () => {
     try {
-      await unfollowUsuario(result.id, currentUser)
+      await unfollowUsuario(result.id, currentUser.userId)
       await getColeccion();
       setIsFollowed(false)
       console.log('Elemento agregado con éxito');
@@ -181,10 +181,10 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               {/* Si el usuario actual no siga al usuario mostrado... */}
 
-              {currentUser !== resultId && isFollowed && (
+              {currentUser.userId !== resultId && isFollowed && (
                 <div className={`nav-button ${!isOpen && 'no-text'} selected`} onClick={handleUnfollowUser}><i data-feather="user-check"></i><span>Seguido</span></div>
               )}
-              {currentUser !== resultId && !isFollowed && (
+              {currentUser.userId !== resultId && !isFollowed && (
                 <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
               )}
               <div className={`nav-button ${!isOpen && 'no-text'}`} onClick={() => handleVerPerfil(result.id)}><i data-feather="external-link"></i><span>Ver perfil</span></div>
