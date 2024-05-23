@@ -137,7 +137,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
           <h2>Iniciar sesión</h2>
           <div className='form-fields'>
             <label htmlFor="usuario" className={usuarioIsFocused ? 'focused' : ''}>Usuario</label>
-            <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false); }} />
+            <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false); }} autoFocus />
           </div>
 
           <div className='form-fields'>

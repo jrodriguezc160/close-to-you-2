@@ -9,8 +9,9 @@ import '../styles/profilepage.css'
 import Collections from './profilepage/Collections';
 import EditProfile from './profilepage/EditProfile';
 import Loading from './Loading';
+import WritePostModal from './WritePostModal';
 
-const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading }) => {
+const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
@@ -21,7 +22,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
     const fetchData = async () => {
       if (datosUsuario && datosUsuario.id) {
         try {
-          const posts = await getPublicacionesUsuario(datosUsuario?.id);
+          const posts = await getPublicacionesUsuario(datosUsuario.id);
           // Limitar los posts a los tres primeros
           setUserPosts(posts.slice(0, 5));
         } catch (error) {
@@ -40,14 +41,17 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
   }
 
   useEffect(() => {
-    !datosUsuario && setLoading(true);
+    if (!datosUsuario) {
+      setLoading(true);
+    }
   }, [datosUsuario, setLoading])
 
   return (
     <>
+      <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
       <Loading loading={loading} />
 
-      {datosUsuario.id && (
+      {datosUsuario && datosUsuario.id ? (
         <>
           <EditProfile
             datosUsuario={datosUsuario}
@@ -76,11 +80,11 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
               <div style={{ height: '2rem' }}></div>
               <div className="collections">
                 <div className='collection-container'>
-                  <BookShelf currentUser={datosUsuario?.id} handleOpenCollections={handleOpenCollections} />
+                  <BookShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
                 </div>
 
                 <div className='collection-container'>
-                  <MovieShelf currentUser={datosUsuario?.id} handleOpenCollections={handleOpenCollections} />
+                  <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
                 </div>
               </div>
               <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} handleOpenCollections={handleOpenCollections} setShowEditProfileModal={setShowEditProfileModal} />
@@ -92,15 +96,15 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
                 <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} handleOpenCollections={handleOpenCollections} />
               </div>
               <div className="albums">
-                <AlbumShelf currentUser={datosUsuario?.id} handleOpenCollections={handleOpenCollections} />
+                <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
               </div>
             </div>
           </div>
-          <img src={datosUsuario?.foto_perfil} alt="background-gradient" className='background-gradient profile' />
+          <img src={datosUsuario.foto_perfil} alt="background-gradient" className='background-gradient profile' />
         </>
-      )}
+      ) : null}
     </>
-  )
+  );
 }
 
 export default ProfilePage;

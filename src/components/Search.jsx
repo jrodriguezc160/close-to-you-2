@@ -10,8 +10,9 @@ import { getUsuariosSeguidos } from '../services/UserServices';
 import ProfilePage from './ProfilePage';
 import LimitModal from './LimitModal';
 import Loading from './Loading';
+import WritePostModal from './WritePostModal';
 
-const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario }) => {
+const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario, writePost, setWritePost }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -104,6 +105,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
 
   return (
     <>
+      <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
       <LimitModal showLimit={showLimit} setShowLimit={setShowLimit} favLimit={favLimit} />
       <Loading loading={loading} />
 

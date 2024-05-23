@@ -11,6 +11,10 @@
   --semi-transparent-white: rgba(255, 255, 255, 0.75);
   --shadow-1: lightgray;
   --border: white;
+  --red-1: crimson;
+  --red-2: rgb(248, 224, 227);
+  --blue-1: royalblue;
+  --blue-2: rgb(221, 229, 255);
 }
 
 body {
@@ -42,6 +46,10 @@ body.dark {
   --semi-transparent-white: rgba(30, 30, 30, 0.75);
   --shadow-1: #242424;
   --border: #3d3d3d;
+  --red-1: rgb(215, 99, 122);
+  --red-2: rgb(154, 116, 123);
+  --blue-1: rgb(141, 163, 229);
+  --blue-2: rgb(135, 148, 189);
 }
 
 a {

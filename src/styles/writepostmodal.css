@@ -1,0 +1,71 @@
+  .post-showcase-grid.on-modal:hover {
+    scale: 1;
+  }
+
+  input {
+    outline: none;
+    border: 0px solid white;
+    background-color: var(--transparent);
+  }
+
+  .post-text,
+  input {
+    width: 100%;
+  }
+
+  .nav-button.on-modal:hover {
+    color: var(--black);
+
+    svg {
+      color: var(--black);
+    }
+  }
+
+  .buttons-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: .75rem;
+
+    .left,
+    .right {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .right {
+      gap: .5rem;
+    }
+
+    .nav-button.on-modal.no-text {
+      background-color: var(--transparent);
+    }
+  }
+
+  .nav-button.on-modal.cancel {
+    transition: all .5s ease-in-out;
+    background-color: var(--red-2);
+    color: var(--red-1);
+
+    svg {
+      color: var(--red-1);
+    }
+  }
+
+  .nav-button.on-modal.publish {
+    transition: all .5s ease-in-out;
+    background-color: var(--blue-2);
+    color: var(--blue-1);
+
+    svg {
+      color: var(--blue-1);
+    }
+  }
+
+  .nav-button.on-modal.cancel:hover,
+  .nav-button.on-modal.publish:hover {
+    scale: 1.05;
+    filter: drop-shadow(0 .25rem .5rem var(--shadow-1));
+  }

@@ -3,8 +3,9 @@ import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../services
 import '../styles/home.css';
 import PostShowcase from './profilepage/PostShowcase';
 import { getPublicacionesUsuario } from '../services/PostServices';
+import WritePostModal from './WritePostModal';
 
-const Home = ({ currentUser, datosUsuario }) => {
+const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
   const [responseData, setResponseData] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 
@@ -80,48 +81,52 @@ const Home = ({ currentUser, datosUsuario }) => {
   }
 
   return (
-    <div className="two-columns">
-      <div className="left-column" style={{ justifyContent: 'flex-end', gap: '1rem' }}>
-        {responseData.map((user, index) => {
-          return (
-            <div className='search-result' key={user.id} style={{ backgroundColor: 'var(--semi-transparent)' }}>
-              <div className="info" style={{ justifyContent: 'space-between' }}>
-                <div className="result-text">
-                  <div className='result-pic users-result' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src={user.foto_perfil} alt="result-pic" />
+    <>
+      <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
+
+      <div className="two-columns">
+        <div className="left-column" style={{ justifyContent: 'flex-end', gap: '1rem' }}>
+          {responseData.map((user, index) => {
+            return (
+              <div className='search-result' key={user.id} style={{ backgroundColor: 'var(--semi-transparent)' }}>
+                <div className="info" style={{ justifyContent: 'space-between' }}>
+                  <div className="result-text">
+                    <div className='result-pic users-result' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <img src={user.foto_perfil} alt="result-pic" />
+                    </div>
+                    <div className="user-result-text">
+                      <b>{user.nombre_mostrado}</b>&nbsp;&nbsp;@{user.usuario}
+                    </div>
                   </div>
-                  <div className="user-result-text">
-                    <b>{user.nombre_mostrado}</b>&nbsp;&nbsp;@{user.usuario}
+
+                  <div className="result-buttons">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+                      {currentUser !== parseInt(user.id) && user.isFollowed && (
+                        <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
+                      )}
+                      {currentUser !== parseInt(user.id) && !user.isFollowed && (
+                        <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
+                      )}
+                      <div className='nav-button no-text'><i data-feather="external-link"></i></div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="result-buttons">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                    {currentUser !== parseInt(user.id) && user.isFollowed && (
-                      <div className='nav-button no-text selected' onClick={() => handleUnfollowUser(index)}><i data-feather="user-check"></i></div>
-                    )}
-                    {currentUser !== parseInt(user.id) && !user.isFollowed && (
-                      <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
-                    )}
-                    <div className='nav-button no-text'><i data-feather="external-link"></i></div>
-                  </div>
-                </div>
+                <div className="nav-button no-text arrow-right" onClick={() => handleClickUser(index)}><i data-feather='arrow-right'></i></div>
               </div>
+            )
+          })}
+        </div>
 
-              <div className="nav-button no-text arrow-right" onClick={() => handleClickUser(index)}><i data-feather='arrow-right'></i></div>
-            </div>
-          )
-        })}
+        <div className="right-column">
+          {userPosts.map((post, index) => {
+            return (
+              <PostShowcase datosUsuario={responseData[0]} postData={post} />
+            )
+          })}
+        </div>
       </div>
-
-      <div className="right-column">
-        {userPosts.map((post, index) => {
-          return (
-            <PostShowcase datosUsuario={responseData[0]} postData={post} />
-          )
-        })}
-      </div>
-    </div>
+    </>
   )
 }
 

@@ -9,8 +9,8 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
   // Se definen las variables de estado
   // Se incluyen las que corresponden al usuario actual (current user o CU)
   const [coleccion, setColeccion] = useState([]);
-  const [coleccionCU, setColeccionCU] = useState([]);
   const [showLimit, setShowLimit] = useState(false);
+  const [firstRender, setFirstRender] = useState(true); // Estado para controlar la primera renderización
 
   const getColeccion = async () => {
     setTimeout(() => {
@@ -45,6 +45,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             });
 
             setColeccion(coleccionConFav);
+            setFirstRender(false); // Actualizar el estado para indicar que la colección ha sido cargada
           } catch (error) {
             console.error('Error al obtener los elementos o los usuarios:', error);
           }
@@ -78,6 +79,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             });
 
             setColeccion(coleccionActualizada);
+            setFirstRender(false); // Actualizar el estado para indicar que la colección ha sido cargada
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -104,78 +106,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
 
   // Con el cambio de colección llamamos al servicio para recibir nuevos elementos
   useEffect(() => {
-    setTimeout(() => {
-      if (filtros !== 'users') {
-        const formatElementosData = (elementos) => {
-          return elementos.map(elemento => ({
-            titulo: elemento.titulo,
-            autor: elemento.autor,
-            imagen: elemento.imagen || '',
-            id: elemento.id,
-            id_api: elemento.id_api,
-          }));
-        };
-
-        const fetchData = async () => {
-          try {
-            // Guardamos los elementos favoritos del current user (usuario con quien se ha iniciado sesión)
-            const favElementosCU = await getElementosUsuario(currentUser, filtroId, 1);
-
-            // Guardamos todos los elementos del current user
-            const coleccionCU = await getElementosUsuario(currentUser, filtroId);
-            const formattedDataCU = formatElementosData(coleccionCU);
-            const formattedFavDataCU = formatElementosData(favElementosCU);
-
-            const coleccion = await getElementosUsuario(datosUsuario.id, filtroId);
-            const formattedData = formatElementosData(coleccion);
-            const coleccionConFav = formattedData.map(elemento => {
-              const isSaved = formattedDataCU.some(cuUser => cuUser.id === elemento.id);
-              const isFav = formattedFavDataCU.some(cuUser => cuUser.id === elemento.id);
-
-              return { ...elemento, isSaved, isFav };
-            });
-
-            setColeccion(coleccionConFav);
-          } catch (error) {
-            console.error('Error al obtener los elementos o los usuarios:', error);
-          }
-        }
-
-        fetchData();
-      } else {
-        const formatUsuariosData = (usuarios) => {
-          return usuarios.map(usuario => ({
-            nombre_mostrado: usuario.nombre_mostrado,
-            usuario: usuario.usuario,
-            descripcion: usuario.descripcion || '',
-            foto_perfil: usuario.foto_perfil || '',
-            id: usuario.id || '',
-          }));
-        };
-
-        const fetchData = async () => {
-          try {
-            // Traemos los usuarios seguidos por el usuario en cuyo perfil estamos
-            const usuarios = await getUsuariosSeguidos(datosUsuario.id);
-            const formattedData = formatUsuariosData(usuarios);
-
-            // Traemos los usuarios seguidos por el usuario con el que hemos iniciado sesión (current user)
-            const usuariosCU = await getUsuariosSeguidos(currentUser);
-            const formattedDataCU = formatUsuariosData(usuariosCU);
-
-            const coleccionActualizada = formattedData.map(user => {
-              const isFollowed = formattedDataCU.some(cuUser => cuUser.id === user.id);
-              return { ...user, isFollowed };
-            });
-
-            setColeccion(coleccionActualizada);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-        fetchData();
-      }
-    }, 200);
+    getColeccion();
   }, [currentUser, filtros, filtroId, resultUserData, profileOpen]);
 
   useEffect(() => {
@@ -195,7 +126,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
         delay += 50;
       });
     }, 500);
-  }, [showCollectionsModal, filtros, profileOpen]);
+  }, [showCollectionsModal, filtros, profileOpen, coleccion]);
 
   const handleChangeFilter = (filtro, id_filtro) => {
     setFiltroId(id_filtro);
@@ -340,7 +271,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                 {coleccion.length > 0 ? (
                   <div className={`collection ${filtros}`}>
                     {filtros !== 'users' && coleccion.map((e, index) => (
-                      <div className='element'>
+                      <div className={`element ${firstRender ? 'visible' : ''}`} key={index}>
                         <div className='imagen'>
                           <img src={e.imagen} alt="cover" className='cover' />
                           <img src={e.imagen} alt="ambilight" className='ambilight' />
@@ -367,7 +298,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                     ))}
 
                     {filtros === 'users' && coleccion.map((user, index) => (
-                      <div className='element'>
+                      <div className={`element ${firstRender ? 'visible' : ''}`} key={index}>
                         <div className='imagen'>
                           <img src={user.foto_perfil} alt="cover" className='cover' />
                           <img src={user.foto_perfil} alt="ambilight" className='ambilight' />
@@ -389,7 +320,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                     ))}
                   </div>
                 ) : (
-                  <div className="empty-space">
+                  <div className="empty-space" style={{ border: '0px solid gray', backgroundColor: 'var(--transparent)' }}>
                     Navega por las colecciones seleccionando los filtros :)
                     <div className="icon">
                       <i data-feather="folder"></i>
