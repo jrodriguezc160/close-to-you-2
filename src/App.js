@@ -1,3 +1,5 @@
+// src/App.js
+
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import ProfilePage from './components/ProfilePage';
@@ -9,10 +11,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import { getUsuarioData } from './services/UserServices';
 import { ThemeProvider } from './ThemeContext';
-import { jwtDecode } from 'jwt-decode'; // Corrige el import
+import { jwtDecode } from 'jwt-decode';
 
 function App () {
-  const [datosUsuario, setDatosUsuario] = useState(null);
+  const [datosUsuario, setDatosUsuario] = useState({});
   const [profileOpen, setProfileOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultUserData, setResultUserData] = useState(null);
@@ -20,16 +22,8 @@ function App () {
 
   const [currentUser, setCurrentUser] = useState(() => {
     const token = sessionStorage.getItem('token');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        return decodedToken.userId; // Corrige la extracción del userId
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        return null;
-      }
-    }
-    return null;
+    const decodedToken = token ? jwtDecode(token) : null;
+    return decodedToken ? decodedToken.userId : null
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -39,14 +33,14 @@ function App () {
 
   useEffect(() => {
     if (isLoggedIn && currentUser) {
-      console.log('currentUser', currentUser);
+      console.log('currentUser', currentUser)
       const getUserData = async () => {
         try {
-          const userData = await getUsuarioData(currentUser);
+          const userData = await getUsuarioData(currentUser.userId);
           setDatosUsuario(userData);
-          console.log('userData', userData);
+          console.log('userData', userData)
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          console.error(error);
         }
       };
       getUserData();
@@ -59,22 +53,16 @@ function App () {
         const userData = await getUsuarioData(idUsuario);
         setResultUserData(userData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error(error);
       }
     };
     await getUserData();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setProfileOpen(true);
+    await setLoading(true);
+    setTimeout(async () => {
+      await setLoading(false);
+      await setProfileOpen(true);
     }, 1000);
   };
-
-  useEffect(() => {
-    datosUsuario && setTimeout(() => {
-      setLoading(false)
-    }, 1000);
-  }, [datosUsuario])
 
   return (
     <ThemeProvider>
