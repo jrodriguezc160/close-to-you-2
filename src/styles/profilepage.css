@@ -138,7 +138,7 @@
     }
 
     .nav-button:hover {
-      filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      filter: drop-shadow(0 .25rem .5rem var(--shadow-1));
       border-color: var(--gray-1);
       background-color: var(--white-2);
     }
@@ -148,7 +148,7 @@
     }
 
     .nav-button.selected:hover {
-      filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      filter: drop-shadow(0 .25rem .5rem var(--shadow-1));
       background-color: var(--black);
     }
   }
@@ -358,7 +358,7 @@
     }
 
     .nav-button.no-text:hover {
-      filter: drop-shadow(0 .25rem .5rem var(--gray-1));
+      filter: drop-shadow(0 .25rem .5rem var(--shadow-1));
       border: 1px solid var(--gray-1);
       color: var(--black);
     }

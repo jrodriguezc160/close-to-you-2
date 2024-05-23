@@ -35,6 +35,7 @@ function App () {
         try {
           const userData = await getUsuarioData(currentUser);
           setDatosUsuario(userData);
+          console.log('userData', userData)
         } catch (error) {
           console.error(error);
         }
@@ -97,6 +98,7 @@ function App () {
                 resultUserData={resultUserData}
                 handleVerPerfil={handleVerPerfil}
                 loading={loading}
+                datosUsuario={datosUsuario}
               />}
             />
             <Route

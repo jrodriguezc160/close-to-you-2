@@ -9,6 +9,8 @@
   --semi-transparent: rgba(255, 255, 255, 0.5);
   --semi-transparent-alternative: rgba(255, 255, 255, 0.15);
   --semi-transparent-white: rgba(255, 255, 255, 0.75);
+  --shadow-1: lightgray;
+  --border: white;
 }
 
 body {
@@ -35,9 +37,11 @@ body.dark {
   --gray-1: #2d2d2d;
   --gray-2: lightgray;
   --transparent: #00000000;
-  --semi-transparent: rgba(29, 29, 29, 0.5);
-  --semi-transparent-alternative: rgba(29, 29, 29, 0.15);
-  --semi-transparent-white: rgba(29, 29, 29, 0.75);
+  --semi-transparent: rgba(30, 30, 30, 0.5);
+  --semi-transparent-alternative: rgba(30, 30, 30, 0.15);
+  --semi-transparent-white: rgba(30, 30, 30, 0.75);
+  --shadow-1: #242424;
+  --border: #3d3d3d;
 }
 
 a {
@@ -286,7 +290,10 @@ a:visited {
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
+  border: 1px solid var(--white-2);
   border-radius: 1rem;
+  background-color: var(--semi-transparent-alternative);
+  width: 75%;
   height: 50%;
   color: var(--gray-2);
 

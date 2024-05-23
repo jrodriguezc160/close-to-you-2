@@ -85,7 +85,7 @@ const Home = ({ currentUser, datosUsuario }) => {
         {responseData.map((user, index) => {
           return (
             <div className='search-result' key={user.id} style={{ backgroundColor: 'var(--semi-transparent)' }}>
-              <div className="info">
+              <div className="info" style={{ justifyContent: 'space-between' }}>
                 <div className="result-text">
                   <div className='result-pic users-result' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <img src={user.foto_perfil} alt="result-pic" />

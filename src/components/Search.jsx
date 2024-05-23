@@ -11,7 +11,7 @@ import ProfilePage from './ProfilePage';
 import LimitModal from './LimitModal';
 import Loading from './Loading';
 
-const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading }) => {
+const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -193,7 +193,10 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
               ) : (
                 <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <div className="empty-space" style={{ width: '75%', border: '1px solid var(--white-2)' }}>
-                    Selecciona un filtro para empezar a buscar :)
+                    ¿Cómo puedo buscar?<br /><br />
+                    1 - Selecciona un filtro (usuarios, libros...)<br />
+                    2 - Escribe en la barra de búsqueda<br />
+                    3 - ¡Tachán!<br />
                     <div className="icon">
                       <i data-feather="search"></i>
                     </div>
@@ -204,8 +207,10 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
 
             {renderSearchComponent()}
           </div>
-          {responseData[openResultIndex] && (
+          {responseData[openResultIndex] ? (
             <img src={responseData[openResultIndex].image} alt="background-gradient" className='background-gradient' />
+          ) : (
+            <img src={datosUsuario?.foto_perfil} alt="background-gradient" className='background-gradient' />
           )}
         </>
       ) : (
