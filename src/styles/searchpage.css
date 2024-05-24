@@ -568,5 +568,9 @@ svg.loader {
         justify-content: center;
       }
     }
+
+    .result-pic {
+      max-width: 10vw;
+    }
   }
 }
