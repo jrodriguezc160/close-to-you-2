@@ -30,14 +30,14 @@ const Navbar = ({ isLoggedIn, profileOpen, setProfileOpen, setWritePost }) => {
           <div className='nav-button no-text' style={{ margin: '0' }} onClick={handleCloseModals}>
             <i data-feather="arrow-left" style={{ color: 'var(--gray-2)' }}></i>
           </div>}
-        <NavLink to="/" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="home"></i>Inicio</NavLink>
-        <NavLink to="/buscar" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="compass"></i>Buscar</NavLink>
+        <NavLink to="/" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="home"></i><span>Inicio</span></NavLink>
+        <NavLink to="/buscar" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="compass"></i><span>Buscar</span></NavLink>
         <div className='nav-button no-text' style={{ margin: '0' }} onClick={() => setWritePost(true)}>
           <i data-feather="plus" style={{ color: 'var(--gray-2)' }}></i>
         </div>
       </div>
       <div className="nav-right">
-        <NavLink to="/perfil" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="user"></i>Perfil</NavLink>
+        <NavLink to="/perfil" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="user"></i><span>Perfil</span></NavLink>
         <div className='nav-button no-text' style={{ margin: '0' }} onClick={handleToggleTheme}>
           <i data-feather={isDark ? 'sun' : 'moon'} style={{ color: 'var(--gray-2)' }}></i>
         </div>

@@ -45,6 +45,12 @@
     width: 14px;
     height: 14px;
   }
+
+  span {
+    opacity: 1;
+    transition: all .5s ease-in-out;
+    width: 100%;
+  }
 }
 
 .nav-button:hover {
@@ -77,6 +83,12 @@
 /* Responsive  */
 @media (max-width: 640px) {
   .nav-button {
-    gap: .5rem;
+    gap: 0;
+    padding: 0 .5rem;
+
+    span {
+      opacity: 0;
+      width: 0;
+    }
   }
 }

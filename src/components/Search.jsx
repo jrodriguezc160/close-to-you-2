@@ -133,7 +133,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
                       setFiltros('users');
                       setFiltroId(99)
                     }}>
-                    <i data-feather="user"></i>Usuarios
+                    <i data-feather="user"></i><span>Usuarios</span>
                   </div>
                   <div
                     className={`nav-button ${filtros === 'books' ? 'selected' : ''}`}
@@ -141,7 +141,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
                       setFiltros('books');
                       setFiltroId(1)
                     }}>
-                    <i data-feather="book"></i>Libros
+                    <i data-feather="book"></i><span>Libros</span>
                   </div>
                   <div
                     className={`nav-button ${filtros === 'movies' ? 'selected' : ''}`}
@@ -149,7 +149,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
                       setFiltros('movies');
                       setFiltroId(5)
                     }}>
-                    <i data-feather="film"></i>Películas
+                    <i data-feather="film"></i><span>Películas</span>
                   </div>
                   <div
                     className={`nav-button ${filtros === 'albums' ? 'selected' : ''}`}
@@ -157,7 +157,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
                       setFiltros('albums');
                       setFiltroId(4)
                     }}>
-                    <i data-feather="disc"></i>Álbumes
+                    <i data-feather="disc"></i><span>Álbumes</span>
                   </div>
                 </div>
               </div>
