@@ -304,9 +304,39 @@
 }
 
 /* Responsive  */
-@media (max-width: 1100px) {
+@media (max-width: 640px) {
   .post-showcase-grid {
     width: 95vw;
     height: 75vw;
+
+    .post {
+      .post-elements {
+
+        .post-top,
+        .post-bottom {
+          padding-right: 2rem;
+          width: 100%;
+        }
+
+        .post-bottom>.comments {
+          height: 4rem;
+
+          div {
+            height: 1rem;
+          }
+        }
+      }
+
+      .post-profile-pic {
+        margin: 0;
+        margin-right: 1rem;
+        width: auto;
+
+        div {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
   }
 }

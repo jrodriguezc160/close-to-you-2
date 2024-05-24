@@ -305,6 +305,7 @@ a:visited {
   border: 1px solid var(--white-2);
   border-radius: 1rem;
   background-color: var(--semi-transparent-alternative);
+  padding: 1rem;
   width: 75%;
   height: 50%;
   color: var(--gray-2);
