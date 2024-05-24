@@ -178,7 +178,7 @@ const Result = ({ result, filtros, isFirstResult, isOpen, onClick, miColeccion, 
 
         <div className="result-buttons">
           {filtros === 'users' ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', width: '100%' }}>
               {/* Si el usuario actual no siga al usuario mostrado... */}
 
               {currentUser !== resultId && isFollowed && (

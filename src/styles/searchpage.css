@@ -548,3 +548,25 @@ svg.loader {
     padding: 0;
   }
 }
+
+/* Responsive  */
+@media (max-width: 640px) {
+  .results-column {
+    width: calc(100% - 6rem);
+  }
+
+  .result.open {
+    flex-direction: column;
+    max-width: calc(100% - 4rem);
+    height: auto;
+
+    .result-text {
+      width: calc(100% - 8rem);
+      text-align: center;
+
+      .result-buttons>div {
+        justify-content: center;
+      }
+    }
+  }
+}
