@@ -302,3 +302,11 @@
     width: 85vw;
   }
 }
+
+/* Responsive  */
+@media (max-width: 1100px) {
+  .post-showcase-grid {
+    width: 95vw;
+    height: 75vw;
+  }
+}
