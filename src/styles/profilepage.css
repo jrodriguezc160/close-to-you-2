@@ -100,9 +100,12 @@
 }
 
 .albums {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   border-radius: 1rem;
   width: 100%;
-  height: calc(45vh - 4rem);
+  min-height: calc(45vh - 4rem);
 }
 
 .collection-container {
@@ -443,5 +446,22 @@
 
   textarea {
     height: 5rem;
+  }
+}
+
+/* Responsive  */
+@media (max-width: 1100px) {
+  .two-columns {
+    flex-direction: column;
+    width: calc(100% - 5rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-card>.profile-text>.profile-buttons>.nav-buttons {
+    span {
+      opacity: 0;
+      width: 0;
+    }
   }
 }
