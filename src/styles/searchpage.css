@@ -464,7 +464,7 @@
 
   .result-pic.users-result {
     transition: all .5s ease-in-out;
-    max-width: 5vw;
+    max-width: 3vw;
 
     img {
       border-radius: 100%;

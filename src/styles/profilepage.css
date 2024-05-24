@@ -462,10 +462,12 @@
     width: 100%;
   }
 
-  .left-column {
+  .left-column,
+  .right-column {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    width: calc(100% - 5rem);
     height: auto;
   }
 
@@ -484,6 +486,7 @@
 
   .profile-card {
     flex-direction: column;
+    max-width: calc(100% - 4rem);
     height: auto;
 
     .profile-text {
@@ -502,5 +505,14 @@
         }
       }
     }
+  }
+
+  .right-column {
+    gap: 5rem;
+  }
+
+  .post-showcase-grid {
+    width: 85vw;
+    height: 55vw;
   }
 }
