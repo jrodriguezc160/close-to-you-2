@@ -62,3 +62,147 @@ export const addPublicacion = async (idUsuario, contenido) => {
     throw new Error('Error al agregar la publicación: ' + error.message);
   }
 };
+
+// Servicios para los likes
+export const addLike = async (idUsuario, idPublicacion) => {
+  try {
+    const formData = new FormData();
+    formData.append('id_usuario', idUsuario);
+    formData.append('id_publicacion', idPublicacion);
+
+    const response = await fetch(baseUrl + 'addLike.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al agregar el like');
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      return data.message;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al agregar el like: ' + error.message);
+  }
+};
+
+export const deleteLike = async (idUsuario, idPublicacion) => {
+  try {
+    const formData = new FormData();
+    formData.append('id_usuario', idUsuario);
+    formData.append('id_publicacion', idPublicacion);
+
+    const response = await fetch(baseUrl + 'deleteLike.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al eliminar el like');
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      return data.message;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar el like: ' + error.message);
+  }
+};
+
+export const checkUserLike = async (idUsuario, idPublicacion) => {
+  try {
+    const response = await fetch(`${baseUrl}checkUserLike.php?id_usuario=${idUsuario}&id_publicacion=${idPublicacion}`);
+    if (!response.ok) {
+      throw new Error('Error al verificar el like');
+    }
+    const data = await response.json();
+    if (data.success) {
+      return data.hasLiked;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al verificar el like: ' + error.message);
+  }
+};
+
+// Servicios para los reposts
+export const addRepost = async (idUsuario, idPublicacion) => {
+  try {
+    const formData = new FormData();
+    formData.append('id_usuario', idUsuario);
+    formData.append('id_publicacion', idPublicacion);
+
+    const response = await fetch(baseUrl + 'addRepost.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al agregar el repost');
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      return data.message;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al agregar el repost: ' + error.message);
+  }
+};
+
+export const deleteRepost = async (idUsuario, idPublicacion) => {
+  try {
+    const formData = new FormData();
+    formData.append('id_usuario', idUsuario);
+    formData.append('id_publicacion', idPublicacion);
+
+    const response = await fetch(baseUrl + 'deleteRepost.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al eliminar el repost');
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      return data.message;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar el repost: ' + error.message);
+  }
+};
+
+export const checkUserRepost = async (idUsuario, idPublicacion) => {
+  try {
+    const response = await fetch(`${baseUrl}checkUserRepost.php?id_usuario=${idUsuario}&id_publicacion=${idPublicacion}`);
+    if (!response.ok) {
+      throw new Error('Error al verificar el repost');
+    }
+    const data = await response.json();
+    if (data.success) {
+      return data.hasReposted;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al verificar el repost: ' + error.message);
+  }
+};

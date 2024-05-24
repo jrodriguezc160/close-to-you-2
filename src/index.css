@@ -15,6 +15,8 @@
   --red-2: rgb(248, 224, 227);
   --blue-1: royalblue;
   --blue-2: rgb(221, 229, 255);
+  --green-1: seagreen;
+  --green-2: rgb(182, 225, 201);
 }
 
 body {
@@ -46,10 +48,12 @@ body.dark {
   --semi-transparent-white: rgba(30, 30, 30, 0.75);
   --shadow-1: #242424;
   --border: #3d3d3d;
-  --red-1: rgb(215, 99, 122);
+  --red-1: rgb(187, 63, 88);
   --red-2: rgb(154, 116, 123);
   --blue-1: rgb(141, 163, 229);
   --blue-2: rgb(135, 148, 189);
+  --green-1: rgb(59, 119, 86);
+  --green-2: rgb(64, 92, 76);
 }
 
 a {
@@ -323,4 +327,50 @@ a:visited {
     height: 100%;
     object-fit: cover;
   }
+}
+
+.nav-button.no-text.interactive {
+  transition: all .4s ease-in-out;
+}
+
+.nav-button.no-text.interactive>svg {
+  transition: stroke .2s ease-in-out;
+}
+
+.nav-button.no-text.interactive:hover {
+  scale: 1.25;
+}
+
+.nav-button.no-text.interactive.heart:hover>svg {
+  stroke: var(--red-1);
+}
+
+.nav-button.no-text.interactive.repeat:hover>svg {
+  stroke: var(--green-1);
+}
+
+.nav-button.no-text.interactive.message:hover>svg {
+  stroke: var(--blue-1);
+}
+
+.nav-button.no-text.interactive.heart.active {
+  filter: drop-shadow(0 .1rem .2rem var(--red-2));
+
+  svg {
+    stroke: var(--red-1);
+    fill: var(--red-1);
+  }
+}
+
+.nav-button.no-text.interactive.repeat.active {
+  filter: drop-shadow(0 .1rem .2rem var(--green-2));
+
+  svg {
+    stroke: var(--green-1);
+  }
+}
+
+.nav-button.no-text.interactive.message.active>svg {
+  stroke: var(--blue-1);
+  fill: var(--blue-1);
 }

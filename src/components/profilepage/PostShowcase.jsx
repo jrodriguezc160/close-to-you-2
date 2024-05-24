@@ -1,7 +1,8 @@
 import '../../styles/posts.css'
 import React, { useEffect, useState, useRef } from 'react'
+import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
 
-const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
+const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
   const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -31,10 +32,10 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
       }
     }
 
-    stack.addEventListener("click", swap);
+    // stack.addEventListener("click", swap);
 
     return () => {
-      stack.removeEventListener("click", swap);
+      // stack.removeEventListener("click", swap);
     };
   }, [userPosts]);
 
@@ -45,6 +46,38 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
     }, 100);
   }, [])
 
+  useEffect(() => {
+    const fetchLikes = async () => {
+      for (const post of userPosts) {
+        try {
+          const hasLiked = await checkUserLike(currentUser, post.id);
+          if (hasLiked) {
+            document.querySelector(`[data-post-id="${post.id}"] .heart`).classList.add('active');
+          }
+        } catch (error) {
+          console.error('Error al comprobar el like:', error);
+        }
+      }
+    };
+
+    fetchLikes();
+
+    const fetchReposts = async () => {
+      for (const post of userPosts) {
+        try {
+          const hasReposted = await checkUserRepost(currentUser, post.id);
+          if (hasReposted) {
+            console.log('User has reposted this')
+            document.querySelector(`[data-post-id="${post.id}"] .repeat`).classList.add('active');
+          }
+        } catch (error) {
+          console.error('Error al comprobar el like:', error);
+        }
+      }
+    };
+
+    fetchReposts();
+  }, [userPosts, currentUser]);
 
   const handleMouseEnter = () => {
     setIsHovering(true)
@@ -53,6 +86,36 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
   const handleMouseLeave = () => {
     setIsHovering(false)
   }
+
+  const handleLikeClick = async (postId) => {
+    try {
+      const heartButton = document.querySelector(`[data-post-id="${postId}"] .heart`);
+      if (heartButton.classList.contains('active')) {
+        await deleteLike(currentUser, postId);
+        heartButton.classList.remove('active');
+      } else {
+        await addLike(currentUser, postId);
+        heartButton.classList.add('active');
+      }
+    } catch (error) {
+      console.error('Error al manejar el like:', error);
+    }
+  };
+
+  const handleRepostClick = async (postId) => {
+    try {
+      const repeatButton = document.querySelector(`[data-post-id="${postId}"] .repeat`);
+      if (repeatButton.classList.contains('active')) {
+        await deleteRepost(currentUser, postId);
+        repeatButton.classList.remove('active');
+      } else {
+        await addRepost(currentUser, postId);
+        repeatButton.classList.add('active');
+      }
+    } catch (error) {
+      console.error('Error al manejar el repost:', error);
+    }
+  };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%', marginBottom: '2.5rem' }}>
@@ -75,9 +138,14 @@ const PostShowcase = ({ datosUsuario, userPosts, handleOpenCollections }) => {
 
                     <div className="post-text">{post?.contenido}</div>
                     <div className="buttons">
-                      <div className="nav-button no-text"><i data-feather="heart"></i></div>
-                      <div className="nav-button no-text"><i data-feather="repeat"></i></div>
-                      <div className="nav-button no-text"><i data-feather="message-circle"></i></div>
+                      {/* Agrega el onClick para llamar a handleLikeClick */}
+                      <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
+                        <i data-feather="heart"></i>
+                      </div>
+                      <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
+                        <i data-feather="repeat"></i>
+                      </div>
+                      <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
                       <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
                     </div>
                   </div>

@@ -93,7 +93,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
               <div style={{
                 width: '100%', height: 'calc(65vh - 4rem)', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
               }}>
-                <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} handleOpenCollections={handleOpenCollections} />
+                <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} currentUser={currentUser} />
               </div>
               <div className="albums">
                 <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
