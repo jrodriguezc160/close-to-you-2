@@ -66,3 +66,17 @@
 .nav-button.no-text.active {
   color: var(--white-2);
 }
+
+/* Responsive  */
+@media (max-width: 1100px) {
+  .navbar {
+    width: calc(100% - 4rem);
+  }
+}
+
+/* Responsive  */
+@media (max-width: 640px) {
+  .nav-button {
+    gap: .5rem;
+  }
+}

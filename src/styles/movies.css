@@ -240,3 +240,11 @@
     z-index: -1;
   }
 }
+
+/* Responsive  */
+@media (max-width: 640px) {
+  .movie-card {
+    width: 14vh;
+    height: 22vh;
+  }
+}

@@ -222,3 +222,11 @@
     z-index: -1;
   }
 }
+
+/* Responsive  */
+@media (max-width: 640px) {
+  .book-card {
+    width: 14vh;
+    height: 22vh;
+  }
+}
