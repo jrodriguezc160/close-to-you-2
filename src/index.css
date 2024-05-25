@@ -81,13 +81,34 @@ a:visited {
   align-items: center;
   gap: .5rem;
   opacity: 0;
-  filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: all .5s ease-in-out;
-  border-radius: 2rem;
-  background-color: var(--white-1);
-  padding: 0 .5rem;
   width: fit-content;
-  height: 1.25rem;
+
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    filter: drop-shadow(0 .5rem .75rem var(--gray-1));
+    border-radius: 2rem;
+    background-color: var(--white-1);
+    padding: 0 .5rem;
+    height: 1.25rem;
+  }
+
+  .buttons-container.next {
+    padding: 0 .25rem;
+    width: auto;
+    cursor: pointer;
+  }
+
+  .buttons-container.next:hover {
+    .scroller-icon {
+      scale: 1.2;
+      color: var(--gray-2);
+    }
+  }
+
 
   .dot {
     transition: all .3s ease-in-out;
@@ -133,7 +154,6 @@ a:visited {
     scale: 1.2;
     color: var(--gray-2);
   }
-
 }
 
 .horizontal-scroller.hovering {

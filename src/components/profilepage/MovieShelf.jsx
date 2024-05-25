@@ -39,11 +39,13 @@ const MovieShelf = ({ currentUser, handleOpenCollections }) => {
 
       {/* Horizontal Scroller */}
       <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
-        {myFavMovies.map((movie, index) => (
-          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
-        ))}
-        <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon" onClick={() => handleOpenCollections('movies', 5)}><i data-feather="maximize-2"></i></div>
+        <div className="buttons-container">
+          {myFavMovies.map((movie, index) => (
+            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+          ))}
+          <div className="scroller-icon separator">|</div>
+          <div className="scroller-icon" onClick={() => handleOpenCollections('movies', 5)}><i data-feather="maximize-2"></i></div>
+        </div>
       </div>
     </div>
   );

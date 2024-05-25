@@ -8,38 +8,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    const stack = stackRef.current;
-
-    const swap = (e) => {
-      const card = e.target.closest(".post-showcase-grid:last-child");
-      if (!card || !stack.contains(card)) return;
-
-      card.style.animation = "post-swap 700ms forwards";
-
-      if (card) {
-        card.style.animation = "post-swap 700ms forwards";
-        setIsHovering(false)
-
-        setTimeout(() => {
-          card.style.animation = "";
-          stack.prepend(card);
-
-          // Buscar el índice del elemento en userPosts
-          const index = userPosts.findIndex(post => post.id === card.getAttribute("data-post-id"));
-          setDotIndex(index);
-          setIsHovering(true)
-        }, 700);
-      }
-    }
-
-    // stack.addEventListener("click", swap);
-
-    return () => {
-      // stack.removeEventListener("click", swap);
-    };
-  }, [userPosts]);
-
-  useEffect(() => {
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
@@ -71,7 +39,7 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
             document.querySelector(`[data-post-id="${post.id}"] .repeat`).classList.add('active');
           }
         } catch (error) {
-          console.error('Error al comprobar el like:', error);
+          console.error('Error al comprobar el repost:', error);
         }
       }
     };
@@ -117,9 +85,26 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
     }
   };
 
+  const handleNext = () => {
+    const card = stackRef.current.querySelector('.post-showcase-grid:last-child');
+    if (!card) return;
+
+    card.style.animation = "post-swap 700ms forwards";
+    setIsHovering(false);
+
+    setTimeout(() => {
+      card.style.animation = "";
+      stackRef.current.prepend(card);
+
+      const index = userPosts.findIndex(post => post.id === card.getAttribute("data-post-id"));
+      setDotIndex(index);
+      setIsHovering(true);
+    }, 700);
+  };
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%', marginBottom: '2.5rem' }}>
-      <div className="post-stack" ref={stackRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className='post-container' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className="post-stack" ref={stackRef}>
         {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
             <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
@@ -164,11 +149,17 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
       </div>
 
       <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
-        {userPosts.map((post, index) => (
-          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
-        ))}
-        <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
+        <div className="buttons-container">
+          {userPosts.map((post, index) => (
+            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+          ))}
+          <div className="scroller-icon separator">|</div>
+          <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
+        </div>
+
+        <div className="buttons-container next" onClick={handleNext}>
+          <div className="scroller-icon"><i data-feather="chevron-right"></i></div>
+        </div>
       </div>
     </div>
   )

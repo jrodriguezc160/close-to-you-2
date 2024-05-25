@@ -1,3 +1,12 @@
+.post-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  height: 100%
+}
+
 .post-stack {
   display: flex;
   position: relative;
@@ -262,7 +271,7 @@
   transform: rotate(0deg) translate(0, -50%);
 }
 
-.post-stack:hover {
+.post-container:hover {
   transition: all 0.5s ease-in-out;
 
   .post-showcase-grid:nth-last-child(n + 4) {
@@ -286,7 +295,7 @@
 
 @keyframes post-swap {
   50% {
-    transform: translate(0, -100%) scale(0.6) rotate(-5deg);
+    transform: translate(0, -120%) scale(0.6) rotate(-5deg);
     animation-timing-function: ease-in;
   }
 

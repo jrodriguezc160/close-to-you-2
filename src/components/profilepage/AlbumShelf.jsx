@@ -49,11 +49,13 @@ const AlbumShelf = ({ currentUser, handleOpenCollections }) => {
 
       {/* Horizontal Scroller */}
       <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
-        {myFavAlbums.map((album, index) => (
-          <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
-        ))}
-        <div className="scroller-icon separator">|</div>
-        <div className="scroller-icon" onClick={() => handleOpenCollections('albums', 4)}><i data-feather="maximize-2"></i></div>
+        <div className="buttons-container">
+          {myFavAlbums.map((album, index) => (
+            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+          ))}
+          <div className="scroller-icon separator">|</div>
+          <div className="scroller-icon" onClick={() => handleOpenCollections('albums', 4)}><i data-feather="maximize-2"></i></div>
+        </div>
       </div>
     </div>
   );
