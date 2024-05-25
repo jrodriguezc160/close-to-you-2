@@ -41,27 +41,7 @@ const AlbumShelf = ({ currentUser, handleOpenCollections }) => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [])
-
-  return (
-    <div style={{ width: '100%', height: '15vw', marginTop: '2vw', display: "flex", transition: 'all 1s ease-in-out', justifyContent: 'center', overflow: 'visible', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <AlbumStack myFavAlbums={myFavAlbums} setIsHovering={setIsHovering} setDotIndex={setDotIndex} dotIndex={dotIndex} />
-
-      {/* Horizontal Scroller */}
-      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
-        <div className="buttons-container">
-          {myFavAlbums.map((album, index) => (
-            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
-          ))}
-          <div className="scroller-icon separator">|</div>
-          <div className="scroller-icon" onClick={() => handleOpenCollections('albums', 4)}><i data-feather="maximize-2"></i></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const AlbumStack = ({ myFavAlbums, setIsHovering, setDotIndex, dotIndex }) => {
+  }, []);
 
   useEffect(() => {
     const stack = document.querySelector(".album-stack");
@@ -100,27 +80,39 @@ const AlbumStack = ({ myFavAlbums, setIsHovering, setDotIndex, dotIndex }) => {
   }, [myFavAlbums, dotIndex, setDotIndex, setIsHovering]);
 
   return (
-    <div className='album-stack'>
-      {myFavAlbums.length > 0
-        ? (
-          <>
-            {myFavAlbums.slice().reverse().map((album, index) => (
-              <div key={album.id} className="album-card" data-album-id={album.id}>
-                <div className="album-cover" style={{ backgroundImage: `url(${album.imagen})` }}></div>
-                <div className="vinyl" style={{ zIndex: '-5' }}></div>
+    <div style={{ width: '100%', height: '15vw', marginTop: '2vw', display: "flex", transition: 'all 1s ease-in-out', justifyContent: 'center', overflow: 'visible', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className='album-stack'>
+        {myFavAlbums.length > 0
+          ? (
+            <>
+              {myFavAlbums.slice().reverse().map((album, index) => (
+                <div key={album.id} className="album-card" data-album-id={album.id}>
+                  <div className="album-cover" style={{ backgroundImage: `url(${album.imagen})` }}></div>
+                  <div className="vinyl" style={{ zIndex: '-5' }}></div>
+                </div>
+              ))}
+            </>
+          )
+          : (
+            <div style={{ width: '100%', height: '100%', border: '2px dashed lightgray', borderRadius: '8px' }}>
+              <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                <i data-feather="plus-circle"></i>
               </div>
-            ))}
-          </>
-        )
-        : (
-          <div style={{ width: '100%', height: '100%', border: '2px dashed lightgray', borderRadius: '8px' }}>
-            <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-              <i data-feather="plus-circle"></i>
             </div>
-          </div>
-        )}
+          )}
+      </div>
+      {/* Horizontal Scroller */}
+      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
+        <div className="buttons-container">
+          {myFavAlbums.map((album, index) => (
+            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+          ))}
+          <div className="scroller-icon separator">|</div>
+          <div className="scroller-icon" onClick={() => handleOpenCollections('albums', 4)}><i data-feather="maximize-2"></i></div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default AlbumShelf;

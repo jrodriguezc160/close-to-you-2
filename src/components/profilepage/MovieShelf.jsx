@@ -31,27 +31,6 @@ const MovieShelf = ({ currentUser, handleOpenCollections }) => {
   const handleMouseEnter = () => { setIsHovering(true) }
   const handleMouseLeave = () => { setIsHovering(false) }
 
-  return (
-    <div style={{ width: '100%', height: '100%', display: "flex", gap: "0", justifyContent: 'center', alignItems: 'center', marginRight: '0', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div style={{ width: '100%', height: '87%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <MovieStack myFavMovies={myFavMovies} setIsHovering={setIsHovering} isHovering={isHovering} setDotIndex={setDotIndex} />
-      </div>
-
-      {/* Horizontal Scroller */}
-      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
-        <div className="buttons-container">
-          {myFavMovies.map((movie, index) => (
-            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
-          ))}
-          <div className="scroller-icon separator">|</div>
-          <div className="scroller-icon" onClick={() => handleOpenCollections('movies', 5)}><i data-feather="maximize-2"></i></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const MovieStack = ({ myFavMovies, setIsHovering, dotIndex, setDotIndex }) => {
   useEffect(() => {
     const stack = document.querySelector(".movie-stack");
 
@@ -82,23 +61,38 @@ const MovieStack = ({ myFavMovies, setIsHovering, dotIndex, setDotIndex }) => {
   }, [myFavMovies]);
 
   return (
-    <div className='movie-stack'>
-      {myFavMovies.length > 0
-        ? (
-          myFavMovies.map((movie, index) => (
-            <div key={index} data-movie-id={movie.id} className="movie-card" style={{ backgroundImage: `url(${movie.imagen})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-            </div>
-          ))
-        )
-        : (
-          <div style={{ width: '100%', height: '100%', border: '2px dashed lightgray', borderRadius: '8px' }}>
-            <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-              <i data-feather="plus-circle"></i>
-            </div>
-          </div>
-        )}
+    <div style={{ width: '100%', height: '100%', display: "flex", gap: "0", justifyContent: 'center', alignItems: 'center', marginRight: '0', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div style={{ width: '100%', height: '87%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div className='movie-stack'>
+          {myFavMovies.length > 0
+            ? (
+              myFavMovies.map((movie, index) => (
+                <div key={index} data-movie-id={movie.id} className="movie-card" style={{ backgroundImage: `url(${movie.imagen})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+                </div>
+              ))
+            )
+            : (
+              <div style={{ width: '100%', height: '100%', border: '2px dashed lightgray', borderRadius: '8px' }}>
+                <div style={{ width: '100%', height: '100%', color: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                  <i data-feather="plus-circle"></i>
+                </div>
+              </div>
+            )}
+        </div>
+      </div>
+
+      {/* Horizontal Scroller */}
+      <div className={`horizontal-scroller ${isHovering ? 'hovering' : ''}`}>
+        <div className="buttons-container">
+          {myFavMovies.map((movie, index) => (
+            <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
+          ))}
+          <div className="scroller-icon separator">|</div>
+          <div className="scroller-icon" onClick={() => handleOpenCollections('movies', 5)}><i data-feather="maximize-2"></i></div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default MovieShelf;
