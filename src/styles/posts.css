@@ -295,12 +295,12 @@
 
 @keyframes post-swap {
   50% {
-    transform: translate(0, -120%) scale(0.6) rotate(-5deg);
+    transform: translate(0, -130%) scale(0.6) rotate(-5deg);
     animation-timing-function: ease-in;
   }
 
   100% {
-    transform: translate(0, 0) scale(0.5);
+    transform: translate(0, -50%) scale(0.5);
     z-index: -1;
   }
 }
