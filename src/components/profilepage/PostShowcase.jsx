@@ -2,7 +2,7 @@ import '../../styles/posts.css'
 import React, { useEffect, useState, useRef } from 'react'
 import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
 
-const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
+const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal }) => {
   const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -119,8 +119,8 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%', marginBottom: '2.5rem' }}>
-      <div className="post-stack" ref={stackRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className='posts-holder' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className="post-stack" ref={stackRef}>
         {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
           return (
             <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
@@ -170,7 +170,7 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser }) => {
             <div className={`dot ${dotIndex === index ? 'active' : ''}`} key={index}></div>
           ))}
           <div className="scroller-icon separator">|</div>
-          <div className="scroller-icon"><i data-feather="maximize-2"></i></div>
+          <div className="scroller-icon" onClick={() => setShowPostsModal(true)}><i data-feather="maximize-2"></i></div>
         </div>
       </div>
     </div>

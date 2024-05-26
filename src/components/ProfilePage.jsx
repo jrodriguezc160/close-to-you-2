@@ -10,6 +10,7 @@ import Collections from './profilepage/Collections';
 import EditProfile from './profilepage/EditProfile';
 import Loading from './Loading';
 import WritePostModal from './WritePostModal';
+import PostsModal from './profilepage/PostsModal';
 
 const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost }) => {
   const [userPosts, setUserPosts] = useState([]);
@@ -17,6 +18,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
   const [filtroId, setFiltroId] = useState(0);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showPostsModal, setShowPostsModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +50,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
 
   return (
     <>
+      <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
       <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
       <Loading loading={loading} />
 
@@ -93,7 +96,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
               <div style={{
                 width: '100%', height: 'calc(65vh - 4rem)', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
               }}>
-                <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} currentUser={currentUser} />
+                <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} currentUser={currentUser} setShowPostsModal={setShowPostsModal} />
               </div>
               <div className="albums">
                 <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
