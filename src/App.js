@@ -44,6 +44,7 @@ function App () {
       const getUserData = async () => {
         try {
           const userData = await getUsuarioData(currentUser);
+          console.log('currentUser al llamar a getUsuarioData', currentUser);
           setDatosUsuario(userData);
           console.log('userData', userData);
         } catch (error) {

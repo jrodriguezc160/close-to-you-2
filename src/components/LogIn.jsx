@@ -50,17 +50,19 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
       const { message, token } = await logIn(usuario, password);
 
       if (message === 'Inicio de sesión exitoso') {
-        setIsLoggedIn(true);
         sessionStorage.setItem('token', token);
 
         // Decodifica el token para obtener el usuario actual
         const decodedUser = jwtDecode(token);
 
         // Establece el usuario actual decodificado
-        setCurrentUser(decodedUser);
+        setCurrentUser(decodedUser.userId);
         console.log('currentUser', currentUser)
 
-        navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
+        setTimeout(() => {
+          setIsLoggedIn(true);
+          navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
+        }, 3000);
       } else {
         alert(message);
       }
