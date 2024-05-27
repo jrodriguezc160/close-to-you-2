@@ -69,3 +69,10 @@
     scale: 1.05;
     filter: drop-shadow(0 .25rem .5rem var(--shadow-1));
   }
+
+  .post-showcase-grid.on-modal {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0);
+    margin: 0;
+  }

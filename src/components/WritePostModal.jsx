@@ -33,45 +33,43 @@ const WritePostModal = ({ writePost, setWritePost, datosUsuario }) => {
 
   return (
     <>
-      <div className={`modal-screen ${writePost ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200' }} onClick={handleClickExterior}>
-        <div className={`modal-message ${writePost ? 'visible' : ''}`} style={{ zIndex: '201', visibility: writePost ? 'visible' : 'hidden', opacity: writePost ? 1 : 0 }}>
-          <div className="post-showcase-grid on-modal">
-            <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '25vh', height: 'auto' }}>
-              <div className="post-profile-pic">
-                <div>
-                  <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
-                </div>
+      <div className={`modal-screen ${writePost ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', backdropFilter: 'blur(1rem)' }} onClick={handleClickExterior}>
+        <div className="post-showcase-grid on-modal">
+          <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '25vh', height: 'auto' }}>
+            <div className="post-profile-pic">
+              <div>
+                <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
               </div>
-              <div className="post-elements">
-                <div className="post-top" style={{ paddingRight: '0', width: 'calc(100% - 1rem)' }}>
-                  <div className="post-username">
-                    <div><b>{datosUsuario?.nombre_mostrado}</b></div>
-                    <div>@{datosUsuario?.usuario}</div>
+            </div>
+            <div className="post-elements">
+              <div className="post-top" style={{ paddingRight: '0', width: 'calc(100% - 1rem)' }}>
+                <div className="post-username">
+                  <div><b>{datosUsuario?.nombre_mostrado}</b></div>
+                  <div>@{datosUsuario?.usuario}</div>
+                </div>
+
+                <div className="post-text">
+                  <input
+                    type="text"
+                    placeholder='¿En qué estás pensando?'
+                    value={postContent}
+                    onChange={(e) => setPostContent(e.target.value)}
+                  />
+                </div>
+                <div className="buttons-bottom">
+                  <div className="left">
+                    <div className="nav-button on-modal no-text"><i data-feather="heart"></i></div>
+                    <div className="nav-button on-modal no-text"><i data-feather="repeat"></i></div>
+                    <div className="nav-button on-modal no-text"><i data-feather="message-circle"></i></div>
+                    <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{currentDate}</span>
                   </div>
 
-                  <div className="post-text">
-                    <input
-                      type="text"
-                      placeholder='¿En qué estás pensando?'
-                      value={postContent}
-                      onChange={(e) => setPostContent(e.target.value)}
-                    />
-                  </div>
-                  <div className="buttons-bottom">
-                    <div className="left">
-                      <div className="nav-button on-modal no-text"><i data-feather="heart"></i></div>
-                      <div className="nav-button on-modal no-text"><i data-feather="repeat"></i></div>
-                      <div className="nav-button on-modal no-text"><i data-feather="message-circle"></i></div>
-                      <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{currentDate}</span>
+                  <div className='right'>
+                    <div className="nav-button on-modal cancel" onClick={() => setWritePost(false)}>
+                      <i data-feather="x"></i>Cancelar
                     </div>
-
-                    <div className='right'>
-                      <div className="nav-button on-modal cancel" onClick={() => setWritePost(false)}>
-                        <i data-feather="x"></i>Cancelar
-                      </div>
-                      <div className="nav-button on-modal publish" onClick={handlePublish}>
-                        <i data-feather="send"></i>Publicar
-                      </div>
+                    <div className="nav-button on-modal publish" onClick={handlePublish}>
+                      <i data-feather="send"></i>Publicar
                     </div>
                   </div>
                 </div>

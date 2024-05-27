@@ -56,6 +56,29 @@ body.dark {
   --green-2: rgb(64, 92, 76);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: .5rem;
+  height: .5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px var(--transparent);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--gray-1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-2);
+}
+
 a {
   transition: all .5s ease-in-out;
   color: var(--gray-2);
@@ -97,9 +120,9 @@ a:visited {
   }
 
   .buttons-container.next {
+    cursor: pointer;
     padding: 0 .25rem;
     width: auto;
-    cursor: pointer;
   }
 
   .buttons-container.next:hover {
@@ -394,4 +417,21 @@ a:visited {
 .nav-button.no-text.interactive.message.active>svg {
   stroke: var(--blue-1);
   fill: var(--blue-1);
+}
+
+.right-column.posts,
+.left-column.posts {
+  margin-top: 4rem;
+  height: 82vh;
+  overflow: auto !important;
+}
+
+.left-column.posts {
+  padding-right: 1rem;
+}
+
+.right-column.posts {
+  margin-top: 0;
+  padding: 2rem 2rem;
+  height: calc(100vh - 10rem);
 }

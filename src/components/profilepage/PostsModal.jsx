@@ -77,9 +77,7 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
     <>
       {showPostsModal && (
         <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
-          <div className="collection-modal edit-profile" style={{
-            width: '65vw', alignItems: 'flex-start'
-          }}>
+          <div className="collection-modal edit-profile" style={{ width: '65vw', alignItems: 'flex-start' }}>
             <div className="header" style={{ marginBottom: '5rem' }}>
               <div className='container'>
                 <div className="nav-button no-text" onClick={() => setShowPostsModal(false)}><i data-feather="arrow-left"></i></div>
@@ -87,10 +85,10 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
               </div>
             </div>
 
-            <div className="posts-scroll">
+            <div className="posts-scroll" style={{ marginBottom: '5rem' }}>
               {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
                 return (
-                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '50rem' }}>
+                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
                     <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
                       <div className="post-profile-pic">
                         <div>
