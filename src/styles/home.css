@@ -90,6 +90,7 @@
 }
 
 .right-column.posts {
+  gap: 2rem;
   margin-top: 0;
   padding: 2rem 2rem;
   height: calc(100vh - 10rem);
@@ -107,7 +108,6 @@
   }
 
   .right-column.posts {
-    gap: 16rem;
     padding: 0 5rem;
     width: calc(100% - 10rem);
   }

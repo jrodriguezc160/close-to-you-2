@@ -521,9 +521,30 @@
   .collection-modal {
     border-color: var(--transparent);
     border-radius: 0;
-    width: 100vw;
-    height: 100vh;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
     overflow: hidden;
+
+    .header {
+      top: 0rem !important;
+      margin-bottom: 0 !important;
+      padding-top: .5rem;
+
+      .nav-button {
+        padding: .35rem .85rem !important;
+      }
+    }
+
+    .profile-card {
+      padding: 0 !important;
+      width: 100%;
+    }
+
+    .edit-profile-fields>input {
+      padding: .75rem 1rem;
+    }
 
     .nav-button {
       gap: 0 !important;

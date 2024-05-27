@@ -62,7 +62,7 @@ const EditProfile = ({ datosUsuario, setDatosUsuario, showEditProfileModal, setS
                 <h2 className="title">Edit Profile</h2>
               </div>
 
-              <div className="nav-button button" onClick={handleSaveChanges}><i data-feather="check"></i> Guardar cambios</div>
+              <div className="nav-button button" onClick={handleSaveChanges}><i data-feather="check"></i><span>Guardar cambios</span></div>
             </div>
 
             <div className="profile-card">
