@@ -31,13 +31,14 @@ const MovieShelf = ({ currentUser, handleOpenCollections }) => {
   const handleMouseEnter = () => { setIsHovering(true) }
   const handleMouseLeave = () => { setIsHovering(false) }
 
-  useEffect(() => {
+  const handleClick = () => {
     const stack = document.querySelector(".movie-stack");
+    if (!stack) return;
 
-    const swap = (e) => {
-      const card = document.querySelector(".movie-card:last-child");
-      if (e.target !== card) return;
+    const card = stack.querySelector(".movie-card:last-child");
+    if (!card) return;
 
+    if (card) {
       card.style.animation = "movie-swap 700ms forwards";
       setIsHovering(false);
 
@@ -45,25 +46,19 @@ const MovieShelf = ({ currentUser, handleOpenCollections }) => {
         card.style.animation = "";
         stack.prepend(card);
 
-        // Buscar el índice del elemento en myFavBooks
+        // Buscar el índice del elemento en myFavAlbums
         const index = myFavMovies.findIndex(movie => movie.id === card.getAttribute("data-movie-id"));
         setDotIndex(index);
         console.log('dotIndex: ', dotIndex)
         setIsHovering(true);
       }, 700);
     }
-
-    stack.addEventListener("click", swap);
-
-    return () => {
-      stack.removeEventListener("click", swap);
-    };
-  }, [myFavMovies]);
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', display: "flex", gap: "0", justifyContent: 'center', alignItems: 'center', marginRight: '0', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div style={{ width: '100%', height: '87%', position: 'relative', display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <div className='movie-stack'>
+        <div className='movie-stack' onClick={() => handleClick()}>
           {myFavMovies.length > 0
             ? (
               myFavMovies.map((movie, index) => (

@@ -43,45 +43,37 @@ const AlbumShelf = ({ currentUser, handleOpenCollections }) => {
     }, 100);
   }, []);
 
-  useEffect(() => {
+  const handleClick = () => {
     const stack = document.querySelector(".album-stack");
     if (!stack) return;
 
-    const swap = (e) => {
-      const card = e.target.closest(".album-card:last-child");
-      if (!card || !stack.contains(card)) return;
+    const card = stack.querySelector(".album-card:last-child");
+    if (!card) return;
 
-      const vinyl = card.querySelector(".vinyl");
+    const vinyl = card.querySelector(".vinyl");
 
-      if (card) {
-        vinyl.classList.add('hide')
-        card.style.animation = "album-swap 700ms forwards";
-        setIsHovering(false);
+    if (card) {
+      vinyl.classList.add('hide')
+      card.style.animation = "album-swap 700ms forwards";
+      setIsHovering(false);
 
-        setTimeout(() => {
-          card.style.animation = "";
-          stack.prepend(card);
-          vinyl.classList.remove('hide')
+      setTimeout(() => {
+        card.style.animation = "";
+        stack.prepend(card);
+        vinyl.classList.remove('hide')
 
-          // Buscar el índice del elemento en myFavAlbums
-          const index = myFavAlbums.findIndex(album => album.id === card.getAttribute("data-album-id"));
-          setDotIndex(index);
-          console.log('dotIndex: ', dotIndex)
-          setIsHovering(true);
-        }, 700);
-      }
-    };
-
-    stack.addEventListener("click", swap);
-
-    return () => {
-      stack.removeEventListener("click", swap);
-    };
-  }, [myFavAlbums, dotIndex, setDotIndex, setIsHovering]);
+        // Buscar el índice del elemento en myFavAlbums
+        const index = myFavAlbums.findIndex(album => album.id === card.getAttribute("data-album-id"));
+        setDotIndex(index);
+        console.log('dotIndex: ', dotIndex)
+        setIsHovering(true);
+      }, 700);
+    }
+  };
 
   return (
     <div style={{ width: '100%', height: '15vw', marginTop: '2vw', display: "flex", transition: 'all 1s ease-in-out', justifyContent: 'center', overflow: 'visible', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div className='album-stack'>
+      <div className='album-stack' onClick={handleClick}>
         {myFavAlbums.length > 0
           ? (
             <>

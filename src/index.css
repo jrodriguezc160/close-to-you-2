@@ -425,13 +425,3 @@ a:visited {
   height: 82vh;
   overflow: auto !important;
 }
-
-.left-column.posts {
-  padding-right: 1rem;
-}
-
-.right-column.posts {
-  margin-top: 0;
-  padding: 2rem 2rem;
-  height: calc(100vh - 10rem);
-}

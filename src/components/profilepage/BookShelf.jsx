@@ -31,44 +31,34 @@ const BookShelf = ({ currentUser, handleOpenCollections }) => {
   const handleMouseEnter = () => { setIsHovering(true) }
   const handleMouseLeave = () => { setIsHovering(false) }
 
-  useEffect(() => {
+  const handleClick = () => {
     const stack = document.querySelector(".book-stack");
+    if (!stack) return;
 
-    const swap = (e) => {
-      const card = e.target.closest(".book-card:last-child");
-      if (!card || !stack.contains(card)) return;
+    const card = stack.querySelector(".book-card:last-child");
+    if (!card) return;
 
+    if (card) {
       card.style.animation = "book-swap 700ms forwards";
       setIsHovering(false);
 
-      if (card) {
-        card.style.animation = "book-swap 700ms forwards";
-        setIsHovering(false);
+      setTimeout(() => {
+        card.style.animation = "";
+        stack.prepend(card);
 
-        setTimeout(() => {
-          card.style.animation = "";
-          stack.prepend(card);
-
-          // Buscar el índice del elemento en myFavBooks
-          const index = myFavBooks.findIndex(book => book.id === card.getAttribute("data-book-id"));
-          setDotIndex(index);
-          console.log('dotIndex: ', dotIndex)
-          setIsHovering(true);
-        }, 700);
-      }
+        // Buscar el índice del elemento en myFavAlbums
+        const index = myFavBooks.findIndex(book => book.id === card.getAttribute("data-book-id"));
+        setDotIndex(index);
+        console.log('dotIndex: ', dotIndex)
+        setIsHovering(true);
+      }, 700);
     }
-
-    stack.addEventListener("click", swap);
-
-    return () => {
-      stack.removeEventListener("click", swap);
-    };
-  }, [myFavBooks]);
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', display: "flex", gap: "0", transition: 'all 1s ease-in-out', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div style={{ width: '100%', height: '87%', position: 'relative', display: "flex", justifyContent: 'flex-start', alignItems: "center" }}>
-        <div className='book-stack'>
+        <div className='book-stack' onClick={() => handleClick()}>
           {myFavBooks.length > 0
             ? (
               myFavBooks.slice().reverse().map((book) => (
