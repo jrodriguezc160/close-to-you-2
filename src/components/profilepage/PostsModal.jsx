@@ -78,7 +78,7 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
       {showPostsModal && (
         <div className="modal-screen visible" style={{ backdropFilter: 'blur(5rem)', zIndex: '99' }}>
           <div className="collection-modal edit-profile" style={{
-            width: '50vw', alignItems: 'flex-start'
+            width: '65vw', alignItems: 'flex-start'
           }}>
             <div className="header" style={{ marginBottom: '5rem' }}>
               <div className='container'>
@@ -90,8 +90,8 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
             <div className="posts-scroll">
               {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
                 return (
-                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
-                    <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '50rem' }}>
+                    <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
                       <div className="post-profile-pic">
                         <div>
                           <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
@@ -118,12 +118,12 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
                           </div>
                         </div>
 
-                        <div className="post-bottom">
+                        {/* <div className="post-bottom">
                           <div className="comments">
                             <span>Comentarios</span>
                             <div className="comment-bar"></div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
