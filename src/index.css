@@ -425,3 +425,23 @@ a:visited {
   height: 82vh;
   overflow: auto !important;
 }
+
+/* Responsive  */
+@media (max-width: 600px) {
+  .modal-screen.visible.form-page>.modal {
+    padding: 2rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .form-fields {
+      margin: .5rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      margin-bottom: .5rem;
+    }
+  }
+}
