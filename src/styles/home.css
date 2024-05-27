@@ -93,6 +93,10 @@
   margin-top: 0;
   padding: 2rem 2rem;
   height: calc(100vh - 10rem);
+
+  .profile-card {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Responsive  */
@@ -109,14 +113,15 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .two-columns {
     height: 100%;
   }
 
   .right-column.posts {
-    gap: 18rem;
+    gap: 15rem;
     border-top: 1px solid var(--gray-1);
+    padding-top: 2rem;
     height: 100%;
   }
 
@@ -144,4 +149,7 @@
     font-size: 12px;
   }
 
+  .posts-scroll {
+    margin-bottom: 0;
+  }
 }

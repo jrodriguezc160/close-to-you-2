@@ -149,6 +149,29 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
     }
   };
 
+  // Función para detectar enlaces
+  const Linkify = ({ children }) => {
+    if (typeof children !== 'string') {
+      return children;
+    }
+
+    const isUrl = word => {
+      const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+      return word.match(urlPattern)
+    }
+
+    const addMarkup = word => {
+      return isUrl(word) ?
+        `<a href="${word}">${word}</a>` :
+        word
+    }
+
+    const words = children.split(' ')
+    const formatedWords = words.map((w, i) => addMarkup(w))
+    const html = formatedWords.join(' ')
+    return (<span dangerouslySetInnerHTML={{ __html: html }} />)
+  }
+
   return (
     <>
       <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
@@ -188,45 +211,56 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
         </div>
 
         <div className="right-column posts" style={{ height: '100%', overflow: 'auto !important' }}>
-          <div className="posts-scroll" style={{ marginBottom: '2rem', padding: '0', justifyContent: 'flex-start' }}>
-            {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
-              return (
-                <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '25vh', margin: '0' }}>
-                  <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
-                    <div className="post-profile-pic">
-                      <div>
-                        <img src={userOnShow?.foto_perfil} alt="profile-pic" />
-                      </div>
-                    </div>
-                    <div className="post-elements">
-                      <div className="post-top">
-                        <div className="post-username">
-                          <div><b>{userOnShow?.nombre_mostrado}</b></div>
-                          <div>@{userOnShow?.usuario}</div>
+          {userOnShow && userPosts ? (
+            <div className="posts-scroll" style={{ marginBottom: '2rem', padding: '0', justifyContent: 'flex-start' }}>
+              {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
+                return (
+                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '25vh', margin: '0' }}>
+                    <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
+                      <div className="post-profile-pic">
+                        <div>
+                          <img src={userOnShow?.foto_perfil} alt="profile-pic" />
                         </div>
+                      </div>
+                      <div className="post-elements">
+                        <div className="post-top">
+                          <div className="post-username">
+                            <div><b>{userOnShow?.nombre_mostrado}</b></div>
+                            <div>@{userOnShow?.usuario}</div>
+                          </div>
 
-                        <div className="post-text">{post?.contenido}</div>
-                        <div className="buttons">
-                          {/* Agrega el onClick para llamar a handleLikeClick */}
-                          <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
-                            <i data-feather="heart"></i>
+                          <div className="post-text">{post?.contenido}</div>
+                          <div className="buttons">
+                            {/* Agrega el onClick para llamar a handleLikeClick */}
+                            <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
+                              <i data-feather="heart"></i>
+                            </div>
+                            <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
+                              <i data-feather="repeat"></i>
+                            </div>
+                            <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
+                            <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
                           </div>
-                          <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
-                            <i data-feather="repeat"></i>
-                          </div>
-                          <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
-                          <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
                         </div>
                       </div>
                     </div>
                   </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <div className="empty-space" style={{ width: '75%', border: '1px solid var(--white-2)' }}>
+                Selecciona un usuario para ver sus publicaciones<br /><br />
+                <div className="icon">
+                  <i data-feather="user"></i>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            </div>
+          )}
 
           {userOnShow && (
-            <div className='profile-card' style={{ width: '99%', marginBottom: '5rem', backgroundColor: 'var(--white-1)' }}>
+            <div className='profile-card' style={{ width: '99%', backgroundColor: 'var(--white-1)' }}>
               <div className="profile-pic">
                 <img src={userOnShow?.foto_perfil} alt="profile-pic" />
               </div>
@@ -234,7 +268,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
                 <div className="profile-name">{userOnShow?.nombre_mostrado}</div>
                 <div className="profile-username">@{userOnShow?.usuario}</div>
                 <div className="profile-desc">
-                  {/* <Linkify>{userOnShow?.descripcion}</Linkify> */}
+                  <Linkify>{userOnShow?.descripcion}</Linkify>
                 </div>
 
                 <div className="profile-buttons">
@@ -253,12 +287,13 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
             </div>
           )}
         </div>
-      </div>
-      {userOnShow ? (
-        <img src={userOnShow.foto_perfil} alt="background-gradient" className='background-gradient' />
-      ) : (
-        <img src={datosUsuario?.foto_perfil} alt="background-gradient" className='background-gradient' />
-      )}
+      </div >
+      {
+        userOnShow ? (
+          <img src={userOnShow.foto_perfil} alt="background-gradient" className='background-gradient' />
+        ) : (
+          <img src={datosUsuario?.foto_perfil} alt="background-gradient" className='background-gradient' />
+        )}
     </>
   );
 };
