@@ -529,6 +529,7 @@
     overflow: hidden;
 
     .header {
+      position: fixed !important;
       top: 0rem !important;
       margin-bottom: 0 !important;
       padding-top: .5rem !important;
