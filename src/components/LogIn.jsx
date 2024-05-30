@@ -8,6 +8,8 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [fieldsChecked, setFieldsChecked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const [nombreApellidosCheck, setNombreApellidosCheck] = useState(false);
   const [mailCheck, setMailCheck] = useState(false);
@@ -41,7 +43,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [logInForm, step]);
+  }, [logInForm, step, isLoading]);
 
   const handleSubmitLogIn = async (event) => {
     event.preventDefault();
@@ -50,6 +52,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
       const { message, token } = await logIn(usuario, password);
 
       if (message === 'Inicio de sesión exitoso') {
+        setIsLoading(true)
         sessionStorage.setItem('token', token);
 
         // Decodifica el token para obtener el usuario actual
@@ -62,7 +65,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
         setTimeout(() => {
           setIsLoggedIn(true);
           navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
-        }, 3000);
+        }, 1000);
       } else {
         alert(message);
       }
@@ -140,7 +143,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
     <div className='modal-screen visible form-page'>
       {logInForm ? (
         <form className='modal' onSubmit={handleSubmitLogIn}>
-          <h2>Iniciar sesión</h2>
+          <h2>¡Bienvenido!</h2>
           <div className='form-fields'>
             <label htmlFor="usuario" className={usuarioIsFocused ? 'focused' : ''}>Usuario</label>
             <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false); }} autoFocus />
@@ -151,7 +154,13 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
             <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false); }} />
           </div>
 
-          <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button'>Iniciar sesión</button>
+          <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button'>
+            {!isLoading ? (
+              <span>Iniciar sesión</span>
+            ) : (
+              <i data-feather="loader" className='loader'></i>
+            )}
+          </button>
           <div className="change-form">
             <span>¿No tienes una cuenta?</span>
             <span className='register' onClick={() => setLogInForm(false)}>Regístrate ahora</span>
