@@ -529,12 +529,13 @@
     overflow: hidden;
 
     .header {
-      position: fixed !important;
+      /*       position: fixed !important;
       top: 0rem !important;
       z-index: 3000 !important;
       margin-top: 0rem !important;
       margin-bottom: 0 !important;
       padding-top: 0rem !important;
+      height: 100vh; */
 
       .nav-button {
         padding: .35rem .85rem !important;
