@@ -6,6 +6,7 @@ input {
   outline: none;
   border: 0px solid white;
   background-color: var(--transparent);
+  color: var(--black);
 }
 
 .post-text,
