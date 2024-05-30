@@ -38,11 +38,8 @@
 
   .profile-pic {
     display: flex;
-    /* Centramos verticalmente el contenido */
     justify-content: center;
-    /* Convertimos el div en un contenedor flex */
     align-items: center;
-    /* Centramos horizontalmente el contenido */
     margin: 1rem;
     border-radius: 100%;
     background-color: var(--gray-1);
@@ -198,9 +195,11 @@
       position: relative;
       justify-content: center;
       align-items: center;
+      transition: all .5s ease-in-out;
 
       .cover,
       .ambilight {
+        transition: all .5s ease-in-out;
         border-radius: .25rem;
         width: auto;
         height: 25vh;
@@ -209,23 +208,20 @@
       .cover {
         position: absolute;
         z-index: 100;
-        transition: all .5s ease-in-out;
       }
 
       .ambilight {
         visibility: hidden;
         opacity: 0;
         filter: blur(1.5rem);
-        transition: all .5s ease-in-out;
       }
     }
 
     .imagen:hover {
-      .cover:hover {
-        scale: 1.1;
-      }
+      scale: 1.1;
 
       .ambilight {
+        scale: 0.9;
         visibility: visible;
         opacity: 1;
       }
@@ -253,7 +249,7 @@
 }
 
 .collection.albums {
-  gap: 3.5rem;
+  gap: 5rem;
   padding-left: 4.5rem;
 }
 
@@ -278,18 +274,23 @@
   height: 25vh;
 }
 
-.collection.users>.element>.imagen>.cover {
-  border-radius: 100%;
+.collection.users>.element>.imagen {
+  border-radius: 20vh;
   width: 20vh;
   height: 20vh;
-  object-fit: cover;
-}
+  overflow: hidden;
 
-.collection.users>.element>.imagen>.ambilight {
-  border-radius: 100%;
-  width: 20vh;
-  height: 20vh;
-  object-fit: cover;
+  .cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ambilight {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .collection {

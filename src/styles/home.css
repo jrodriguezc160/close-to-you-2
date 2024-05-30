@@ -74,7 +74,7 @@
 
 .result-pic.users-result {
   transition: all .5s ease-in-out;
-  max-width: 7%;
+  max-width: 2.5rem;
 
   img {
     border-radius: 100%;
@@ -96,7 +96,7 @@
   height: calc(100vh - 10rem);
 
   .profile-card {
-    margin-bottom: 2rem;
+    margin-bottom: 10vh;
   }
 }
 

@@ -255,7 +255,6 @@
     align-items: center;
     transition: all .5s ease-in-out !important;
     margin: 1rem;
-    max-width: auto;
     height: calc(100% - 2rem);
 
     img {
@@ -335,7 +334,8 @@
 
   .result-pic.users-result {
     transition: all .5s ease-in-out;
-    max-width: 40%;
+    width: 20rem;
+    max-width: 100%;
 
     img {
       border-radius: 100%;
@@ -348,8 +348,8 @@
 
   .result-pic.books-result {
     transition: all .5s ease-in-out;
-    width: 40%;
-    max-width: 15vw;
+    width: 10rem;
+    max-width: 100%;
 
     img {
       border-radius: .25rem .75rem .75rem .25rem;
@@ -457,8 +457,7 @@
 
   .result-pic.albums-result {
     transition: all .5s ease-in-out;
-    width: 8%;
-    max-width: 5vw;
+    width: 3rem;
 
     img {
       border-radius: .5rem;
@@ -469,7 +468,7 @@
 
   .result-pic.users-result {
     transition: all .5s ease-in-out;
-    max-width: 3vw;
+    width: 3rem;
 
     img {
       border-radius: 100%;
@@ -482,8 +481,7 @@
 
   .result-pic.books-result {
     transition: all .5s ease-in-out;
-    width: 5%;
-    max-width: 10vh;
+    width: 2rem;
 
     img {
       border-radius: .4rem .6rem .6rem .4rem;
