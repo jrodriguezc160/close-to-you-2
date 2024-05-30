@@ -155,11 +155,8 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
           </div>
 
           <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button'>
-            {!isLoading ? (
-              <span>Iniciar sesión</span>
-            ) : (
-              <i data-feather="loader" className='loader'></i>
-            )}
+            {!isLoading && (<span>Iniciar sesión</span>)}
+            {isLoading && (<i data-feather="loader" className='loader'></i>)}
           </button>
           <div className="change-form">
             <span>¿No tienes una cuenta?</span>
