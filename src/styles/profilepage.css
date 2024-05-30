@@ -529,7 +529,6 @@
     overflow: hidden;
 
     .header {
-      position: absolute !important;
       top: 0rem !important;
       z-index: 3000 !important;
       margin-top: 0rem !important;
