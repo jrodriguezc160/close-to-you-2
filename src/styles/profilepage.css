@@ -520,6 +520,7 @@
   }
 
   .collection-modal {
+    justify-content: flex-start !important;
     border-color: var(--transparent);
     border-radius: 0;
     padding: 0 !important;
@@ -531,11 +532,9 @@
     .header {
       position: relative !important;
       top: 0rem !important;
-      z-index: 3000 !important;
-      margin-top: 0rem !important;
-      margin-bottom: 0 !important;
-      padding-top: 0rem !important;
-      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      padding-bottom: 20vh !important;
 
       .nav-button {
         padding: .35rem .85rem !important;
