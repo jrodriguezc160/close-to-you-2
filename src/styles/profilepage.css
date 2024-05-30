@@ -344,7 +344,7 @@
 
   .header {
     display: flex;
-    position: sticky;
+    position: sticky !important;
     top: -1rem;
     justify-content: space-between;
     align-items: center;
@@ -531,7 +531,7 @@
     .header {
       top: 0rem !important;
       margin-bottom: 0 !important;
-      padding-top: .5rem;
+      padding-top: .5rem !important;
 
       .nav-button {
         padding: .35rem .85rem !important;
