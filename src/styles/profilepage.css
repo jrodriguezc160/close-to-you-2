@@ -531,8 +531,10 @@
     .header {
       position: fixed !important;
       top: 0rem !important;
+      z-index: 3000 !important;
+      margin-top: 0rem !important;
       margin-bottom: 0 !important;
-      padding-top: .5rem !important;
+      padding-top: 0rem !important;
 
       .nav-button {
         padding: .35rem .85rem !important;
