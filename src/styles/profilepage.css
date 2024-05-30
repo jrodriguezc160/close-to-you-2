@@ -532,6 +532,7 @@
     .header {
       position: relative !important;
       top: 0rem !important;
+      justify-content: flex-start !important;
       margin: 0 !important;
       padding: 0 !important;
       padding-bottom: 20vh !important;
