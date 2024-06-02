@@ -151,12 +151,12 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal 
                     </div>
                   </div>
 
-                  <div className="post-bottom">
+                  {/* <div className="post-bottom">
                     <div className="comments">
                       <span>Comentarios</span>
                       <div className="comment-bar"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

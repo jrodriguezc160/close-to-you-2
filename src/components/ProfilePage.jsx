@@ -80,7 +80,6 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
 
           <div className="two-columns">
             <div className="left-column">
-              <div style={{ height: '2rem' }}></div>
               <div className="collections">
                 <div className='collection-container'>
                   <BookShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
@@ -94,7 +93,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
             </div>
             <div className="right-column" style={{ overflow: 'hidden' }}>
               <div style={{
-                width: '100%', height: 'calc(65vh - 4rem)', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
+                width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
               }}>
                 <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} currentUser={currentUser} setShowPostsModal={setShowPostsModal} />
               </div>

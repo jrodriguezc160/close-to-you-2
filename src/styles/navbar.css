@@ -76,7 +76,7 @@
 /* Responsive  */
 @media (max-width: 1100px) {
   .navbar {
-    width: calc(100% - 4rem);
+    width: calc(100vw - 4rem);
   }
 }
 
