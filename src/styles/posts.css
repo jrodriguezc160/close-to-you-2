@@ -34,7 +34,7 @@
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  padding-top: 5rem;
+  padding-top: 2rem;
   width: 100%;
   height: 100%;
 
@@ -57,7 +57,7 @@
   transition: all 0.3s ease-in-out;
   margin: auto;
   width: 45vw;
-  height: 35vh;
+  height: 30vh;
   max-height: 30rem;
   overflow: visible;
   font-family: sans-serif;
@@ -71,7 +71,7 @@
     border-radius: 1rem;
     background-color: var(--white-1);
     width: 100%;
-    height: calc(100% - 3rem);
+    height: calc(100%);
     overflow: visible;
   }
 

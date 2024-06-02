@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
+import Post from './Post'; // Importa el componente Post
 
 const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts }) => {
 
@@ -86,47 +87,9 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
             </div>
 
             <div className="posts-scroll">
-              {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
-                return (
-                  <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
-                    <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
-                      <div className="post-profile-pic">
-                        <div>
-                          <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
-                        </div>
-                      </div>
-                      <div className="post-elements">
-                        <div className="post-top">
-                          <div className="post-username">
-                            <div><b>{datosUsuario?.nombre_mostrado}</b></div>
-                            <div>@{datosUsuario?.usuario}</div>
-                          </div>
-
-                          <div className="post-text">{post?.contenido}</div>
-                          <div className="buttons">
-                            {/* Agrega el onClick para llamar a handleLikeClick */}
-                            <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
-                              <i data-feather="heart"></i>
-                            </div>
-                            <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
-                              <i data-feather="repeat"></i>
-                            </div>
-                            <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
-                            <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
-                          </div>
-                        </div>
-
-                        {/* <div className="post-bottom">
-                          <div className="comments">
-                            <span>Comentarios</span>
-                            <div className="comment-bar"></div>
-                          </div>
-                        </div> */}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
+              {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
+                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} handleRepostClick={handleRepostClick} />
+              ))}
             </div>
           </div>
         </div >
