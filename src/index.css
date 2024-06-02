@@ -92,6 +92,16 @@ a:visited {
   color: var(--gray-2);
 }
 
+.nav-button.log-in>span {
+  opacity: 1 !important;
+  width: auto !important;
+}
+
+.nav-button.log-in:hover {
+  scale: 1.1;
+  filter: drop-shadow(0 .2rem .5rem var(--gray-1));
+}
+
 .profile-card:hover,
 .posts-showcase>.post:hover,
 .navbar:hover {

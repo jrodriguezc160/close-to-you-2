@@ -17,6 +17,7 @@ function App () {
   const [loading, setLoading] = useState(false);
   const [resultUserData, setResultUserData] = useState(null);
   const [writePost, setWritePost] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [currentUser, setCurrentUser] = useState(() => {
     const token = sessionStorage.getItem('token');
@@ -44,8 +45,9 @@ function App () {
       const getUserData = async () => {
         try {
           const userData = await getUsuarioData(currentUser);
-          console.log('currentUser al llamar a getUsuarioData', currentUser);
           setDatosUsuario(userData);
+          userData.admin === '1' && setIsAdmin(true);
+
           console.log('userData', userData);
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -126,6 +128,7 @@ function App () {
                 datosUsuario={datosUsuario}
                 writePost={writePost}
                 setWritePost={setWritePost}
+                isAdmin={isAdmin}
               />}
             />
             <Route
@@ -135,6 +138,7 @@ function App () {
                 datosUsuario={datosUsuario}
                 setDatosUsuario={setDatosUsuario}
                 currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
                 profileOpen={profileOpen}
                 resultUserData={resultUserData}
                 handleVerPerfil={handleVerPerfil}
@@ -142,6 +146,8 @@ function App () {
                 setLoading={setLoading}
                 writePost={writePost}
                 setWritePost={setWritePost}
+                isAdmin={isAdmin}
+                setIsLoggedIn={setIsLoggedIn}
               />}
             />
             <Route

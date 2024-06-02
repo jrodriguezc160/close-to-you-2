@@ -12,8 +12,9 @@ import Loading from './Loading';
 import WritePostModal from './WritePostModal';
 import PostsModal from './profilepage/PostsModal';
 import DeletePostModal from './DeletePostModal';
+import LogOutModal from './LogOutModal';
 
-const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost }) => {
+const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost, isAdmin, setIsLoggedIn }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [filtros, setFiltros] = useState('');
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
@@ -22,6 +23,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
   const [showPostsModal, setShowPostsModal] = useState(false);
   const [deletePublicacionModal, setDeletePublicacionModal] = useState(false);
   const [deletePostId, setDeletePostId] = useState(null);
+  const [logOutModal, setLogOutModal] = useState(false);
 
   const fetchData = async () => {
     if (datosUsuario && datosUsuario.id) {
@@ -62,6 +64,12 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
         setDeletePublicacionModal={setDeletePublicacionModal}
         getPublicacionesUsuario={fetchData}
       />
+      <LogOutModal
+        setCurrentUser={setCurrentUser}
+        logOutModal={logOutModal}
+        setLogOutModal={setLogOutModal}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       {datosUsuario && datosUsuario.id ? (
         <>
@@ -98,7 +106,13 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
                   <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
                 </div>
               </div>
-              <ProfileCard datosUsuario={datosUsuario} currentUser={currentUser} handleOpenCollections={handleOpenCollections} setShowEditProfileModal={setShowEditProfileModal} />
+              <ProfileCard
+                datosUsuario={datosUsuario}
+                currentUser={currentUser}
+                handleOpenCollections={handleOpenCollections}
+                setShowEditProfileModal={setShowEditProfileModal}
+                setLogOutModal={setLogOutModal}
+              />
             </div>
             <div className="right-column" style={{ overflow: 'hidden' }}>
               <div style={{
@@ -111,6 +125,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
                   setShowPostsModal={setShowPostsModal}
                   setDeletePublicacionModal={setDeletePublicacionModal}
                   setDeletePostId={setDeletePostId}
+                  isAdmin={isAdmin}
                 />
               </div>
               <div className="albums">

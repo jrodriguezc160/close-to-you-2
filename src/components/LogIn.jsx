@@ -10,7 +10,6 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
   const [fieldsChecked, setFieldsChecked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const [nombreApellidosCheck, setNombreApellidosCheck] = useState(false);
   const [mailCheck, setMailCheck] = useState(false);
   const [usuarioCheck, setUsuarioCheck] = useState(false);
@@ -154,7 +153,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
             <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false); }} />
           </div>
 
-          <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button'>
+          <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button log-in'>
             {!isLoading && (<span>Iniciar sesión</span>)}
             {isLoading && (<i data-feather="loader" className='loader'></i>)}
           </button>

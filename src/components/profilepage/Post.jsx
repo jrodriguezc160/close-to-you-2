@@ -1,8 +1,17 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostClick, handleDeleteClick }) => {
+const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostClick, handleDeleteClick, isAdmin }) => {
+  useEffect(() => {
+    console.log(datosUsuario)
+
+    setTimeout(() => {
+      // eslint-disable-next-line no-undef
+      feather.replace();
+    }, 100);
+  }, [datosUsuario])
+
   // Calcula la fecha de la publicación
   const postDate = new Date(post.fecha);
   let formattedDate;
@@ -51,8 +60,8 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostCl
                 {post.reposts}
                 <i data-feather="repeat"></i>
               </div>
-              <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp; {currentUser === parseInt(post.id_usuario) && ('·')}</span>
-              {currentUser === parseInt(post.id_usuario) && (
+              <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp; {(isAdmin || currentUser === parseInt(post.id_usuario)) && ('·')}</span>
+              {(isAdmin || currentUser === parseInt(post.id_usuario)) && (
                 <div className="nav-button no-text interactive trash" onClick={() => handleDeleteClick(post.id)}>
                   <i data-feather="trash"></i>
                 </div>

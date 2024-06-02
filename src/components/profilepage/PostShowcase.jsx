@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Post from './Post'; // Importa el componente Post
 import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
 
-const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal, setDeletePublicacionModal, setDeletePostId }) => {
+const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal, setDeletePublicacionModal, setDeletePostId, isAdmin }) => {
   const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -149,6 +149,7 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
             handleLikeClick={handleLikeClick}
             handleRepostClick={handleRepostClick}
             handleDeleteClick={handleDeleteClick}
+            isAdmin={isAdmin}
           />
         ))}
       </div>

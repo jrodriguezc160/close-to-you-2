@@ -12,7 +12,7 @@ import LimitModal from './LimitModal';
 import Loading from './Loading';
 import WritePostModal from './WritePostModal';
 
-const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario, writePost, setWritePost }) => {
+const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario, writePost, setWritePost, isAdmin }) => {
   const [search, setSearch] = useState('');
   const [searchIsFocused, setSearchIsFocused] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -222,6 +222,7 @@ const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loa
             currentUser={currentUser}
             getUsuariosSeguidos={getUsuariosSeguidos}
             usuariosSeguidos={usuariosSeguidos}
+            isAdmin={isAdmin}
           />
         </>
       )}
