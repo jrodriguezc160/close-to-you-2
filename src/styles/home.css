@@ -73,7 +73,7 @@
 
 .result-pic.users-result {
   transition: all .5s ease-in-out;
-  max-width: 2.5rem;
+  width: 2.5rem;
 
   img {
     border-radius: 100%;
@@ -105,32 +105,53 @@
 
 /* Responsive  */
 @media (max-width: 1100px) {
+  .two-columns {
+    flex-direction: row;
+    gap: 0;
+  }
+
   .left-column.posts {
     width: calc(100% - 3.5rem);
   }
 
   .right-column.posts {
-    padding: 0 5rem;
+    padding: 7.5rem 2.5rem;
     width: calc(100% - 10rem);
+
+    .post-showcase-grid {
+      width: 100%;
+    }
+
+    .profile-card {
+      flex-direction: column;
+      margin-top: 0;
+      margin-bottom: 10rem;
+
+      .profile-pic {
+        height: 30vw;
+      }
+    }
   }
 }
 
 @media (max-width: 600px) {
   .two-columns {
+    flex-direction: column;
     height: 100%;
   }
 
   .right-column.posts {
-    gap: 15rem;
+    gap: 22rem;
     border-top: 1px solid var(--gray-1);
     padding-top: 2rem;
+    width: calc(100% - 6rem);
     height: 100%;
   }
 
   .left-column.posts {
     padding: 0 1rem;
     padding-top: 2rem;
-    width: calc(100% - 10vw);
+    width: calc(100% - 2.5rem);
   }
 
   .result-pic.users-result {
