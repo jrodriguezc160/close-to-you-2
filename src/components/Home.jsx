@@ -187,7 +187,13 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost }) => {
                       <img src={user.foto_perfil} alt="result-pic" />
                     </div>
                     <div className="user-result-text">
-                      <b>{user.nombre_mostrado}</b>&nbsp;&nbsp;@{user.usuario}
+                      <div>
+                        <b>{user.nombre_mostrado}</b>
+                      </div>
+
+                      <div>
+                        @{user.usuario}
+                      </div>
                     </div>
                   </div>
 
