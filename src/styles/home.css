@@ -14,7 +14,6 @@
     filter: drop-shadow(0 .5rem .75rem var(--shadow-1));
     transition: all .75s ease-in-out;
     transition: width 0.5s ease-in-out;
-    margin-left: .75rem;
     border: .5px solid var(--semi-transparent);
     border-radius: 1rem;
     background-color: var(--semi-transparent-white);
@@ -85,6 +84,10 @@
   }
 }
 
+.left-column {
+  padding: 1.5rem !important;
+}
+
 .left-column.posts {
   justify-content: flex-start;
 }
@@ -103,8 +106,7 @@
 /* Responsive  */
 @media (max-width: 1100px) {
   .left-column.posts {
-    padding-top: 2rem;
-    width: calc(100% - 10vw);
+    width: calc(100% - 3.5rem);
   }
 
   .right-column.posts {
