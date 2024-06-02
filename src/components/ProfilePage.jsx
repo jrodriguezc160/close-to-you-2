@@ -11,6 +11,7 @@ import EditProfile from './profilepage/EditProfile';
 import Loading from './Loading';
 import WritePostModal from './WritePostModal';
 import PostsModal from './profilepage/PostsModal';
+import DeletePostModal from './DeletePostModal';
 
 const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost }) => {
   const [userPosts, setUserPosts] = useState([]);
@@ -19,20 +20,22 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
   const [filtroId, setFiltroId] = useState(0);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showPostsModal, setShowPostsModal] = useState(false);
+  const [deletePublicacionModal, setDeletePublicacionModal] = useState(false);
+  const [deletePostId, setDeletePostId] = useState(null);
+
+  const fetchData = async () => {
+    if (datosUsuario && datosUsuario.id) {
+      try {
+        const posts = await getPublicacionesUsuario(datosUsuario.id);
+        // Limitar los posts a los tres primeros
+        setUserPosts(posts.slice(0, 5));
+      } catch (error) {
+        console.error("Error fetching user's posts' data:", error);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (datosUsuario && datosUsuario.id) {
-        try {
-          const posts = await getPublicacionesUsuario(datosUsuario.id);
-          // Limitar los posts a los tres primeros
-          setUserPosts(posts.slice(0, 5));
-        } catch (error) {
-          console.error("Error fetching user's posts' data:", error);
-        }
-      }
-    };
-
     fetchData();
   }, [datosUsuario]);
 
@@ -53,6 +56,12 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
       <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
       <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
       <Loading loading={loading} />
+      <DeletePostModal
+        deletePostId={deletePostId}
+        deletePublicacionModal={deletePublicacionModal}
+        setDeletePublicacionModal={setDeletePublicacionModal}
+        getPublicacionesUsuario={fetchData}
+      />
 
       {datosUsuario && datosUsuario.id ? (
         <>
@@ -95,7 +104,14 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, resultUserDat
               <div style={{
                 width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
               }}>
-                <PostShowcase datosUsuario={datosUsuario} userPosts={userPosts} currentUser={currentUser} setShowPostsModal={setShowPostsModal} />
+                <PostShowcase
+                  datosUsuario={datosUsuario}
+                  userPosts={userPosts}
+                  currentUser={currentUser}
+                  setShowPostsModal={setShowPostsModal}
+                  setDeletePublicacionModal={setDeletePublicacionModal}
+                  setDeletePostId={setDeletePostId}
+                />
               </div>
               <div className="albums">
                 <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />

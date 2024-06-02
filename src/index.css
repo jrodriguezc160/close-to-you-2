@@ -48,10 +48,10 @@ body.dark {
   --semi-transparent-white: rgba(30, 30, 30, 0.75);
   --shadow-1: #242424;
   --border: #3d3d3d;
-  --red-1: rgb(168, 16, 46);
+  --red-1: rgb(250, 114, 141);
   --red-2: rgb(106, 61, 69);
-  --blue-1: rgb(37, 51, 93);
-  --blue-2: rgb(135, 148, 189);
+  --blue-1: rgb(144, 164, 230);
+  --blue-2: rgb(37, 51, 93);
   --green-1: rgb(59, 119, 86);
   --green-2: rgb(64, 92, 76);
 }
@@ -375,6 +375,7 @@ a:visited {
 
 .nav-button.no-text.interactive {
   transition: all .4s ease-in-out;
+  width: auto;
 }
 
 .nav-button.no-text.interactive>svg {
@@ -399,6 +400,7 @@ a:visited {
 
 .nav-button.no-text.interactive.heart.active {
   filter: drop-shadow(0 .1rem .2rem var(--red-2));
+  color: var(--black);
 
   svg {
     stroke: var(--red-1);
@@ -408,6 +410,7 @@ a:visited {
 
 .nav-button.no-text.interactive.repeat.active {
   filter: drop-shadow(0 .1rem .2rem var(--green-2));
+  color: var(--black);
 
   svg {
     stroke: var(--green-1);

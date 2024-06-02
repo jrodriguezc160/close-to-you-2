@@ -2,7 +2,7 @@ import '../../styles/posts.css'
 import React, { useEffect, useState, useRef } from 'react'
 import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
 
-const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal }) => {
+const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal, setDeletePublicacionModal, setDeletePostId }) => {
   const [dotIndex, setDotIndex] = useState(4);
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -94,10 +94,17 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal 
       if (heartButton.classList.contains('active')) {
         await deleteLike(currentUser, postId);
         heartButton.classList.remove('active');
+        // Actualizar el contador de likes en el frontend
+        const post = userPosts.find(post => post.id === postId);
+        if (post) post.likes -= 1;
       } else {
         await addLike(currentUser, postId);
         heartButton.classList.add('active');
+        // Actualizar el contador de likes en el frontend
+        const post = userPosts.find(post => post.id === postId);
+        if (post) post.likes += 1;
       }
+
     } catch (error) {
       console.error('Error al manejar el like:', error);
     }
@@ -109,14 +116,26 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal 
       if (repeatButton.classList.contains('active')) {
         await deleteRepost(currentUser, postId);
         repeatButton.classList.remove('active');
+        // Actualizar el contador de reposts en el frontend
+        const post = userPosts.find(post => post.id === postId);
+        if (post) post.reposts -= 1;
       } else {
         await addRepost(currentUser, postId);
         repeatButton.classList.add('active');
+        // Actualizar el contador de reposts en el frontend
+        const post = userPosts.find(post => post.id === postId);
+        if (post) post.reposts += 1;
       }
+
     } catch (error) {
       console.error('Error al manejar el repost:', error);
     }
   };
+
+  const handleDeleteClick = async (postId) => {
+    setDeletePostId(postId);
+    setDeletePublicacionModal(true)
+  }
 
   return (
     <div className='posts-holder' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -141,13 +160,18 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal 
                     <div className="buttons">
                       {/* Agrega el onClick para llamar a handleLikeClick */}
                       <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
+                        {post.likes}
                         <i data-feather="heart"></i>
                       </div>
+
                       <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
+                        {post.reposts}
                         <i data-feather="repeat"></i>
                       </div>
-                      <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
-                      <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
+                      <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}&nbsp;&nbsp;·</span>
+                      <div className="nav-button no-text interactive trash" onClick={() => handleDeleteClick(post.id)}>
+                        <i data-feather="trash"></i>
+                      </div>
                     </div>
                   </div>
 
