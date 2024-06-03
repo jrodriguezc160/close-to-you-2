@@ -593,7 +593,7 @@
 
 @media (max-width: 640px) {
   .two-columns {
-    gap: 0 !important;
+    gap: 5rem !important;
     width: 100%;
   }
 
@@ -733,8 +733,6 @@
 }
 
 @media (max-width: 500px) {
-
-  .two-columns,
   .right-column {
     gap: 5rem !important;
   }
