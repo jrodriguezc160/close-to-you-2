@@ -35,7 +35,7 @@ const WritePostModal = ({ writePost, setWritePost, datosUsuario }) => {
     <>
       <div className={`modal-screen ${writePost ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', backdropFilter: 'blur(1rem)' }} onClick={handleClickExterior}>
         <div className="post-showcase-grid on-modal">
-          <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '25vh', height: 'auto' }}>
+          <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
             <div className="post-profile-pic">
               <div>
                 <img src={datosUsuario?.foto_perfil} alt="profile-pic" />
