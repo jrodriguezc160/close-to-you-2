@@ -168,6 +168,17 @@
   border: 1px solid var(--gray-1);
 }
 
+.nav-button.log-out {
+  span {
+    transition: all 0s ease;
+  }
+}
+
+.nav-button.log-out:hover {
+  background-color: var(--red-2);
+  color: var(--red-1);
+}
+
 .collection {
   display: flex;
   justify-content: flex-start;
@@ -471,7 +482,7 @@
     height: auto;
 
     .profile-pic {
-      height: 20rem;
+      height: 15rem;
     }
 
     .profile-text {
@@ -490,6 +501,10 @@
         }
       }
     }
+  }
+
+  .collections {
+    margin-top: 5rem;
   }
 }
 
@@ -696,5 +711,9 @@
   .two-columns,
   .right-column {
     gap: 5rem !important;
+  }
+
+  .profile-card>.profile-pic {
+    height: 70vw;
   }
 }

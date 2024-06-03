@@ -20,7 +20,7 @@ const DeletePostModal = ({ deletePostId, deletePublicacionModal, setDeletePublic
   }
 
   return (
-    <div className={`modal-screen ${deletePublicacionModal ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }}>
+    <div className={`modal-screen ${deletePublicacionModal ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', backdropFilter: 'blur(1rem)' }}>
       <div className={`modal-message ${deletePublicacionModal ? 'visible' : ''}`} style={{ zIndex: '201', gap: '1rem', visibility: deletePublicacionModal ? 'visible' : 'hidden', width: '55vh', maxWidth: '80vw', opacity: deletePublicacionModal ? 1 : 0 }}>
         <div className='modal-message-text'>Vas a eliminar una publicación. ¿Estás seguro?</div>
         <div className='modal-message-buttons'>

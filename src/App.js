@@ -113,6 +113,11 @@ function App () {
                 datosUsuario={datosUsuario}
                 writePost={writePost}
                 setWritePost={setWritePost}
+                isAdmin={isAdmin}
+                profileOpen={profileOpen}
+                resultUserData={resultUserData}
+                handleVerPerfil={handleVerPerfil}
+                loading={loading}
               />}
             />
             <Route
@@ -121,7 +126,6 @@ function App () {
               element={<Search
                 currentUser={currentUser}
                 profileOpen={profileOpen}
-                setProfileOpen={setProfileOpen}
                 resultUserData={resultUserData}
                 handleVerPerfil={handleVerPerfil}
                 loading={loading}

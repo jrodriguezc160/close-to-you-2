@@ -120,7 +120,7 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
             <div className='nav-button' onClick={handleFollowUser}><i data-feather="user-plus"></i><span>Seguir</span></div>
           )}
           <div className="nav-button" onClick={() => handleOpenCollections()}><i data-feather="package"></i><span>Ver colecciones</span></div>
-          <div className="nav-button" onClick={() => setLogOutModal(true)}><i data-feather="log-out"></i><span>Salir</span></div>
+          <div className="nav-button log-out" onClick={() => setLogOutModal(true)}><i data-feather="log-out"></i><span>Salir</span></div>
         </div>
       </div >
     </div >

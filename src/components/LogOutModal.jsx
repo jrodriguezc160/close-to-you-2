@@ -23,8 +23,8 @@ const LogOutModal = ({ setCurrentUser, logOutModal, setLogOutModal, setIsLoggedI
   }
 
   return (
-    <div className={`modal-screen ${logOutModal ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', }}>
-      <div className={`modal-message ${logOutModal ? 'visible' : ''}`} style={{ zIndex: '201', gap: '1rem', visibility: logOutModal ? 'visible' : 'hidden', width: '55vh', maxWidth: '80vw', opacity: logOutModal ? 1 : 0 }}>
+    <div className={`modal-screen ${logOutModal ? 'visible' : ''}`} style={{ height: '100vh', zIndex: '200', backdropFilter: 'blur(1rem)' }}>
+      <div className='modal-message visible' style={{ zIndex: '201', gap: '1rem', visibility: logOutModal ? 'visible' : 'hidden', width: '55vh', maxWidth: '80vw', opacity: logOutModal ? 1 : 0 }}>
         <div className='modal-message-text'>¿Quieres cerrar tu sesión?</div>
         <div className='modal-message-buttons'>
           <div className="nav-button on-modal publish" onClick={() => setLogOutModal(false)}>

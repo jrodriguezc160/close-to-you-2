@@ -102,6 +102,17 @@ a:visited {
   filter: drop-shadow(0 .2rem .5rem var(--gray-1));
 }
 
+@media (max-width: 640px) {
+  .modal-screen.visible.form-page>.modal {
+    width: 60vw;
+
+    .form-fields {
+      min-width: 70vw;
+      max-width: 70vw;
+    }
+  }
+}
+
 .profile-card:hover,
 .posts-showcase>.post:hover,
 .navbar:hover {
@@ -319,7 +330,6 @@ a:visited {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(200rem);
   filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   transition: all .5s ease-in-out;
   border: .5px solid var(--semi-transparent);
