@@ -138,9 +138,9 @@
 }
 
 @media (max-width: 600px) {
-  .two-columns {
+  .two-columns.home {
     flex-direction: column;
-    gap: 0;
+    gap: 0 !important;
     height: 100%;
   }
 
@@ -182,5 +182,9 @@
     .post-showcase-grid {
       max-height: 100% !important;
     }
+  }
+
+  .profile-buttons {
+    justify-content: center !important;
   }
 }

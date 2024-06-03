@@ -153,7 +153,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
       <Loading loading={loading} />
 
       {!profileOpen ? (
-        <div className="two-columns" style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
+        <div className="two-columns home" style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
           <div className="left-column posts">
             {responseData.map((user, index) => {
               return (
