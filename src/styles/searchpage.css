@@ -90,6 +90,7 @@
   color: var(--gray-2);
 
   span {
+    visibility: visible;
     opacity: 1;
     width: auto;
   }
@@ -314,6 +315,7 @@
         background-color: var(--white-2);
 
         span {
+          visibility: visible;
           opacity: 1;
           width: auto;
         }
@@ -439,6 +441,7 @@
         background-color: var(--semi-transparent);
 
         span {
+          visibility: hidden;
           opacity: 0;
           width: 0;
         }
@@ -556,9 +559,10 @@ svg.loader {
 @media (max-width: 640px) {
   .wrapper.expanded>.search-filters>.nav-button {
     gap: 0;
-    padding: 0 .5rem;
+    padding: .25rem .75rem;
 
     span {
+      visibility: hidden;
       opacity: 0;
       width: 0;
     }
@@ -588,9 +592,10 @@ svg.loader {
 
         .nav-button {
           gap: 0;
-          padding: 0 .5rem;
+          padding: .25rem .75rem;
 
           span {
+            visibility: hidden;
             opacity: 0;
             width: 0;
           }
@@ -614,6 +619,21 @@ svg.loader {
   }
 
   .result {
+    .result-buttons>div {
+      justify-content: center;
+
+      .nav-button {
+        gap: 0;
+        padding: .25rem .25rem;
+
+        span {
+          visibility: hidden;
+          opacity: 0;
+          width: 0;
+        }
+      }
+    }
+
     .result-text>.result-title {
       max-width: 25vw;
       max-height: 3rem;

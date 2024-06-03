@@ -93,6 +93,7 @@ a:visited {
 }
 
 .nav-button.log-in>span {
+  visibility: visible !important;
   opacity: 1 !important;
   width: auto !important;
 }
@@ -462,8 +463,8 @@ a:visited {
     flex-direction: column;
 
     .nav-button {
-      gap: .5rem;
-      padding: .1rem 1rem;
+      gap: .75rem;
+      padding: .25rem .75rem;
     }
   }
 }

@@ -160,7 +160,7 @@
 .nav-button.no-text.back {
   position: absolute;
   top: 12%;
-  left: 13%;
+  left: 13.5%;
   transition: all .5s ease-in-out;
   border: 1px solid var(--transparent);
   background-color: var(--transparent);
@@ -498,6 +498,7 @@
         padding: .25rem .75rem !important;
 
         span {
+          visibility: hidden;
           opacity: 0;
           width: 0;
         }
@@ -546,6 +547,7 @@
         padding: 0 1rem !important;
 
         span {
+          visibility: visible;
           opacity: 1;
           width: auto;
         }
@@ -581,6 +583,7 @@
       padding: .25rem .75rem !important;
 
       span {
+        visibility: hidden;
         opacity: 0;
         width: 0;
       }
@@ -665,6 +668,16 @@
     max-height: 100vh !important;
     overflow: hidden;
 
+    h2:not(.title) {
+      padding-top: 10vh;
+    }
+
+    .nav-button.no-text.back {
+      top: 11.5%;
+      left: 7%;
+      scale: 1.1;
+    }
+
     .header {
       position: relative !important;
       top: 0rem !important;
@@ -692,6 +705,7 @@
       }
 
       span {
+        visibility: hidden !important;
         opacity: 0 !important;
         width: 0 !important;
       }
@@ -703,6 +717,16 @@
       .nav-button>svg {
         width: 1rem;
         height: 1rem;
+      }
+    }
+
+    .buttons>.nav-button {
+      gap: .75rem !important;
+
+      span {
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: auto !important;
       }
     }
   }

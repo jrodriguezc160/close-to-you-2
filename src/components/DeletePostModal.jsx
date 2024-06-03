@@ -15,7 +15,7 @@ const DeletePostModal = ({ deletePostId, deletePublicacionModal, setDeletePublic
       getPublicacionesUsuario();
       setDeletePublicacionModal(false)
     } catch (error) {
-      console.error('Error al manejar el repost:', error);
+      console.error('Error al eliminar la publicación:', error);
     }
   }
 

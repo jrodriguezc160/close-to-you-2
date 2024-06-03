@@ -58,7 +58,7 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleDeleteCl
                 <i data-feather="heart"></i>
               </div>
 
-              <div className="nav-button" style={{ cursor: 'auto' }}>
+              <div className="nav-button interactive" style={{ cursor: 'auto' }}>
                 <i data-feather="clock"></i>
                 <span style={{ color: 'var(--gray-2)' }}>{formattedDate}</span>
               </div>

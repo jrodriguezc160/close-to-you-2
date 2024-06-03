@@ -305,27 +305,33 @@
 
   .album-stack,
   .album-stack:hover {
-    .album-card:nth-last-child(1) {
+
+    .album-card:nth-last-child(1),
+    .album-card:nth-last-child(1):hover {
       --x: calc(0%);
       transform: translate(var(--x), -55%);
     }
 
-    .album-card:nth-last-child(2) {
+    .album-card:nth-last-child(2),
+    .album-card:nth-last-child(2):hover {
       --x: calc(0%);
       transform: translate(var(--x), -65%);
     }
 
-    .album-card:nth-last-child(3) {
+    .album-card:nth-last-child(3),
+    .album-card:nth-last-child(3):hover {
       --x: calc(0%);
       transform: translate(var(--x), -75%);
     }
 
-    .album-card:nth-last-child(4) {
+    .album-card:nth-last-child(4),
+    .album-card:nth-last-child(4):hover {
       --x: calc(0%);
       transform: translate(var(--x), -85%);
     }
 
-    .album-card:nth-last-child(5) {
+    .album-card:nth-last-child(5),
+    .album-card:nth-last-child(5):hover {
       --x: calc(0%);
       transform: translate(var(--x), -95%);
     }

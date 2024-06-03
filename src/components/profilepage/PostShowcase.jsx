@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Post from './Post'; // Importa el componente Post
-import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
+import { addLike, deleteLike, checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
 
 const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal, setDeletePublicacionModal, setDeletePostId, isAdmin }) => {
   const [dotIndex, setDotIndex] = useState(4);

@@ -47,6 +47,7 @@
   }
 
   span {
+    visibility: visible;
     opacity: 1;
     transition: all .5s ease-in-out;
     width: auto;
@@ -106,11 +107,12 @@ a.nav-button.active:hover {
     }
   }
 
-  .nav-button {
+  .nav-button:not(.interactive) {
     gap: 0;
     padding: 0;
 
     span {
+      visibility: hidden;
       opacity: 0;
       width: 0;
     }
