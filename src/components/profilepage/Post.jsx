@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostClick, handleDeleteClick, isAdmin }) => {
+const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleDeleteClick, isAdmin }) => {
   useEffect(() => {
     console.log(datosUsuario)
 
@@ -53,16 +53,15 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostCl
             <div className="post-text">{post?.contenido}</div>
             <div className="buttons">
               {/* Agrega el onClick para llamar a handleLikeClick */}
-              <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
+              <div className="nav-button interactive heart" onClick={() => handleLikeClick(post.id)}>
                 {post.likes}
                 <i data-feather="heart"></i>
               </div>
 
-              <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
-                {post.reposts}
-                <i data-feather="repeat"></i>
+              <div className="nav-button" style={{ cursor: 'auto' }}>
+                <i data-feather="clock"></i>
+                <span style={{ color: 'var(--gray-2)' }}>{formattedDate}</span>
               </div>
-              <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{formattedDate}&nbsp;&nbsp; {(isAdmin || currentUser === parseInt(post.id_usuario)) && ('·')}</span>
               {(isAdmin || currentUser === parseInt(post.id_usuario)) && (
                 <div className="nav-button no-text interactive trash" onClick={() => handleDeleteClick(post.id)}>
                   <i data-feather="trash"></i>

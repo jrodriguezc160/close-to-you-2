@@ -62,22 +62,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
     };
 
     fetchLikes();
-
-    const fetchReposts = async () => {
-      for (const post of userPosts) {
-        try {
-          const hasReposted = await checkUserRepost(currentUser, post.id);
-          if (hasReposted) {
-            console.log('User has reposted this')
-            document.querySelector(`[data-post-id="${post.id}"] .repeat`).classList.add('active');
-          }
-        } catch (error) {
-          console.error('Error al comprobar el like:', error);
-        }
-      }
-    };
-
-    fetchReposts();
   }, [userPosts, currentUser]);
 
   const handleMouseEnter = () => {
@@ -110,28 +94,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
     }
   };
 
-  const handleRepostClick = async (postId) => {
-    try {
-      const repeatButton = document.querySelector(`[data-post-id="${postId}"] .repeat`);
-      if (repeatButton.classList.contains('active')) {
-        await deleteRepost(currentUser, postId);
-        repeatButton.classList.remove('active');
-        // Actualizar el contador de reposts en el frontend
-        const post = userPosts.find(post => post.id === postId);
-        if (post) post.reposts -= 1;
-      } else {
-        await addRepost(currentUser, postId);
-        repeatButton.classList.add('active');
-        // Actualizar el contador de reposts en el frontend
-        const post = userPosts.find(post => post.id === postId);
-        if (post) post.reposts += 1;
-      }
-
-    } catch (error) {
-      console.error('Error al manejar el repost:', error);
-    }
-  };
-
   const handleDeleteClick = async (postId) => {
     setDeletePostId(postId);
     setDeletePublicacionModal(true)
@@ -147,7 +109,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
             post={post}
             currentUser={currentUser}
             handleLikeClick={handleLikeClick}
-            handleRepostClick={handleRepostClick}
             handleDeleteClick={handleDeleteClick}
             isAdmin={isAdmin}
           />

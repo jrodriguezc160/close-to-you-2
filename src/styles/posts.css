@@ -197,11 +197,11 @@
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      gap: .75rem;
+      gap: .5rem;
       font-size: .75rem;
 
       .nav-button.no-text {
-        background-color: var(--transparent);
+        width: 1.75rem;
       }
     }
 

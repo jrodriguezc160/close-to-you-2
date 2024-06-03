@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost } from '../../services/PostServices'; // Importa los servicios necesarios
+import { addLike, deleteLike, checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
 import Post from './Post'; // Importa el componente Post
 
 const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts }) => {
@@ -19,22 +19,6 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
     };
 
     fetchLikes();
-
-    const fetchReposts = async () => {
-      for (const post of userPosts) {
-        try {
-          const hasReposted = await checkUserRepost(currentUser, post.id);
-          if (hasReposted) {
-            console.log('User has reposted this')
-            document.querySelector(`[data-post-id="${post.id}"] .repeat`).classList.add('active');
-          }
-        } catch (error) {
-          console.error('Error al comprobar el like:', error);
-        }
-      }
-    };
-
-    fetchReposts();
   }, [userPosts, currentUser, showPostsModal]);
 
   useEffect(() => {
@@ -59,21 +43,6 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
     }
   };
 
-  const handleRepostClick = async (postId) => {
-    try {
-      const repeatButton = document.querySelector(`[data-post-id="${postId}"] .repeat`);
-      if (repeatButton.classList.contains('active')) {
-        await deleteRepost(currentUser, postId);
-        repeatButton.classList.remove('active');
-      } else {
-        await addRepost(currentUser, postId);
-        repeatButton.classList.add('active');
-      }
-    } catch (error) {
-      console.error('Error al manejar el repost:', error);
-    }
-  };
-
   return (
     <>
       {showPostsModal && (
@@ -88,7 +57,7 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
 
             <div className="posts-scroll">
               {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
-                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} handleRepostClick={handleRepostClick} />
+                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} />
               ))}
             </div>
           </div>

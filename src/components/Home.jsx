@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../services/UserServices';
 import '../styles/home.css';
 import WritePostModal from './WritePostModal';
-import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
+import { addLike, deleteLike, checkUserLike, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
 import ProfilePage from './ProfilePage';
 import Loading from './Loading';
 import Post from './profilepage/Post';
@@ -28,22 +28,6 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
     };
 
     fetchLikes();
-
-    const fetchReposts = async () => {
-      for (const post of userPosts) {
-        try {
-          const hasReposted = await checkUserRepost(currentUser, post.id);
-          if (hasReposted) {
-            console.log('User has reposted this');
-            document.querySelector(`[data-post-id="${post.id}"] .repeat`).classList.add('active');
-          }
-        } catch (error) {
-          console.error('Error al comprobar el repost:', error);
-        }
-      }
-    };
-
-    fetchReposts();
   }, [userPosts, currentUser, userOnShow]);
 
   useEffect(() => {
@@ -140,21 +124,6 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
     }
   };
 
-  const handleRepostClick = async (postId) => {
-    try {
-      const repeatButton = document.querySelector(`[data-post-id="${postId}"] .repeat`);
-      if (repeatButton.classList.contains('active')) {
-        await deleteRepost(currentUser, postId);
-        repeatButton.classList.remove('active');
-      } else {
-        await addRepost(currentUser, postId);
-        repeatButton.classList.add('active');
-      }
-    } catch (error) {
-      console.error('Error al manejar el repost:', error);
-    }
-  };
-
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
     if (typeof children !== 'string') {
@@ -248,8 +217,8 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
                                <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
                                  <i data-feather="heart"></i>
                                </div>
-                               <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
-                                 <i data-feather="repeat"></i>
+                               <div className="nav-button no-text interactive bookmark" onClick={() => handleRepostClick(post.id)}>
+                                 <i data-feather="bookmark"></i>
                                </div>
                                <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
                                <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
@@ -258,7 +227,7 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
                          </div>
                        </div>
                      </div> */
-                    <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} handleRepostClick={handleRepostClick} />
+                    <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} />
 
                   )
                 })}

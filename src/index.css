@@ -398,48 +398,24 @@ a:visited {
   width: auto;
 }
 
-.nav-button.no-text.interactive>svg {
-  transition: stroke .2s ease-in-out;
-}
-
-.nav-button.no-text.interactive:hover {
-  scale: 1.25;
-}
-
-.nav-button.no-text.interactive.heart:hover>svg {
-  stroke: var(--red-1);
-}
-
-.nav-button.no-text.interactive.repeat:hover>svg {
-  stroke: var(--green-1);
-}
-
-.nav-button.no-text.interactive.message:hover>svg {
-  stroke: var(--blue-1);
-}
-
-.nav-button.no-text.interactive.heart.active {
+.nav-button.interactive.heart.active {
   filter: drop-shadow(0 .1rem .2rem var(--red-2));
-  color: var(--black);
+  color: var(--white-1);
 
   svg {
     stroke: var(--red-1);
     fill: var(--red-1);
+    transition: stroke .2s ease-in-out;
   }
 }
 
-.nav-button.no-text.interactive.repeat.active {
-  filter: drop-shadow(0 .1rem .2rem var(--green-2));
-  color: var(--black);
-
-  svg {
-    stroke: var(--green-1);
-  }
+.nav-button.interactive.heart.active:hover {
+  scale: 1.25;
+  background-color: var(--black);
 }
 
-.nav-button.no-text.interactive.message.active>svg {
-  stroke: var(--blue-1);
-  fill: var(--blue-1);
+.nav-button.interactive.heart:hover>svg {
+  stroke: var(--red-1);
 }
 
 .right-column.posts,
