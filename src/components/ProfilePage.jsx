@@ -95,44 +95,46 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
             datosUsuario={datosUsuario}
           />
 
-          <div className="two-columns">
-            <div className="left-column">
-              <div className="collections">
-                <div className='collection-container'>
-                  <BookShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
-                </div>
+          {!profileOpen && (
+            <div className="two-columns">
+              <div className="left-column">
+                <div className="collections">
+                  <div className='collection-container'>
+                    <BookShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
+                  </div>
 
-                <div className='collection-container'>
-                  <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
+                  <div className='collection-container'>
+                    <MovieShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
+                  </div>
                 </div>
-              </div>
-              <ProfileCard
-                datosUsuario={datosUsuario}
-                currentUser={currentUser}
-                handleOpenCollections={handleOpenCollections}
-                setShowEditProfileModal={setShowEditProfileModal}
-                setLogOutModal={setLogOutModal}
-              />
-            </div>
-            <div className="right-column" style={{ overflow: 'hidden' }}>
-              <div style={{
-                width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
-              }}>
-                <PostShowcase
+                <ProfileCard
                   datosUsuario={datosUsuario}
-                  userPosts={userPosts}
                   currentUser={currentUser}
-                  setShowPostsModal={setShowPostsModal}
-                  setDeletePublicacionModal={setDeletePublicacionModal}
-                  setDeletePostId={setDeletePostId}
-                  isAdmin={isAdmin}
+                  handleOpenCollections={handleOpenCollections}
+                  setShowEditProfileModal={setShowEditProfileModal}
+                  setLogOutModal={setLogOutModal}
                 />
               </div>
-              <div className="albums">
-                <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
+              <div className="right-column" style={{ overflow: 'hidden' }}>
+                <div style={{
+                  width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', gap: '1rem'
+                }}>
+                  <PostShowcase
+                    datosUsuario={datosUsuario}
+                    userPosts={userPosts}
+                    currentUser={currentUser}
+                    setShowPostsModal={setShowPostsModal}
+                    setDeletePublicacionModal={setDeletePublicacionModal}
+                    setDeletePostId={setDeletePostId}
+                    isAdmin={isAdmin}
+                  />
+                </div>
+                <div className="albums">
+                  <AlbumShelf currentUser={datosUsuario.id} handleOpenCollections={handleOpenCollections} />
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <img src={datosUsuario.foto_perfil} alt="background-gradient" className='background-gradient profile' />
         </>
       ) : null}

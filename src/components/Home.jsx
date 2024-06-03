@@ -5,6 +5,7 @@ import WritePostModal from './WritePostModal';
 import { addLike, deleteLike, checkUserLike, addRepost, deleteRepost, checkUserRepost, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
 import ProfilePage from './ProfilePage';
 import Loading from './Loading';
+import Post from './profilepage/Post';
 
 const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, profileOpen, setProfileOpen, resultUserData, handleVerPerfil, loading }) => {
   const [responseData, setResponseData] = useState([]);
@@ -228,36 +229,37 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
               <div className="posts-scroll" style={{ marginBottom: '2rem', padding: '0', justifyContent: 'flex-start' }}>
                 {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
                   return (
-                    <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '25vh', margin: '0' }}>
-                      <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
-                        <div className="post-profile-pic">
-                          <div>
-                            <img src={userOnShow?.foto_perfil} alt="profile-pic" />
-                          </div>
-                        </div>
-                        <div className="post-elements">
-                          <div className="post-top">
-                            <div className="post-username">
-                              <div><b>{userOnShow?.nombre_mostrado}</b></div>
-                              <div>@{userOnShow?.usuario}</div>
-                            </div>
+                    /*  <div className="post-showcase-grid" key={post.id} data-post-id={post.id} style={{ maxHeight: '25vh', margin: '0' }}>
+                       <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingBottom: '1.5rem' }}>
+                         <div className="post-profile-pic">
+                           <div>
+                             <img src={userOnShow?.foto_perfil} alt="profile-pic" />
+                           </div>
+                         </div>
+                         <div className="post-elements">
+                           <div className="post-top">
+                             <div className="post-username">
+                               <div><b>{userOnShow?.nombre_mostrado}</b></div>
+                               <div>@{userOnShow?.usuario}</div>
+                             </div>
+ 
+                             <div className="post-text">{post?.contenido}</div>
+                             <div className="buttons">
+                               <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
+                                 <i data-feather="heart"></i>
+                               </div>
+                               <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
+                                 <i data-feather="repeat"></i>
+                               </div>
+                               <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
+                               <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div> */
+                    <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} handleRepostClick={handleRepostClick} />
 
-                            <div className="post-text">{post?.contenido}</div>
-                            <div className="buttons">
-                              {/* Agrega el onClick para llamar a handleLikeClick */}
-                              <div className="nav-button no-text interactive heart" onClick={() => handleLikeClick(post.id)}>
-                                <i data-feather="heart"></i>
-                              </div>
-                              <div className="nav-button no-text interactive repeat" onClick={() => handleRepostClick(post.id)}>
-                                <i data-feather="repeat"></i>
-                              </div>
-                              <div className="nav-button no-text interactive message"><i data-feather="message-circle"></i></div>
-                              <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{post?.fecha}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   )
                 })}
               </div>

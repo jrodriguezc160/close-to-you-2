@@ -49,6 +49,7 @@
     width: auto;
     height: calc(100% - 2rem);
     /* El alto se ajusta automáticamente en base al ancho */
+    max-height: 20rem;
   }
 
   .profile-pic img {
@@ -61,7 +62,7 @@
   }
 
   img:hover {
-    scale: 1.1;
+    scale: 1.05;
     filter: drop-shadow(0 .5rem .75rem var(--gray-1));
   }
 }

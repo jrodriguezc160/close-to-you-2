@@ -102,7 +102,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 50);
-  }, [filtroId, coleccion])
+  }, [filtroId, coleccion, filtros])
 
   // Con el cambio de colección llamamos al servicio para recibir nuevos elementos
   useEffect(() => {
@@ -320,12 +320,21 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
                     ))}
                   </div>
                 ) : (
-                  <div className="empty-space" style={{ border: '0px solid gray', backgroundColor: 'var(--transparent)' }}>
-                    Navega por las colecciones seleccionando los filtros :)
-                    <div className="icon">
-                      <i data-feather="folder"></i>
+                  !filtros ? (
+                    <div className="empty-space" style={{ border: '0px solid gray', backgroundColor: 'var(--transparent)' }}>
+                      Navega por las colecciones seleccionando los filtros
+                      <div className="icon">
+                        <i data-feather="folder"></i>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="empty-space" style={{ border: '0px solid gray', backgroundColor: 'var(--transparent)' }}>
+                      No hay elementos guardados en esta colección
+                      <div className="icon">
+                        <i data-feather="coffee"></i>
+                      </div>
+                    </div>
+                  )
                 )}
               </div>
             </div>

@@ -42,7 +42,6 @@
     position: relative;
     top: 0;
     transform: translate(0, 0);
-    max-height: 100%;
   }
 }
 
@@ -58,7 +57,7 @@
   margin: auto;
   width: 45vw;
   height: 30vh;
-  max-height: 30rem;
+  max-height: 12rem;
   overflow: visible;
   font-family: sans-serif;
 
