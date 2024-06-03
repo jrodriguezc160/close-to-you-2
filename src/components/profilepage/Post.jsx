@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -12,8 +12,10 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostCl
     }, 100);
   }, [datosUsuario])
 
-  // Calcula la fecha de la publicación
+  // Calcula la fecha de la publicación ajustando a la zona horaria española
   const postDate = new Date(post.fecha);
+  postDate.setMinutes(postDate.getMinutes() + 120); // Ajustar 120 minutos (2 horas)
+
   let formattedDate;
 
   const now = new Date();
@@ -72,7 +74,6 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleRepostCl
       </div>
     </div>
   );
-
 }
 
 export default Post;
