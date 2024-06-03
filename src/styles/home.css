@@ -145,7 +145,7 @@
   }
 
   .right-column.posts {
-    gap: 15rem !important;
+    gap: 20rem !important;
     border-top: 1px solid var(--gray-1);
     padding-top: 2rem;
     width: calc(100% - 6rem);
@@ -178,10 +178,6 @@
 
   .posts-scroll {
     margin-bottom: 0;
-
-    .post-showcase-grid {
-      max-height: 100% !important;
-    }
   }
 
   .profile-buttons {
