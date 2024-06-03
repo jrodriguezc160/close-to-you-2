@@ -53,8 +53,14 @@
   }
 }
 
-.nav-button:hover {
+.nav-button:hover,
+a:hover {
   background-color: var(--gray-1);
+}
+
+.nav-button.nav-button.active:hover,
+a.nav-button.active:hover {
+  background-color: var(--gray-2);
 }
 
 .nav-button.active {

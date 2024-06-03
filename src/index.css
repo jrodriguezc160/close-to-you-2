@@ -40,7 +40,7 @@ body.dark {
   --white-1: #1d1d1d;
   --white-2: #2d2d2d;
   --white-3: #3d3d3d;
-  --gray-1: #2d2d2d;
+  --gray-1: rgb(75, 75, 75);
   --gray-2: rgb(175, 175, 175);
   --transparent: #00000000;
   --semi-transparent: rgba(30, 30, 30, 0.5);
@@ -114,8 +114,7 @@ a:visited {
 }
 
 .profile-card:hover,
-.posts-showcase>.post:hover,
-.navbar:hover {
+.posts-showcase>.post:hover {
   scale: 1.025;
 }
 

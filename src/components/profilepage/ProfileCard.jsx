@@ -8,7 +8,8 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
   useEffect(() => {
     const checkIfFollowed = async () => {
       try {
-        const isFollowed = usuariosSeguidos.some(item => item.id === datosUsuario.id);
+        console.log(usuariosSeguidos, datosUsuario.id)
+        const isFollowed = usuariosSeguidos.some(item => item.id === parseInt(datosUsuario.id));
         setIsFollowed(isFollowed);
       } catch (error) {
         console.error('Error al verificar si el usuario es seguido')
@@ -18,7 +19,7 @@ const ProfileCard = ({ datosUsuario, currentUser, handleOpenCollections, setShow
     checkIfFollowed();
     // eslint-disable-next-line no-undef
     feather.replace();
-  }, [usuariosSeguidos])
+  }, [datosUsuario.id, usuariosSeguidos])
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
