@@ -36,20 +36,21 @@ const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePo
     fetchLikes();
   }, [userPosts, currentUser, userOnShow]);
 
+  const fetchUsuariosSeguidos = async () => {
+    try {
+      const usuariosSeguidos = await getUsuariosSeguidos(currentUser);
+      setUsuariosSeguidos(usuariosSeguidos);
+
+      const formattedData = formatUsuariosData(usuariosSeguidos);
+
+      setResponseData(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como verdadero
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const usuariosSeguidos = await getUsuariosSeguidos(currentUser);
-        setUsuariosSeguidos(usuariosSeguidos);
-
-        const formattedData = formatUsuariosData(usuariosSeguidos);
-
-        setResponseData(formattedData.map(user => ({ ...user, isFollowed: true }))); // Inicializa el estado de seguimiento para cada usuario como verdadero
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
+    fetchUsuariosSeguidos();
   }, []);
 
   useEffect(() => {
@@ -78,7 +79,12 @@ const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePo
       const updatedResponseData = [...responseData];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: true };
       setResponseData(updatedResponseData);
-      console.log('Usuario seguido con éxito');
+
+      if (userOnShow && userOnShow.id === targetUser.id) {
+        setUserOnShow({ ...userOnShow, isFollowed: true });
+      }
+
+      fetchUsuariosSeguidos();
     } catch (error) {
       console.error('Error al seguir al usuario');
     }
@@ -93,7 +99,12 @@ const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePo
       const updatedResponseData = [...responseData];
       updatedResponseData[targetUserIndex] = { ...targetUser, isFollowed: false };
       setResponseData(updatedResponseData);
-      console.log('Usuario dejado de seguir con éxito');
+
+      if (userOnShow && userOnShow.id === targetUser.id) {
+        setUserOnShow();
+      }
+
+      fetchUsuariosSeguidos();
     } catch (error) {
       console.error('Error al dejar de seguir al usuario');
     }
