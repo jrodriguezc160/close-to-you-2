@@ -1,17 +1,16 @@
-// src/components/Navbar.js
-
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../ThemeContext';
 import '../styles/navbar.css';
 
-const Navbar = ({ isLoggedIn, profileOpen, setProfileOpen, setWritePost }) => {
+const Navbar = ({ isLoggedIn, profileOpen, setProfileOpen, setWritePost, isAdmin }) => {
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
     feather.replace();
-  }, [profileOpen, isDark]);
+    console.log(isAdmin)
+  }, [profileOpen, isDark, isAdmin]); // Asegúrate de incluir isAdmin aquí
 
   const handleCloseModals = () => {
     setProfileOpen(false);
@@ -37,7 +36,8 @@ const Navbar = ({ isLoggedIn, profileOpen, setProfileOpen, setWritePost }) => {
         </div>
       </div>
       <div className="nav-right">
-        <NavLink to="/perfil" activeClassName="active" className='nav-button' onClick={handleCloseModals}><i data-feather="user"></i><span>Perfil</span></NavLink>
+        <NavLink to="/perfil" activeClassName="active" className='nav-button' onClick={handleCloseModals}>
+          <i data-feather={isAdmin === true ? 'user-check' : 'user'}></i><span>Perfil</span></NavLink>
         <div className='nav-button no-text' style={{ margin: '0' }} onClick={handleToggleTheme}>
           <i data-feather={isDark ? 'sun' : 'moon'} style={{ color: 'var(--gray-2)' }}></i>
         </div>

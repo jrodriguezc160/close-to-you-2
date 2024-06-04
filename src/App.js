@@ -86,12 +86,15 @@ function App () {
   return (
     <ThemeProvider>
       <Router>
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          profileOpen={profileOpen}
-          setProfileOpen={setProfileOpen}
-          setWritePost={setWritePost}
-        />
+        {datosUsuario && (
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            profileOpen={profileOpen}
+            setProfileOpen={setProfileOpen}
+            setWritePost={setWritePost}
+            isAdmin={isAdmin}
+          />
+        )}
         <Routes>
           <Route
             exact
@@ -110,6 +113,7 @@ function App () {
               path="/"
               element={<Home
                 currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
                 datosUsuario={datosUsuario}
                 writePost={writePost}
                 setWritePost={setWritePost}
@@ -118,6 +122,7 @@ function App () {
                 resultUserData={resultUserData}
                 handleVerPerfil={handleVerPerfil}
                 loading={loading}
+                setIsLoggedIn={setIsLoggedIn}
               />}
             />
             <Route

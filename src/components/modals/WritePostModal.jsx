@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { addPublicacion } from '../services/PostServices'; // Asegúrate de ajustar la ruta según corresponda
-import '../styles/posts.css';
-import '../styles/writepostmodal.css';
+import { addPublicacion } from '../../services/PostServices'; // Asegúrate de ajustar la ruta según corresponda
+import '../../styles/posts.css';
+import '../../styles/writepostmodal.css';
 
 const WritePostModal = ({ writePost, setWritePost, datosUsuario }) => {
   const [postContent, setPostContent] = useState('');
@@ -54,14 +54,14 @@ const WritePostModal = ({ writePost, setWritePost, datosUsuario }) => {
                     placeholder='¿En qué estás pensando?'
                     value={postContent}
                     onChange={(e) => setPostContent(e.target.value)}
+                    autoFocus
                   />
                 </div>
                 <div className="buttons-bottom">
                   <div className="left">
-                    <div className="nav-button on-modal no-text"><i data-feather="heart"></i></div>
-                    <div className="nav-button on-modal no-text"><i data-feather="bookmark"></i></div>
-                    <div className="nav-button on-modal no-text"><i data-feather="message-circle"></i></div>
-                    <span style={{ color: 'var(--gray-2)' }}>·&nbsp;&nbsp;{currentDate}</span>
+                    <div className="nav-button on-modal no-text" style={{ cursor: 'auto' }}><i data-feather="heart"></i></div>
+                    <div className="nav-button on-modal no-text" style={{ cursor: 'auto' }}><i data-feather="clock"></i></div>
+                    <span style={{ color: 'var(--gray-2)' }}>&nbsp;&nbsp;{currentDate}</span>
                   </div>
 
                   <div className='right'>

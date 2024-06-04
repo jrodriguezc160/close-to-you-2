@@ -31,14 +31,14 @@ export const logIn = async (usuario, passwd) => {
   }
 };
 
-export const signUp = async (nombreMostrado, usuario, passwd, email, nombre, ap1, ap2, fotoPerfil) => {
+export const signUp = async (usuario, passwd, email, fotoPerfil) => {
   try {
     const response = await fetch(`${baseUrl}signUp.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nombreMostrado, usuario, passwd, email, nombre, ap1, ap2, fotoPerfil }),
+      body: JSON.stringify({ usuario, passwd, email, fotoPerfil }),
     });
 
     const text = await response.text(); // Captura el texto de la respuesta

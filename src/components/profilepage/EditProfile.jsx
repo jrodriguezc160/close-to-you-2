@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { editUserProfile, getUsuarioData } from '../../services/UserServices';
 
-const EditProfile = ({ datosUsuario, setDatosUsuario, showEditProfileModal, setShowEditProfileModal }) => {
+const EditProfile = ({ datosUsuario, setDatosUsuario, showEditProfileModal, setShowEditProfileModal, setDeleteUserModal }) => {
   // Estados locales para cada campo
   const [fotoPerfil, setFotoPerfil] = useState(datosUsuario.foto_perfil);
   const [nombreMostrado, setNombreMostrado] = useState(datosUsuario.nombre_mostrado);
@@ -119,6 +119,10 @@ const EditProfile = ({ datosUsuario, setDatosUsuario, showEditProfileModal, setS
               </div>
               <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
             </div>
+
+            <br />
+            <div className="nav-button log-out" onClick={() => setDeleteUserModal(true)} style={{ padding: '.25rem .75rem' }}><i data-feather="alert-triangle"></i><span>Eliminar usuario</span></div>
+            <br />
           </div>
         </div>
       )}

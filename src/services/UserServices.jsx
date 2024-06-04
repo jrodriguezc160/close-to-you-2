@@ -211,3 +211,28 @@ export const editUserProfile = async (id, fotoPerfil, nombreMostrado, usuario, n
   }
 };
 
+export const deleteUsuario = async (id) => {
+  try {
+    const formData = new FormData();
+    formData.append('id', id);
+
+    const response = await fetch(`${baseUrl}deleteUsuario.php`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al eliminar el usuario');
+    }
+
+    const data = await response.json();
+    // Verifica si la respuesta es exitosa
+    if (data.success) {
+      return data;
+    } else {
+      throw new Error('Error en la respuesta: ' + data.message);
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar el usuario: ' + error.message);
+  }
+};

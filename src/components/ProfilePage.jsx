@@ -8,11 +8,12 @@ import { getPublicacionesUsuario } from '../services/PostServices';
 import '../styles/profilepage.css'
 import Collections from './profilepage/Collections';
 import EditProfile from './profilepage/EditProfile';
-import Loading from './Loading';
-import WritePostModal from './WritePostModal';
-import PostsModal from './profilepage/PostsModal';
-import DeletePostModal from './DeletePostModal';
-import LogOutModal from './LogOutModal';
+import Loading from './modals/Loading';
+import WritePostModal from './modals/WritePostModal';
+import PostsModal from './modals/PostsModal';
+import DeletePostModal from './modals/DeletePostModal';
+import LogOutModal from './modals/LogOutModal';
+import DeleteUserModal from './modals/DeleteUserModal';
 
 const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUser, resultUserData, handleVerPerfil, loading, profileOpen, setLoading, writePost, setWritePost, isAdmin, setIsLoggedIn }) => {
   const [userPosts, setUserPosts] = useState([]);
@@ -24,6 +25,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
   const [deletePublicacionModal, setDeletePublicacionModal] = useState(false);
   const [deletePostId, setDeletePostId] = useState(null);
   const [logOutModal, setLogOutModal] = useState(false);
+  const [deleteUserModal, setDeleteUserModal] = useState(false);
 
   const fetchData = async () => {
     if (datosUsuario && datosUsuario.id) {
@@ -70,6 +72,14 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
         setLogOutModal={setLogOutModal}
         setIsLoggedIn={setIsLoggedIn}
       />
+      <DeleteUserModal
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        userId={datosUsuario.id}
+        deleteUserModal={deleteUserModal}
+        setDeleteUserModal={setDeleteUserModal}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       {datosUsuario && datosUsuario.id ? (
         <>
@@ -78,6 +88,11 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
             setDatosUsuario={setDatosUsuario}
             showEditProfileModal={showEditProfileModal}
             setShowEditProfileModal={setShowEditProfileModal}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            deleteUserModal={deleteUserModal}
+            setDeleteUserModal={setDeleteUserModal}
+            setIsLoggedIn={setIsLoggedIn}
           />
 
           <Collections
@@ -93,6 +108,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
             profileOpen={profileOpen}
             resultUserData={resultUserData}
             datosUsuario={datosUsuario}
+            isAdmin={isAdmin}
           />
 
           {!profileOpen && (
@@ -113,6 +129,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
                   handleOpenCollections={handleOpenCollections}
                   setShowEditProfileModal={setShowEditProfileModal}
                   setLogOutModal={setLogOutModal}
+                  isAdmin={isAdmin}
                 />
               </div>
               <div className="right-column" style={{ overflow: 'hidden' }}>

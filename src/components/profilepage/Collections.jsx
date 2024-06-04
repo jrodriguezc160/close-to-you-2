@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { getElementosUsuario } from '../../services/ElementosServices';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../../services/UserServices';
 import { addElemento, deleteElemento, editElemento } from '../../services/ElementosServices';
-import LimitModal from '../LimitModal';
+import LimitModal from '../modals/LimitModal';
 import ProfilePage from '../ProfilePage';
 
-const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId, profileOpen, resultUserData, handleVerPerfil, datosUsuario }) => {
+const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, setShowCollectionsModal, filtroId, setFiltroId, profileOpen, resultUserData, handleVerPerfil, datosUsuario, isAdmin }) => {
   // Se definen las variables de estado
   // Se incluyen las que corresponden al usuario actual (current user o CU)
   const [coleccion, setColeccion] = useState([]);
@@ -346,6 +346,7 @@ const Collections = ({ currentUser, filtros, setFiltros, showCollectionsModal, s
             datosUsuario={resultUserData}
             currentUser={currentUser}
             getUsuariosSeguidos={getUsuariosSeguidos}
+            isAdmin={isAdmin}
           />
         </>
       )}

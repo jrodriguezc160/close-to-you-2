@@ -8,9 +8,9 @@ import Result from './search/Result';
 import { getElementosUsuario } from '../services/ElementosServices';
 import { getUsuariosSeguidos } from '../services/UserServices';
 import ProfilePage from './ProfilePage';
-import LimitModal from './LimitModal';
-import Loading from './Loading';
-import WritePostModal from './WritePostModal';
+import LimitModal from './modals/LimitModal';
+import Loading from './modals/Loading';
+import WritePostModal from './modals/WritePostModal';
 
 const Search = ({ currentUser, profileOpen, resultUserData, handleVerPerfil, loading, datosUsuario, writePost, setWritePost, isAdmin }) => {
   const [search, setSearch] = useState('');

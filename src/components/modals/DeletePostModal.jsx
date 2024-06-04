@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { deletePublicacion } from '../services/PostServices';
+import { deletePublicacion } from '../../services/PostServices';
 
 const DeletePostModal = ({ deletePostId, deletePublicacionModal, setDeletePublicacionModal, getPublicacionesUsuario }) => {
   useEffect(() => {

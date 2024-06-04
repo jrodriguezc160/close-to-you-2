@@ -3,35 +3,19 @@ import { logIn, signUp } from '../services/LogInServices';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
+const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [logInForm, setLogInForm] = useState(true);
-  const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const [fieldsChecked, setFieldsChecked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [nombreApellidosCheck, setNombreApellidosCheck] = useState(false);
-  const [mailCheck, setMailCheck] = useState(false);
-  const [usuarioCheck, setUsuarioCheck] = useState(false);
-  const [fotoPerfilCheck, setFotoPerfilCheck] = useState(false);
-  const [passwordEqual, setPasswordEqual] = useState(true);
-  const [validMail, setValidMail] = useState(true);
+  const [logInError, setLogInError] = useState('');
 
   const [usuario, setUsuario] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [ap1, setAp1] = useState('');
-  const [ap2, setAp2] = useState('');
-  const [nombreMostrado, setNombreMostrado] = useState('');
   const [mail, setMail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [password, setPassword] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState('');
 
   const [usuarioIsFocused, setUsuarioIsFocused] = useState(false);
-  const [nombreIsFocused, setNombreIsFocused] = useState(false);
-  const [ap1IsFocused, setAp1IsFocused] = useState(false);
-  const [ap2IsFocused, setAp2IsFocused] = useState(false);
-  const [nombreMostradoIsFocused, setNombreMostradoIsFocused] = useState(false);
   const [mailIsFocused, setMailIsFocused] = useState(false);
   const [confirmPasswordIsFocused, setConfirmPasswordIsFocused] = useState(false);
   const [passwordIsFocused, setPasswordIsFocused] = useState(false);
@@ -42,99 +26,75 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [logInForm, step, isLoading]);
+  }, [logInForm, isLoading]);
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmitLogIn = async (event) => {
     event.preventDefault();
     try {
-      // Llama a la función logIn con el usuario y la contraseña
       const { message, token } = await logIn(usuario, password);
 
       if (message === 'Inicio de sesión exitoso') {
-        setIsLoading(true)
+        setIsLoading(true);
         sessionStorage.setItem('token', token);
-
-        // Decodifica el token para obtener el usuario actual
         const decodedUser = jwtDecode(token);
-
-        // Establece el usuario actual decodificado
         setCurrentUser(decodedUser.userId);
-        console.log('currentUser', currentUser)
 
         setTimeout(() => {
           setIsLoggedIn(true);
-          navigate('/'); // Redirección a la página de Inicio cuando se inicia sesión con éxito
+          navigate('/');
         }, 1000);
       } else {
-        alert(message);
+        setLogInError('Error: usuario o contraseña incorrectos');
       }
     } catch (error) {
       console.error(error);
+      setLogInError('Error: usuario o contraseña incorrectos');
     }
   };
 
   const handleSubmitSignUp = async (event) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      alert('La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y un carácter especial.');
+      return;
+    }
+
+    if (!validateEmail(mail)) {
+      alert('Por favor, introduce un correo electrónico válido');
+      return;
+    }
+
     try {
-      // Llama a la función signUp con los datos del usuario
-      const { message } = await signUp(nombreMostrado, usuario, password, mail, nombre, ap1, ap2, fotoPerfil);
+      const { message } = await signUp(usuario, password, mail, fotoPerfil);
 
       if (message === 'Usuario registrado correctamente') {
-        // Si el registro es exitoso, muestra un mensaje de éxito y redirige al usuario a la página de inicio de sesión
         alert('Registro exitoso. Por favor, inicia sesión.');
         setLogInForm(true);
       }
     } catch (error) {
       console.error(error);
-      // Si hay un error durante el registro, muestra un mensaje de error al usuario
       alert('Error al registrar: ' + error.message);
-    }
-  };
-
-  const handleNextStep = () => {
-    switch (step) {
-      case 1:
-        if (nombre !== '' && ap1 !== '') {
-          setNombreApellidosCheck(true);
-          setFieldsChecked(true);
-          setStep(2);
-        } else {
-          setFieldsChecked(false);
-        }
-        break;
-
-      case 2:
-        if (usuario !== '' && nombreMostrado !== '') {
-          setUsuarioCheck(true);
-          setFieldsChecked(true);
-          setStep(3);
-        } else {
-          setFieldsChecked(false);
-        }
-        break;
-
-      case 3:
-        if (mail !== '' && password !== '' && confirmPassword !== '') {
-          setFieldsChecked(true);
-          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { // Comprueba si el correo tiene la estructura adecuada
-            setValidMail(true);
-            if (password === confirmPassword) {
-              setMailCheck(true);
-              setStep(4);
-            } else {
-              setPasswordEqual(false);
-              setFieldsChecked(false);
-            }
-          } else {
-            setValidMail(false);
-          }
-        } else {
-          setFieldsChecked(false);
-        }
-        break;
-
-      default:
-        break;
     }
   };
 
@@ -153,10 +113,13 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
             <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false); }} />
           </div>
 
+          {logInError && <div style={{ color: 'red', padding: '0' }}>{logInError}</div>}
+
           <button type="submit" style={{ width: '7rem', border: 'none' }} className='nav-button log-in'>
             {!isLoading && (<span>Iniciar sesión</span>)}
             {isLoading && (<i data-feather="loader" className='loader'></i>)}
           </button>
+
           <div className="change-form">
             <span>¿No tienes una cuenta?</span>
             <span className='register' onClick={() => setLogInForm(false)}>Regístrate ahora</span>
@@ -164,97 +127,45 @@ const Login = ({ setIsLoggedIn, setCurrentUser, currentUser }) => {
         </form>
       ) : (
         <form className='modal' onSubmit={handleSubmitSignUp}>
-          {!nombreApellidosCheck && (
-            <>
-              <h2>¡Hola!</h2>
-              <p>¿Cómo te llamas?</p>
+          <div style={{ textAlign: 'center' }}>
+            <h2>¡Hola!</h2><br />
+            <p>Vamos a crearte un usuario</p>
+          </div>
 
-              <div className='form-fields'>
-                <label htmlFor="nombre" className={nombreIsFocused ? 'focused' : ''}>Nombre</label>
-                <input type="text" placeholder='' value={nombre} onChange={e => setNombre(e.target.value)} onFocus={() => setNombreIsFocused(true)} onBlur={() => { nombre === '' && setNombreIsFocused(false); }} />
-              </div>
+          <div className='form-fields'>
+            <label htmlFor="usuario" className={usuarioIsFocused ? 'focused' : ''}>Usuario</label>
+            <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false); }} />
+          </div>
 
-              <div className='form-fields'>
-                <label htmlFor="ap1" className={ap1IsFocused ? 'focused' : ''}>Primer apellido</label>
-                <input type="text" placeholder='' value={ap1} onChange={e => setAp1(e.target.value)} onFocus={() => setAp1IsFocused(true)} onBlur={() => { ap1 === '' && setAp1IsFocused(false); }} />
-              </div>
+          <div className='form-fields'>
+            <label htmlFor="mail" className={mailIsFocused ? 'focused' : ''}>Correo electrónico</label>
+            <input type="text" placeholder='' value={mail} onChange={e => setMail(e.target.value)} onFocus={() => setMailIsFocused(true)} onBlur={() => { mail === '' && setMailIsFocused(false); }} />
+          </div>
 
-              <div className='form-fields'>
-                <label htmlFor="ap2" className={ap2IsFocused ? 'focused' : ''}>Segundo apellido</label>
-                <input type="text" placeholder='' value={ap2} onChange={e => setAp2(e.target.value)} onFocus={() => setAp2IsFocused(true)} onBlur={() => { ap2 === '' && setAp2IsFocused(false); }} />
-              </div>
+          <div className='form-fields'>
+            <label htmlFor="password" className={passwordIsFocused ? 'focused' : ''}>Contraseña</label>
+            <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false); }} />
+          </div>
 
-              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
-            </>
+          <div className='form-fields'>
+            <label htmlFor="confirmPassword" className={confirmPasswordIsFocused ? 'focused' : ''}>Confirmar contraseña</label>
+            <input type="password" placeholder='' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} onFocus={() => setConfirmPasswordIsFocused(true)} onBlur={() => { confirmPassword === '' && setConfirmPasswordIsFocused(false); }} />
+          </div>
+
+          {fotoPerfil !== '' && (
+            <div className="profile-pic">
+              <img src={fotoPerfil} alt="profile-pic" />
+            </div>
           )}
 
-          {nombreApellidosCheck && !usuarioCheck && (
-            <>
-              <h2>¡Hola, {nombre}!</h2>
-              <p>Elige un usuario y un nombre para que se muestre en tu perfil</p>
+          <div className='form-fields'>
+            <label htmlFor="fotoPerfil" className={fotoPerfilIsFocused ? 'focused' : ''}>Pega aquí la url de tu foto de perfil</label>
+            <input type="fotoPerfil" placeholder='' value={fotoPerfil} onChange={e => setFotoPerfil(e.target.value)} onFocus={() => setFotoPerfilIsFocused(true)} onBlur={() => { fotoPerfil === '' && setFotoPerfilIsFocused(false); }} />
+          </div>
 
-              <div className='form-fields'>
-                <label htmlFor="usuario" className={usuarioIsFocused ? 'focused' : ''}>Usuario</label>
-                <input type="text" placeholder='' value={usuario} onChange={e => setUsuario(e.target.value)} onFocus={() => setUsuarioIsFocused(true)} onBlur={() => { usuario === '' && setUsuarioIsFocused(false); }} />
-              </div>
-
-              <div className='form-fields'>
-                <label htmlFor="nombreMostrado" className={nombreMostradoIsFocused ? 'focused' : ''}>Nombre mostrado</label>
-                <input type="text" placeholder='' value={nombreMostrado} onChange={e => setNombreMostrado(e.target.value)} onFocus={() => setNombreMostradoIsFocused(true)} onBlur={() => { nombreMostrado === '' && setNombreMostradoIsFocused(false); }} />
-              </div>
-
-              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
-            </>
-          )}
-
-          {usuarioCheck && !mailCheck && (
-            <>
-              <h2>Ya casi está, {nombre}</h2>
-              <p>Introduce un email y la contraseña con la que entrarás a tu cuenta</p>
-
-              <div className='form-fields'>
-                <label htmlFor="mail" className={mailIsFocused ? 'focused' : ''}>Correo electrónico</label>
-                <input type="text" placeholder='' value={mail} onChange={e => setMail(e.target.value)} onFocus={() => setMailIsFocused(true)} onBlur={() => { mail === '' && setMailIsFocused(false); }} />
-              </div>
-
-              <div className='form-fields'>
-                <label htmlFor="password" className={passwordIsFocused ? 'focused' : ''}>Contraseña</label>
-                <input type="password" placeholder='' value={password} onChange={e => setPassword(e.target.value)} onFocus={() => setPasswordIsFocused(true)} onBlur={() => { password === '' && setPasswordIsFocused(false); }} />
-              </div>
-
-              <div className='form-fields'>
-                <label htmlFor="confirmPassword" className={confirmPasswordIsFocused ? 'focused' : ''}>Confirmar contraseña</label>
-                <input type="password" placeholder='' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} onFocus={() => setConfirmPasswordIsFocused(true)} onBlur={() => { confirmPassword === '' && setConfirmPasswordIsFocused(false); }} />
-              </div>
-
-              <div className="nav-button no-text" onClick={() => handleNextStep()}><i data-feather="arrow-right"></i></div>
-            </>
-          )}
-
-          {mailCheck && !fotoPerfilCheck && (
-            <>
-              <h2>Muestra tu cara al mundo :)</h2>
-              <p>O continúa sin seleccionar una foto de perfil</p>
-
-              {fotoPerfil !== '' && (
-                <div className="profile-pic">
-                  <img src={fotoPerfil} alt="profile-pic" />
-                </div>
-              )}
-
-              <div className='form-fields'>
-                <label htmlFor="fotoPerfil" className={fotoPerfilIsFocused ? 'focused' : ''}>Pega aquí la url de tu foto de perfil</label>
-                <input type="fotoPerfil" placeholder='' value={fotoPerfil} onChange={e => setFotoPerfil(e.target.value)} onFocus={() => setFotoPerfilIsFocused(true)} onBlur={() => { fotoPerfil === '' && setFotoPerfilIsFocused(false); }} />
-              </div>
-
-              <button type="submit" style={{ width: '6rem', border: 'none' }} className='nav-button'>Registrarse</button>
-            </>
-          )}
+          <button type="submit" style={{ width: '6rem', border: 'none' }} className='nav-button'>Registrarse</button>
 
           <div className="change-form">
-            {!validMail && (<span style={{ color: 'red' }}><b>¡Debes introducir un correo electrónico válido!</b></span>)}
-            {!passwordEqual && (<span style={{ color: 'red' }}><b>¡Las contraseñas deben coincidir!</b></span>)}
-            {!fieldsChecked && (<span style={{ color: 'red' }}><b>¡Rellena todos los campos para continuar!</b></span>)}
             <span>¿Ya estás registrado?</span>
             <span className='register' onClick={() => setLogInForm(true)}>Inicia sesión</span>
           </div>

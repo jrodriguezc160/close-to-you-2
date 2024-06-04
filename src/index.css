@@ -431,10 +431,6 @@ a:visited {
   .modal-screen.visible.form-page>.modal {
     padding: 2rem;
 
-    h2 {
-      margin-bottom: 1rem;
-    }
-
     .form-fields {
       margin: .5rem;
     }
@@ -442,6 +438,12 @@ a:visited {
     button {
       margin-top: 1rem;
       margin-bottom: .5rem;
+    }
+
+    .profile-pic {
+      margin-bottom: 1rem;
+      width: 7rem;
+      height: 7rem;
     }
   }
 }

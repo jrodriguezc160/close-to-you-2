@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { addLike, deleteLike, checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
-import Post from './Post'; // Importa el componente Post
+import Post from '../profilepage/Post'; // Importa el componente Post
 
 const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts }) => {
 

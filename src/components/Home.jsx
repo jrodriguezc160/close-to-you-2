@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../services/UserServices';
 import '../styles/home.css';
-import WritePostModal from './WritePostModal';
+import WritePostModal from './modals/WritePostModal';
 import { addLike, deleteLike, checkUserLike, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
 import ProfilePage from './ProfilePage';
-import Loading from './Loading';
+import Loading from './modals/Loading';
 import Post from './profilepage/Post';
+import DeleteUserModal from './modals/DeleteUserModal';
+import DeletePostModal from './modals/DeletePostModal';
 
-const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, profileOpen, setProfileOpen, resultUserData, handleVerPerfil, loading }) => {
+const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePost, isAdmin, profileOpen, resultUserData, handleVerPerfil, loading, setIsLoggedIn }) => {
   const [responseData, setResponseData] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [userOnShow, setUserOnShow] = useState();
   const [usuariosSeguidos, setUsuariosSeguidos] = useState([]);
+  const [deleteUserModal, setDeleteUserModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState();
+  const [deletePostId, setDeletePostId] = useState(null);
+  const [deletePublicacionModal, setDeletePublicacionModal] = useState(false);
 
   useEffect(() => {
     const fetchLikes = async () => {
@@ -93,19 +99,19 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (userOnShow && userOnShow.id) {
-        try {
-          const posts = await getPublicacionesUsuario(userOnShow.id);
-          // Limitar los posts a los cinco primeros
-          setUserPosts(posts.slice(0, 5));
-        } catch (error) {
-          console.error("Error fetching user's posts' data:", error);
-        }
+  const fetchData = async () => {
+    if (userOnShow && userOnShow.id) {
+      try {
+        const posts = await getPublicacionesUsuario(userOnShow.id);
+        // Limitar los posts a los cinco primeros
+        setUserPosts(posts.slice(0, 5));
+      } catch (error) {
+        console.error("Error fetching user's posts' data:", error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [userOnShow]);
 
@@ -123,6 +129,11 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
       console.error('Error al manejar el like:', error);
     }
   };
+
+  const handleDeleteUser = async (userId) => {
+    setUserToDelete(userId);
+    setDeleteUserModal(true)
+  }
 
   // Función para detectar enlaces
   const Linkify = ({ children }) => {
@@ -147,10 +158,29 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
     return (<span dangerouslySetInnerHTML={{ __html: html }} />)
   }
 
+  const handleDeleteClick = async (postId) => {
+    setDeletePostId(postId);
+    setDeletePublicacionModal(true)
+  }
+
   return (
     <>
+      <DeletePostModal
+        deletePostId={deletePostId}
+        deletePublicacionModal={deletePublicacionModal}
+        setDeletePublicacionModal={setDeletePublicacionModal}
+        getPublicacionesUsuario={fetchData}
+      />
       <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
       <Loading loading={loading} />
+      <DeleteUserModal
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        userId={userToDelete}
+        deleteUserModal={deleteUserModal}
+        setDeleteUserModal={setDeleteUserModal}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       {!profileOpen ? (
         <div className="two-columns home" style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
@@ -183,6 +213,9 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
                           <div className='nav-button no-text' onClick={() => handleFollowUser(index)}><i data-feather="user-plus"></i></div>
                         )}
                         <div className='nav-button no-text' onClick={() => handleVerPerfil(user.id)}><i data-feather="external-link"></i></div>
+                        {isAdmin && (
+                          <div className='nav-button no-text' onClick={() => handleDeleteUser(user.id)}><i data-feather="trash"></i></div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -198,8 +231,15 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
               <div className="posts-scroll" style={{ marginBottom: '2rem', padding: '0', justifyContent: 'flex-start' }}>
                 {userPosts.slice().reverse().map((post, index) => { // Invertir el array userPosts
                   return (
-                    <Post key={post.id} post={post} datosUsuario={userOnShow} currentUser={currentUser} handleLikeClick={handleLikeClick} />
-
+                    <Post
+                      key={post.id}
+                      datosUsuario={userOnShow}
+                      post={post}
+                      currentUser={currentUser}
+                      handleLikeClick={handleLikeClick}
+                      handleDeleteClick={handleDeleteClick}
+                      isAdmin={isAdmin}
+                    />
                   )
                 })}
               </div>
@@ -237,6 +277,9 @@ const Home = ({ currentUser, datosUsuario, writePost, setWritePost, isAdmin, pro
                       <div className='nav-button' onClick={() => handleFollowUser(responseData.findIndex(user => user.id === userOnShow.id))}><i data-feather="user-plus"></i><span>Seguir</span></div>
                     )}
                     <div className="nav-button" onClick={() => handleVerPerfil(userOnShow.id)}><i data-feather="external-link"></i><span>Ver perfil</span></div>
+                    {isAdmin && (
+                      <div className='nav-button no-text' onClick={() => handleDeleteUser(userOnShow.id)}><i data-feather="trash"></i></div>
+                    )}
                   </div>
                 </div>
               </div>
