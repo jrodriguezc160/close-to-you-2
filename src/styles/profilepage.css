@@ -474,6 +474,14 @@
   }
 }
 
+.modal-screen.visible>.collection-modal.edit-profile>.posts-scroll {
+  margin-top: 5rem;
+
+  .post-showcase-grid>.post>.post-elements>.post-top>.buttons {
+    margin-bottom: 1rem !important;
+  }
+}
+
 /* Responsive  */
 @media (max-width: 1200px) {
   .profile-card {

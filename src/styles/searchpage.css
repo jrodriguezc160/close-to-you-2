@@ -297,6 +297,7 @@
     }
 
     .result-desc {
+      visibility: visible;
       opacity: 1;
       transition: opacity .5s ease-in-out, width 0s ease-in-out !important;
       margin-bottom: 1.5rem;
