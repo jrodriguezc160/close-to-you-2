@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Post from './Post'; // Importa el componente Post
-import { addLike, deleteLike, checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
+import { checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
 
 const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal, setDeletePublicacionModal, setDeletePostId, isAdmin }) => {
   const [dotIndex, setDotIndex] = useState(4);
@@ -72,28 +72,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
     setIsHovering(false)
   }
 
-  const handleLikeClick = async (postId) => {
-    try {
-      const heartButton = document.querySelector(`[data-post-id="${postId}"] .heart`);
-      if (heartButton.classList.contains('active')) {
-        await deleteLike(currentUser, postId);
-        heartButton.classList.remove('active');
-        // Actualizar el contador de likes en el frontend
-        const post = userPosts.find(post => post.id === postId);
-        if (post) post.likes -= 1;
-      } else {
-        await addLike(currentUser, postId);
-        heartButton.classList.add('active');
-        // Actualizar el contador de likes en el frontend
-        const post = userPosts.find(post => post.id === postId);
-        if (post) post.likes += 1;
-      }
-
-    } catch (error) {
-      console.error('Error al manejar el like:', error);
-    }
-  };
-
   const handleDeleteClick = async (postId) => {
     setDeletePostId(postId);
     setDeletePublicacionModal(true)
@@ -108,7 +86,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
             datosUsuario={datosUsuario}
             post={post}
             currentUser={currentUser}
-            handleLikeClick={handleLikeClick}
             handleDeleteClick={handleDeleteClick}
             isAdmin={isAdmin}
           />

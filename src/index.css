@@ -410,6 +410,12 @@ a:visited {
   }
 }
 
+.nav-button.interactive.clock {
+  svg {
+    stroke: var(--gray-2);
+  }
+}
+
 .nav-button.interactive.heart.active:hover {
   scale: 1.25;
   background-color: var(--black);

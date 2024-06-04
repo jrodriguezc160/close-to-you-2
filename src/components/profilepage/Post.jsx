@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { addLike, deleteLike } from '../../services/PostServices'; // Importa los servicios necesarios
 
-const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleDeleteClick, isAdmin }) => {
+const Post = ({ datosUsuario, post, currentUser, handleDeleteClick, isAdmin }) => {
+  const [likes, setLikes] = useState(Number(post.likes)); // Asegúrate de que los likes sean un número
+
   useEffect(() => {
-    console.log(datosUsuario)
+    console.log(datosUsuario);
 
     setTimeout(() => {
       // eslint-disable-next-line no-undef
       feather.replace();
     }, 100);
-  }, [datosUsuario])
+  }, [datosUsuario]);
 
   // Calcula la fecha de la publicación ajustando a la zona horaria española
   const postDate = new Date(post.fecha);
@@ -35,6 +38,23 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleDeleteCl
     formattedDate = format(postDate, "d 'de' MMMM 'de' yyyy", { locale: es });
   }
 
+  const handleLikeClick = async (postId) => {
+    try {
+      const heartButton = document.querySelector(`[data-post-id="${postId}"] .heart`);
+      if (heartButton.classList.contains('active')) {
+        await deleteLike(currentUser, postId);
+        heartButton.classList.remove('active');
+        setLikes((prevLikes) => prevLikes - 1);
+      } else {
+        await addLike(currentUser, postId);
+        heartButton.classList.add('active');
+        setLikes((prevLikes) => prevLikes + 1);
+      }
+    } catch (error) {
+      console.error('Error al manejar el like:', error);
+    }
+  };
+
   return (
     <div className="post-showcase-grid" key={post.id} data-post-id={post.id}>
       <div className="post" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -54,11 +74,11 @@ const Post = ({ datosUsuario, post, currentUser, handleLikeClick, handleDeleteCl
             <div className="buttons">
               {/* Agrega el onClick para llamar a handleLikeClick */}
               <div className="nav-button interactive heart" onClick={() => handleLikeClick(post.id)}>
-                {post.likes}
+                {likes}
                 <i data-feather="heart"></i>
               </div>
 
-              <div className="nav-button interactive" style={{ cursor: 'auto' }}>
+              <div className="nav-button interactive clock" style={{ cursor: 'auto' }}>
                 <i data-feather="clock"></i>
                 <span style={{ color: 'var(--gray-2)' }}>{formattedDate}</span>
               </div>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { addLike, deleteLike, checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
+import { checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
 import Post from '../profilepage/Post'; // Importa el componente Post
 
 const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts }) => {
@@ -28,21 +28,6 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
     }, 100);
   }, [showPostsModal]);
 
-  const handleLikeClick = async (postId) => {
-    try {
-      const heartButton = document.querySelector(`[data-post-id="${postId}"] .heart`);
-      if (heartButton.classList.contains('active')) {
-        await deleteLike(currentUser, postId);
-        heartButton.classList.remove('active');
-      } else {
-        await addLike(currentUser, postId);
-        heartButton.classList.add('active');
-      }
-    } catch (error) {
-      console.error('Error al manejar el like:', error);
-    }
-  };
-
   return (
     <>
       {showPostsModal && (
@@ -57,7 +42,7 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
 
             <div className="posts-scroll">
               {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
-                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} handleLikeClick={handleLikeClick} />
+                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} />
               ))}
             </div>
           </div>

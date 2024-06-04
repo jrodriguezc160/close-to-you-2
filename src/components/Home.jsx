@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { followUsuario, unfollowUsuario, getUsuariosSeguidos } from '../services/UserServices';
 import '../styles/home.css';
 import WritePostModal from './modals/WritePostModal';
-import { addLike, deleteLike, checkUserLike, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
+import { checkUserLike, getPublicacionesUsuario } from '../services/PostServices'; // Importa los servicios necesarios
 import ProfilePage from './ProfilePage';
 import Loading from './modals/Loading';
 import Post from './profilepage/Post';
@@ -115,21 +115,6 @@ const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePo
     fetchData();
   }, [userOnShow]);
 
-  const handleLikeClick = async (postId) => {
-    try {
-      const heartButton = document.querySelector(`[data-post-id="${postId}"] .heart`);
-      if (heartButton.classList.contains('active')) {
-        await deleteLike(currentUser, postId);
-        heartButton.classList.remove('active');
-      } else {
-        await addLike(currentUser, postId);
-        heartButton.classList.add('active');
-      }
-    } catch (error) {
-      console.error('Error al manejar el like:', error);
-    }
-  };
-
   const handleDeleteUser = async (userId) => {
     setUserToDelete(userId);
     setDeleteUserModal(true)
@@ -236,7 +221,6 @@ const Home = ({ currentUser, setCurrentUser, datosUsuario, writePost, setWritePo
                       datosUsuario={userOnShow}
                       post={post}
                       currentUser={currentUser}
-                      handleLikeClick={handleLikeClick}
                       handleDeleteClick={handleDeleteClick}
                       isAdmin={isAdmin}
                     />
