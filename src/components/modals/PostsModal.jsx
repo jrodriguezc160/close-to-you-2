@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { checkUserLike } from '../../services/PostServices'; // Importa los servicios necesarios
 import Post from '../profilepage/Post'; // Importa el componente Post
 
-const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts }) => {
+const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUser, userPosts, setDeletePublicacionModal, setDeletePostId }) => {
 
   useEffect(() => {
     const fetchLikes = async () => {
@@ -28,6 +28,11 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
     }, 100);
   }, [showPostsModal]);
 
+  const handleDeleteClick = async (postId) => {
+    setDeletePostId(postId);
+    setDeletePublicacionModal(true)
+  }
+
   return (
     <>
       {showPostsModal && (
@@ -42,7 +47,13 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
 
             <div className="posts-scroll">
               {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
-                <Post key={post.id} post={post} datosUsuario={datosUsuario} currentUser={currentUser} />
+                <Post
+                  key={post.id}
+                  post={post}
+                  datosUsuario={datosUsuario}
+                  currentUser={currentUser}
+                  handleDeleteClick={handleDeleteClick}
+                />
               ))}
             </div>
           </div>

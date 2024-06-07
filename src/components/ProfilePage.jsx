@@ -60,7 +60,15 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
 
       {datosUsuario && datosUsuario.id ? (
         <>
-          <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
+          <PostsModal
+            showPostsModal={showPostsModal}
+            setShowPostsModal={setShowPostsModal}
+            datosUsuario={datosUsuario}
+            currentUser={currentUser}
+            userPosts={userPosts}
+            setDeletePublicacionModal={setDeletePublicacionModal}
+            setDeletePostId={setDeletePostId}
+          />
           <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
           <Loading loading={loading} />
           <DeletePostModal
@@ -138,7 +146,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
                 }}>
                   <PostShowcase
                     datosUsuario={datosUsuario}
-                    userPosts={userPosts.slice(0, 5)}
+                    userPosts={userPosts.reverse().slice(0, 5)}
                     currentUser={currentUser}
                     setShowPostsModal={setShowPostsModal}
                     setDeletePublicacionModal={setDeletePublicacionModal}
