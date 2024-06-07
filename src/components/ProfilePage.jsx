@@ -31,8 +31,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
     if (datosUsuario && datosUsuario.id) {
       try {
         const posts = await getPublicacionesUsuario(datosUsuario.id);
-        // Limitar los posts a los tres primeros
-        setUserPosts(posts.slice(0, 5));
+        setUserPosts(posts);
       } catch (error) {
         console.error("Error fetching user's posts' data:", error);
       }
@@ -57,32 +56,31 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
 
   return (
     <>
-      <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
-      <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
-      <Loading loading={loading} />
-      <DeletePostModal
-        deletePostId={deletePostId}
-        deletePublicacionModal={deletePublicacionModal}
-        setDeletePublicacionModal={setDeletePublicacionModal}
-        getPublicacionesUsuario={fetchData}
-      />
-      <LogOutModal
-        setCurrentUser={setCurrentUser}
-        logOutModal={logOutModal}
-        setLogOutModal={setLogOutModal}
-        setIsLoggedIn={setIsLoggedIn}
-      />
-      <DeleteUserModal
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        userId={datosUsuario.id}
-        deleteUserModal={deleteUserModal}
-        setDeleteUserModal={setDeleteUserModal}
-        setIsLoggedIn={setIsLoggedIn}
-      />
-
       {datosUsuario && datosUsuario.id ? (
         <>
+          <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
+          <WritePostModal writePost={writePost} setWritePost={setWritePost} datosUsuario={datosUsuario} />
+          <Loading loading={loading} />
+          <DeletePostModal
+            deletePostId={deletePostId}
+            deletePublicacionModal={deletePublicacionModal}
+            setDeletePublicacionModal={setDeletePublicacionModal}
+            getPublicacionesUsuario={fetchData}
+          />
+          <LogOutModal
+            setCurrentUser={setCurrentUser}
+            logOutModal={logOutModal}
+            setLogOutModal={setLogOutModal}
+            setIsLoggedIn={setIsLoggedIn}
+          />
+          <DeleteUserModal
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            userId={datosUsuario.id}
+            deleteUserModal={deleteUserModal}
+            setDeleteUserModal={setDeleteUserModal}
+            setIsLoggedIn={setIsLoggedIn}
+          />
           <EditProfile
             datosUsuario={datosUsuario}
             setDatosUsuario={setDatosUsuario}
