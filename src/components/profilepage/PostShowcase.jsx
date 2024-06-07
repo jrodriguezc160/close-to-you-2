@@ -80,7 +80,7 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
   return (
     <div className='posts-holder' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="post-stack" ref={stackRef}>
-        {userPosts.slice().map((post, index) => ( // Invertir el array userPosts
+        {userPosts.reverse().slice().map((post, index) => ( // Invertir el array userPosts
           <Post
             key={post.id}
             datosUsuario={datosUsuario}
