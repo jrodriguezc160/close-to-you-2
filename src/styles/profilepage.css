@@ -475,7 +475,7 @@
 }
 
 .modal-screen.visible>.collection-modal.edit-profile>.posts-scroll {
-  margin-top: 5rem;
+  margin-top: 10rem;
 
   .post-showcase-grid>.post>.post-elements>.post-top>.buttons {
     margin-bottom: 1rem !important;
