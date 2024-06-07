@@ -46,7 +46,7 @@ const PostsModal = ({ showPostsModal, setShowPostsModal, datosUsuario, currentUs
             </div>
 
             <div className="posts-scroll">
-              {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
+              {userPosts.slice().map((post, index) => ( // Invertir el array userPosts
                 <Post
                   key={post.id}
                   post={post}
