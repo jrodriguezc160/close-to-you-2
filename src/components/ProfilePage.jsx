@@ -31,6 +31,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
     if (datosUsuario && datosUsuario.id) {
       try {
         const posts = await getPublicacionesUsuario(datosUsuario.id);
+        // Limitar los posts a los tres primeros
         setUserPosts(posts);
       } catch (error) {
         console.error("Error fetching user's posts' data:", error);
@@ -56,6 +57,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
 
   return (
     <>
+
       {datosUsuario && datosUsuario.id ? (
         <>
           <PostsModal showPostsModal={showPostsModal} setShowPostsModal={setShowPostsModal} datosUsuario={datosUsuario} currentUser={currentUser} userPosts={userPosts} />
@@ -136,7 +138,7 @@ const ProfilePage = ({ datosUsuario, setDatosUsuario, currentUser, setCurrentUse
                 }}>
                   <PostShowcase
                     datosUsuario={datosUsuario}
-                    userPosts={userPosts}
+                    userPosts={userPosts.slice(0, 5)}
                     currentUser={currentUser}
                     setShowPostsModal={setShowPostsModal}
                     setDeletePublicacionModal={setDeletePublicacionModal}

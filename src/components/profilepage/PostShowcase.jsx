@@ -7,8 +7,6 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
   const stackRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
 
-  const firstFivePosts = userPosts.slicec(0, 5);
-
   useEffect(() => {
     const stack = stackRef.current;
 
@@ -82,7 +80,7 @@ const PostShowcase = ({ datosUsuario, userPosts, currentUser, setShowPostsModal,
   return (
     <div className='posts-holder' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="post-stack" ref={stackRef}>
-        {firstFivePosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
+        {userPosts.slice().reverse().map((post, index) => ( // Invertir el array userPosts
           <Post
             key={post.id}
             datosUsuario={datosUsuario}
